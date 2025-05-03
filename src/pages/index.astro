@@ -1,10 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Carousel from "../components/Carousel.astro";
 
 // Optimize our landing image and pass it as props to the BaseLayout (for preloading) and Landing (for rendering)
 import {getOptimizedImage} from "../js/utils"
 import landingImage from "../assets/images/landing.jpg" // <-- THE PATH TO THE ASSET YOU WANT TO PRELOAD - The asset must live in src
 const optimizedImage = await getOptimizedImage(landingImage)
+
 ---
 
 <BaseLayout
@@ -41,89 +43,24 @@ const optimizedImage = await getOptimizedImage(landingImage)
   </section>
 
   <!-- ============================================ -->
-  <!--                 Side By Side                 -->
-  <!-- ============================================ -->
+<!--                  Content                     -->
+<!-- ============================================ -->
 
-  <section id="sbs">
+<section id="content-1450">
     <div class="cs-container">
-      <!-- Left Image Section -->
-      <div class="cs-left">
-        <picture class="cs-picture cs-picture1">
-          <source
-            media="(max-width: 600px)"
-            srcset="/assets/images/cabinets2-m.jpg"
-          />
-          <source
-            media="(min-width: 601px)"
-            srcset="/assets/images/cabinets2.jpg"
-          />
-          <img
-            aria-hidden="true"
-            decoding="async"
-            src="/assets/images/cabinets2.jpg"
-            alt="cabinets"
-            loading="lazy"
-            width="400"
-            height="563"
-          />
-        </picture>
-        <picture class="cs-picture cs-picture2">
-          <source
-            media="(max-width: 600px)"
-            srcset="/assets/images/construction-m.jpg"
-          />
-          <source
-            media="(min-width: 601px)"
-            srcset="/assets/images/construction.jpg"
-          />
-          <img
-            aria-hidden="true"
-            decoding="async"
-            src="/assets/images/construction.jpg"
-            alt="house"
-            loading="lazy"
-            width="400"
-            height="563"
-          />
-        </picture>
-      </div>
-      <!-- Right Content Section-->
-      <div class="cs-right">
-        <span class="cs-topper">About Us</span>
-        <h2 class="cs-title">About Company Title</h2>
-        <p class="cs-text">
-          In consequat tincidunt turpis sit amet imperdiet. Praesent Class
-          officelan nonatoureanor mauris laoreet, iaculis libero quis. Curabitur
-          et tempus eri consequat tincidunt turpis sit amet imperdiet. Praesent
-          nonatourean olei aptent taciti sociosqu ad litora torquent per.
-        </p>
-        <p class="cs-text">
-          In consequat tincidunt turpis sit amet imperdiet. Praesent Class
-          officelan nonatoureanor mauris laoreet, iaculis libero quis. Curabitur
-          et tempus eri consequat tincidunt turpis sit amet imperdiet. Praesent
-          nonatourean olei aptent taciti sociosqu ad litora torquent per.
-        </p>
-        <div class="cs-flex-group">
-          <p class="cs-flex-p">
-            In consequat tincidunt turpis sit amet imperdiet. Praesent Classei
-            consequat tincidunt turpis sit amet imperdiet for mind.
-          </p>
-          <span class="cs-name">Justin Time</span>
-          <span class="cs-job">CEO-Founder</span>
-          <img
-            class="cs-quote-icon"
-            loading="lazy"
-            decoding="async"
-            src="https://csimg.nyc3.digitaloceanspaces.com/SideBySide/quote-white.svg"
-            alt="gavel"
-            width="136"
-            height="77"
-          />
+        <div class="cs-content">
+            <span class="cs-topper">ABOUT US</span>
+            <h2 class="cs-title">Stitch Non-profit Charity is the largest global crowdfunding community in the world</h2>
+            <p class="cs-text">
+                Proactively procrastinate cross-platform results via extensive ideas distinctively underwhelm enterprise. Compellingly plagiarize value-added sources with inexpensive schemas. The school provides the best possible education and practical training necessary for those who wish to pursue a career in music, as well as for music-loving children whose aims are non-professional.
+            </p>
+            <a href="" class="cs-button-solid">Read Our History</a>
         </div>
-        <a href="/about" class="cs-button-solid">More About Us</a>
-      </div>
     </div>
-  </section>
+</section>
+                                
+
+  <Carousel />
 
   <!-- ============================================ -->
   <!--            Extra Content To Rank             -->
@@ -285,319 +222,90 @@ const optimizedImage = await getOptimizedImage(landingImage)
   }
 }
 
-
-  /*-- -------------------------- -->
-<---          Services          -->
-<--- -------------------------- -*/
-
-  /* Mobile */
-  @media only screen and (min-width: 0em) {
-    .services {
-      width: 90%;
-      max-width: (1320/16em);
-      margin: auto;
-      margin-top: (-167/16em);
-      margin-bottom: (50/16em);
-      padding: (50/16em) (20/16em);
-      background: #fff;
-      box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.05);
-      border-top: (6/16em) solid var(--primary);
-      border-radius: (5/16em);
-      position: relative;
-      z-index: 100;
-      .card {
-        width: 100%;
-        max-width: (357/16em);
-        margin: auto;
-        margin-bottom: (50/16em);
-        display: block;
-        &:last-of-type {
-          margin-bottom: 0;
-        }
-
-        picture {
-          width: (88/16em);
-          height: (88/16em);
-          margin: auto;
-          margin-bottom: (23/16em);
-          background: var(--primary);
-          border-radius: 50%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-
-          img {
-            width: (48/16em);
-            height: (48/16em);
-          }
-        }
-        h2 {
-          font-size: (32/16em);
-          font-weight: 700;
-          line-height: 27/20em;
-          text-align: center;
-          margin-bottom: 13/20em;
-          color: #1a1a1a;
-        }
-        p {
-          line-height: 24/18em;
-          text-align: center;
-          width: 100%;
-          opacity: 0.7;
-        }
-      }
-    }
-  }
-
-  /* Inbetween */
-  @media only screen and (min-width: 768px) {
-    .services {
-      font-size: ~"min(1.8vw, 1em)";
-      width: 98%;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-
-      .card {
-        max-width: (325/16em);
-        margin: 0;
-      }
-    }
-  }
-
-  /* Large Desktop */
-  @media only screen and (min-width: 1300px) {
-    .services {
-      padding: (50/16em) (80/16em);
-
-      .card {
-        max-width: (357/16em);
-      }
-    }
-  }
-
-  /* Dark mode */
-  @media only screen and (min-width: 0em) {
-    body.dark-mode {
-      #services {
-        background: var(--medium);
-
-        picture {
-          background: var(--primaryDark);
-        }
-
-        h2 {
-          font-weight: bold;
-          color: #fff;
-        }
-      }
-    }
-  }
-
   /* PAGE-SPECIFIC STYLES FOR THE HOME PAGE */
 
-  /*-- -------------------------- -->
-<---       Side By Side         -->
+/*-- -------------------------- -->
+<---          Content           -->
 <--- -------------------------- -*/
 
-  /* Mobile - 360px */
-  @media only screen and (min-width: 0em) {
-    #sbs {
-      padding: var(--sectionPadding);
-
-      .cs-container {
-        width: 100%;
-        max-width: (1280/16rem);
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        row-gap: (40/16rem);
-      }
-
-      .cs-left {
-        /* scaling the font size with the view width */
-        font-size: ~"min(2.31vw, .7em)";
-        /* using ems so we can use font size to scale the whole section */
-        width: (631/16em);
-        height: (636/16em);
-        position: relative;
-      }
-
-      .cs-picture {
-        border-radius: (24/16em);
-        display: block;
-        position: absolute;
-        /* clips img tag corners */
-        overflow: hidden;
-        img {
-          width: 100%;
-          height: 100%;
-          /* makes image act like a background image */
-          object-fit: cover;
-          position: absolute;
-          top: 0;
-          left: 0;
+/* Mobile - 360px */
+@media only screen and (min-width: 0rem) {
+    #content-1450 {
+        padding: var(--sectionPadding);
+        
+        .cs-container {
+            width: 100%;
+            max-width: (1280/16rem);
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* 48px - 64px */
+            gap: clamp(3rem, 6vw, 4rem);
         }
-      }
 
-      .cs-picture1 {
-        width: (522/16em);
-        height: (581/16em);
-        top: 0;
-        left: 0;
-      }
-
-      .cs-picture2 {
-        width: (414/16em);
-        height: (400/16em);
-        background-color: #fff;
-        box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 40px;
-        /* 6px - 12px */
-        border: clamp(0.375em, 1.5vw, 0.75em) solid #fff;
-        right: 0;
-        bottom: 0;
-      }
-
-      .cs-right {
-        max-width: (542/16rem);
-        margin: auto;
-      }
-
-      .cs-topper {
-        text-align: left;
-        margin-bottom: (4/16rem);
-      }
-
-      .cs-title {
-        text-align: left;
-        max-width: (800/16rem);
-      }
-
-      .cs-text {
-        text-align: left;
-        max-width: (750/16rem);
-        margin-bottom: (16/16rem);
-
-        &:last-of-type {
-          margin-bottom: (32/16rem);
+        .cs-content {
+            /* set text align to left if content needs to be left aligned */
+            text-align: center;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            /* centers content horizontally, set to flex-start to left align */
+            align-items: center;
         }
-      }
 
-      .cs-flex-group {
-        /* 16px - 32px */
-        padding: clamp(1rem, 3vw, 2rem);
-        background-color: #f7f7f7;
-        border-radius: (16/16rem);
-        position: relative;
-      }
+        .cs-title, .cs-text {
+            max-width: 100%;
+        }
 
-      .cs-flex-p {
-        /* 14px - 16px */
-        font-size: clamp(0.875rem, 1.5vw, 1rem);
-        line-height: 1.5em;
-        margin: 0 0 (16/16rem);
-        color: #353535;
-      }
+        .cs-text {
+            /* 16px - 20px */
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            margin: 0 0 (32/16rem) 0;
+        }
 
-      .cs-name {
-        font-size: (16/16rem);
-        font-weight: bold;
-        line-height: 1.2em;
-        text-transform: uppercase;
-        margin: 0 0 (4/16rem);
-        color: var(--headerColor);
-        display: block;
-      }
+        .cs-button-solid {
+            font-size: (16/16rem);
+            /* 46px - 56px */
+            line-height: clamp(2.875rem, 5.5vw, 3.5rem);
+            text-decoration: none;
+	    	font-weight: 700;
+	        text-align: center;
+            margin: 0;
+            color: #fff;
+            min-width: (150/16rem);
+            padding: 0 (48/16rem);
+            background-color: var(--primary);
+            border-radius: (8/16rem);
+            overflow: hidden;
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            /* prevents padding from adding to the width */
+            box-sizing: border-box;
 
-      .cs-job {
-        font-size: (14/16rem);
-        line-height: 1.5em;
-        color: #353535;
-        display: block;
-      }
+            &:before {
+                content: '';
+                position: absolute;
+                height: 100%;
+                width: 0%;
+                background: #000;
+                opacity: 1;
+                top: 0;
+                left: 0;
+                z-index: -1;
+                transition: width .3s;
+            }
 
-      .cs-quote-icon {
-        /* 60px - 136px */
-        width: clamp(3.75rem, 10vw, 8.5rem);
-        height: auto;
-        position: absolute;
-        /* 16px - 32px */
-        right: clamp(1rem, 4vw, 2rem);
-        bottom: (0/16rem);
-      }
-
-      .cs-button-solid {
-        margin-top: (32/16rem);
-      }
+            &:hover {
+                &:before {
+                    width: 100%;
+                }
+            }
+        }
     }
-  }
-
-  /* Desktop - 1024px */
-  @media only screen and (min-width: 64em) {
-    #sbs {
-      .cs-container {
-        flex-flow: row;
-        justify-content: space-between;
-        gap: (52/16rem);
-      }
-
-      .cs-left {
-        font-size: ~"min(1.2vw, 1em)";
-        flex: none;
-      }
-
-      .cs-right {
-        margin: 0;
-      }
-    }
-  }
-
-  /* Dark Mode */
-  @media only screen and (min-width: 0em) {
-    body.dark-mode {
-      #sbs {
-        .cs-left {
-          &:before,
-          &:after {
-            background: var(--accent);
-          }
-        }
-
-        .cs-picture2 {
-          background-color: var(--dark);
-          /* 6px - 12px */
-          border: clamp(0.375em, 1.5vw, 0.75em) solid var(--dark);
-        }
-
-        .cs-topper {
-          color: var(--primaryLight);
-        }
-
-        .cs-title,
-        .cs-text,
-        .cs-h3,
-        .cs-flex-p,
-        .cs-name {
-          color: var(--bodyTextColorWhite);
-        }
-
-        .cs-flex-group {
-          background-color: var(--accent);
-        }
-
-        .cs-job {
-          color: var(--bodyTextColorWhite);
-          opacity: 0.8;
-        }
-
-        .cs-quote-icon {
-          opacity: 0.2;
-        }
-      }
-    }
-  }
+}
+                                
 
   /*-- -------------------------- -->
 <---       Side By Side         -->
