@@ -1,0 +1,14 @@
+{
+	"name": "Kapehe Hula",
+	"email": "kapehehula@mgmail.com",
+	"phoneForTel": "808-281-4741",
+	"phoneFormatted": "(808) 281-4741",
+	"address": {
+		"lineOne": "P.O. Box 977",
+		"city": "Kihei",
+		"state": "HI",
+		"zip": "96753",
+		"mapLink": "https://maps.app.goo.gl/nKdXSJ84Dg6FGqyL7"
+	},
+	"domain": "www.kapehehula.com"
+}
