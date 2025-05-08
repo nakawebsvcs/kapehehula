@@ -83,7 +83,7 @@ const optimizedImage = await getOptimizedImage(landingImage)
 
 <section id="sbsr-2273">
     <div class="cs-container">
-        <div class="cs-image-group">
+        <div class="cs-image-group animate-on-scroll slide-in-left">
             <picture class="cs-picture">
                 <!--Mobile Image-->
                 <source media="(max-width: 600px)" srcset="/assets/images/westin2.jpg">
@@ -92,22 +92,17 @@ const optimizedImage = await getOptimizedImage(landingImage)
                 <img loading="lazy" decoding="async" src="/assets/images/westin2.jpg" alt="westin event" width="243" height="367">
             </picture>
         </div>
-        <div class="cs-content">
+        <div class="cs-content animate-on-scroll slide-in-right">
             <h2 class="cs-title cinzel">Event Requests</h2>
-            <p class="cs-text">
-                Halau Hula Malani O Kapehe is available for weddings, conventions, and other special events.<br><br>
-Inquire about special occasion performances below.
-            </p>
-         <!--    <ul class="cs-card-group">
+            <p class="cs-text">Halau Hula Malani O Kapehe is available for weddings, conventions, and other special events.<br><br>Inquire about special occasion performances below.</p>
+            <!-- <ul class="cs-card-group">
                 <li class="cs-item">
                     <picture class="cs-icon-wrapper">
                         <img class="cs-icon" loading="lazy" decoding="async" src="https://csimg.nyc3.cdn.digitaloceanspaces.com/Images/MISC/wedding-thumb.svg" alt="icon" width="32" height="32">
                     </picture>
                     <div class="cs-flex">
                         <h3 class="cs-h3">Experience & Expertise</h3>
-                        <p class="cs-item-text">
-                            We have courses on-demand and live instructors for workshops and support.
-                        </p>
+                        <p class="cs-item-text">We have courses on-demand and live instructors for workshops and support.</p>
                     </div>
                 </li>
                 <li class="cs-item">
@@ -116,9 +111,7 @@ Inquire about special occasion performances below.
                     </picture>
                     <div class="cs-flex">
                         <h3 class="cs-h3">Creative Approach</h3>
-                        <p class="cs-item-text">
-                            We have courses on-demand and live instructors for workshops and support.
-                        </p>
+                        <p class="cs-item-text">We have courses on-demand and live instructors for workshops and support.</p>
                     </div>
                 </li>
                 <li class="cs-item">
@@ -127,9 +120,7 @@ Inquire about special occasion performances below.
                     </picture>
                     <div class="cs-flex">
                         <h3 class="cs-h3">Flexibility & Customisation</h3>
-                        <p class="cs-item-text">
-                            We have courses on-demand and live instructors for workshops and support.
-                        </p>
+                        <p class="cs-item-text">We have courses on-demand and live instructors for workshops and support.</p>
                     </div>
                 </li>
                 <li class="cs-item">
@@ -138,9 +129,7 @@ Inquire about special occasion performances below.
                     </picture>
                     <div class="cs-flex">
                         <h3 class="cs-h3">24/7 Premium Support</h3>
-                        <p class="cs-item-text">
-                            We have courses on-demand and live instructors for workshops and support.
-                        </p>
+                        <p class="cs-item-text">We have courses on-demand and live instructors for workshops and support.</p>
                     </div>
                 </li>
             </ul> -->
@@ -590,4 +579,62 @@ html body .cs-text {
         }
     }
 }
+
+/* Animation classes */
+    .animate-on-scroll {
+        opacity: 0;
+        transition: opacity 0.8s ease, transform 0.8s ease;
+        transition-delay: var(--delay, 0s);
+    }
+
+    .slide-in-left {
+        transform: translateX(-50px);
+        
+        &.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .slide-in-right {
+        transform: translateX(50px);
+        
+        &.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .fade-in {
+        transform: translateY(20px);
+        
+        &.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
 </style>
+
+<script>
+    document.addEventListener('astro:page-load', () => {
+        const animatedElements = document.querySelectorAll(".animate-on-scroll");
+        
+        if (animatedElements.length === 0) return;
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("animated");
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px",
+        });
+        
+        animatedElements.forEach((element) => {
+            observer.observe(element);
+        });
+    });
+</script>
