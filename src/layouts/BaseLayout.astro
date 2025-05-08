@@ -79,43 +79,94 @@ const { description, title, preloadedImage } = Astro.props;
       <slot />
     </main>
     <Footer />
+   <!-- Back to top button -->
+<button id="backToTop" class="back-to-top">
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 19V5M5 12l7-7 7 7"/>
+  </svg>
+</button>
+
+<script is:inline>
+  // Function to initialize back to top button
+  function initBackToTop() {
+    const backToTopButton = document.getElementById('backToTop');
+    if (!backToTopButton) return;
+    
+    function toggleBackToTopButton() {
+      if (window.scrollY > 300) {
+        backToTopButton.classList.add('show');
+      } else {
+        backToTopButton.classList.remove('show');
+      }
+    }
+    
+    backToTopButton.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+    
+    window.addEventListener('scroll', toggleBackToTopButton);
+    
+    // Initial check
+    toggleBackToTopButton();
+  }
+  
+  // Run on initial page load
+  document.addEventListener('DOMContentLoaded', initBackToTop);
+  
+  // Run after Astro page transitions
+  document.addEventListener('astro:page-load', initBackToTop);
+  
+  // Cleanup event listeners when navigating away (important for Astro View Transitions)
+  document.addEventListener('astro:before-swap', () => {
+    window.removeEventListener('scroll', toggleBackToTopButton);
+  });
+</script>
+
+<style>
+  .back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background-color: var(--primary);
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+  
+  .back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
+  .back-to-top:hover {
+    background-color: var(--secondary, #333);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .back-to-top svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+</style>
+
   </body>
 </html>
 
-<script is:inline>
-  // Script to handle dark mode - it is inlined on purpose to avoid FOUC
 
-  // helper functions to toggle dark mode
-  function enableDarkMode() {
-    document.body.classList.add("dark-mode");
-    localStorage.setItem("theme", "dark");
-  }
-
-  function disableDarkMode() {
-    document.body.classList.remove("dark-mode");
-    localStorage.setItem("theme", "light");
-  }
-
-  function setTheme() {
-    // default to the light theme
-    let theme = "light";
-
-    // check localStorage for a saved 'theme' variable. if it's there, the user has visited before, so apply the necessary theme choices
-    if (localStorage.getItem("theme")) {
-      theme = localStorage.getItem("theme");
-    }
-    // if it's not there, check to see if the user has applied dark mode preferences themselves in the browser
-    else if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      theme = "dark";
-    }
-
-    // if there is no preference set, the default of light will be used. apply accordingly
-    theme === "dark" ? enableDarkMode() : disableDarkMode();
-  }
-
-  setTheme();
-
-</script>

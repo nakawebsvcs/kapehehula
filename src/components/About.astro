@@ -1,31 +1,111 @@
-<section class="page-section text-dark mb-0" id="about">
+<section id="about" style="padding: var(--sectionPadding);">
     <div class="container">
-    <!-- About Section Heading-->
-    <h2 class="page-section-heading text-center text-uppercase text-dark add-space">About</h2>
+        <!-- About Section Heading-->
+        <h2 class="cs-title text-center cinzel">About</h2>
+        
         <!-- About Section Images-->
-        <div class="row">
-        <div class="col-sm-4">
-            <img src="/assets/images/IMG_3410.JPG" class="img-fluid rounded shadow" width="96%">
+        <div class="about-images">
+            <div class="about-image-container">
+                <img src="/assets/images/IMG_3410.JPG" class="about-image" alt="Hula image">
+            </div>
+            <div class="about-image-container">
+                <img src="/assets/images/kumu-drum2.jpg" class="about-image" alt="Kumu with drum">
+            </div>
+            <div class="about-image-container">
+                <img src="/assets/images/IMG_2431.JPG" class="about-image" alt="Hula performance">
+            </div>
         </div>
-        <div class="col-sm-4">
-            <img src="/assets/images/kumu-drum2.jpg" class="img-fluid rounded shadow">
-        </div>
-        <div class="col-sm-4">
-            <img src="/assets/images/IMG_2431.JPG" class="img-fluid rounded shadow" width="90%">
-        </div>
-        </div>
-    <!-- About Section Content-->
-    <div class="row justify-content-center">
-        <div class="col-sm-10">
-            <div class="text-container">
-                <p><span class="kumu">Kumu Hula Mapuana Samonte-Nowak</span> was born and raised in Lahaina, Maui, Hawaii. She was formally trained by Kumu Hula Emma Farden-Sharpe of Lahaina, Maui from the tender age of 3.
-                As a child, she spent much time with her grandmother, Helen Kapehe Ku'uleialoha Ching, who inspired her to perpetuate Hawaiian culture and hula. In her honor and memory she named Halau Hula Malani O Kapehe.</p>
-                <p>Kumu believes that preserving Hawaiian culture of the past and integrating modern methods of dance, ensures a living tradition of Hula.
-                Kumu and her family are committed to keep the Hawaiian culture alive.  Her extensive Hula genealogy bring extensive tradition and knowledge for future generations to preserve and perpetuate Hawaiian Culture through halau.</p></div>
+        
+        <!-- About Section Content-->
+        <div class="about-content">
+            <div class="about-text-container">
+                <p class="cs-text"><span class="allura" style="color:var(--primary)">Kumu Hula Mapuana Samonte-Nowak</span> was born and raised in Lahaina, Maui, Hawaii. She was formally trained by Kumu Hula Emma Farden-Sharpe of Lahaina, Maui from the tender age of 3.
+                As a child, she spent much time with her grandmother, Helen Kapehe Ku'uleialoha Ching, who inspired her to perpetuate Hawaiian culture and hula. In her honor and memory she named Halau Hula Malani O Kapehe.<br><br>
+                
+               Kumu believes that preserving Hawaiian culture of the past and integrating modern methods of dance, ensures a living tradition of Hula.
+                Kumu and her family are committed to keep the Hawaiian culture alive. Her extensive Hula genealogy bring extensive tradition and knowledge for future generations to preserve and perpetuate Hawaiian Culture through halau.</p>
+            </div>
         </div>
     </div>
-</div>
 </section>
-    <div class="container text-center">  
-        <img class="lehua-div" src="/assets/images/lehua-removebg-preview.png" width="4%">
-    </div>
+
+<div class="container text-center">  
+    <img class="lehua-div" src="/assets/images/lehua-removebg-preview.png" alt="Lehua flower divider">
+</div>
+
+<style lang="less">
+
+        html body, 
+html body p, 
+html body .cs-text {
+  font-family: "Afacad", Arial, sans-serif !important;
+  font-size: clamp(1.4rem, 1.8vw, 2.3rem) !important;
+}
+
+  .allura {
+    font-family: "Allura", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 2.3rem;
+  }
+
+   .cinzel {
+    font-family: "Cinzel", "Arial", sans-serif;
+  }
+
+   h2 {
+          font-weight: 400;
+          font-size: clamp(1.8rem, 4vw, 2.5rem);
+          margin-bottom: 4rem;
+        }
+
+        h1 {
+          font-weight: 500;
+          font-size: clamp(1.5rem, 2vw, 2rem);
+        }
+
+    /* Custom styles for the About section */
+    .about-images {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+    
+    .about-image {
+        width: 100%;
+        height: auto;
+        border-radius: 0.5rem;
+        box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    }
+    
+    .about-content {
+        display: flex;
+        justify-content: center;
+        margin-top: 5rem;
+    }
+    
+    .about-text-container {
+        max-width: 100%;
+    }
+    
+    .kumu {
+        color: var(--primary);
+        font-weight: 700;
+    }
+    
+    .lehua-div {
+        width: 4%;
+        margin: 1rem auto 3rem auto;
+    }
+    
+    /* Responsive styles */
+    @media only screen and (min-width: 48em) {
+        .about-images {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .about-text-container {
+            max-width: 80%;
+        }
+    }
+</style>

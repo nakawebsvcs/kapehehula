@@ -1,26 +1,148 @@
- <section class="page-section" id="alakai">
-    <div class="container align-items-center">
-        <h2 class="page-section-heading text-center text-uppercase text-dark add-space">Alaka'i</h2>
-        <div class="row d-flex align-items-center">
-            <div class="col-sm-6">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <img src="/assets/images/cheryl.png" class="rounded-circle" width="50%"/>
-                        <h2 class="add-space">Cheryl Dang</h2>
-                        <p class="text-secondary">As Alaka`i for Halau Hula Malani O Kapehe, my passion for hula is able to grow. I began dancing hula in 2002 with Kumu Mapuana Samonte and also briefly with Kumu Keli`i Taua. Through every challenge and inspiration that comes with growth, I aspire to share my love of hula, oli, Hawaiian culture and values in the same manner that was taught to me... with compassion and aloha.</p>
-                    <br><br><br><br><br>
-                    </div>
+<section id="alakai" style="padding: var(--sectionPadding);">
+    <div class="container">
+        <!-- Alaka'i Section Heading -->
+        <h2 class="cs-title text-center cinzel">Alakaʻi</h2>
+        
+        <div class="alakai-profiles">
+            <div class="alakai-profile">
+                <div class="profile-card">
+                    <img src="/assets/images/cheryl.png" class="profile-image" alt="Cheryl Dang"/>
+                    <h2 class="profile-name cinzel">Cheryl Dang</h2>
+                    <p class="cs-text">
+                        As Alakaʻi for Halau Hula Malani O Kapehe, my passion for hula is able to grow. I began dancing hula in 2002 with Kumu Mapuana Samonte and also briefly with Kumu Keli`i Taua. Through every challenge and inspiration that comes with growth, I aspire to share my love of hula, oli, Hawaiian culture and values in the same manner that was taught to me... with compassion and aloha.
+                    </p>
                 </div>
             </div>
-    <div class="col-sm-6">
-        <div class="card shadow">
-            <div class="card-body">
-                <img src="/assets/images/kaimana.png" class="rounded-circle" width="50%"/>
-                <h2 class="add-space">Kaimana Nakamura</h2>
-                <p class="text-secondary">I have been with Halau Hula Malani O Kapehe for 20 years along with my daughter Kira. I assist Kumu with registration of new students and Halau communications. Kumu gives so much more than the steps to a dance, she shares and teaches us to explore the deeper meaning of mele allowing an exploration of its history and deeper meaning. Halau enriches our lives and guides us to seek the values and teachings of Hawaiian Culture. Hula is a way of life, a way of celebrating a culture, rich in wisdom, humbleness, and appreciation of the land and the sacred breath of Life ~ Aloha.</p>
+            
+            <div class="alakai-profile">
+                <div class="profile-card">
+                    <img src="/assets/images/kaimana.png" class="profile-image" alt="Kaimana Nakamura"/>
+                    <h2 class="profile-name cinzel">Kaimana Nakamura</h2>
+                    <p class="cs-text">
+                        I have been with Halau Hula Malani O Kapehe for over 20 years along with my daughter Kira. I assist Kumu with registration of new students and Halau communications. Kumu gives so much more than the steps to a dance, she shares and teaches us to explore the deeper meaning of mele allowing an exploration of its history and deeper meaning. Halau enriches our lives and guides us to seek the values and teachings of Hawaiian Culture. Hula is a way of life, a way of celebrating a culture, rich in wisdom, humbleness, and appreciation of the land and the sacred breath of Life ~ Aloha.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 </section>
+
+<style>
+html body,
+html body p,
+html body .cs-text {
+  font-family: "Afacad", Arial, sans-serif !important;
+  font-size: clamp(1.2rem, 1.7vw, 2.2rem) !important;
+}
+
+.cinzel {
+  font-family: "Cinzel", "Arial", sans-serif;
+}
+
+h2 {
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin-bottom: 4rem;
+}
+
+h1 {
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2vw, 2rem);
+}
+
+/* Custom styles for the Alaka'i section */
+#alakai {
+  background-color: #F9F4F3;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.alakai-profiles {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.alakai-profile {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-card {
+  background-color: white;
+  border-radius: 0.75rem; /* Slightly more rounded corners */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer, more elegant shadow */
+  padding: 2.5rem 2rem; /* More padding on top/bottom */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Add subtle hover effect */
+.profile-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+
+.profile-image {
+  width: 50%;
+  max-width: 200px; /* Limit image size */
+  border-radius: 50%;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Add drop shadow to images */
+  border: 3px solid rgb(183, 181, 181); /* Add white border around images */
+}
+
+
+.profile-name {
+  color: var(--primary);
+  margin: 1.5rem;
+  font-size: 1.5rem;
+}
+
+/* Responsive styles */
+@media only screen and (max-width: 767px) {
+  .profile-card {
+    max-width: 100%; /* Full width on small screens */
+    padding: 1.5rem; /* Slightly smaller padding */
+  }
+  
+  .profile-image {
+    width: 40%; /* Smaller image on mobile */
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+  .alakai-profiles {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem; /* Slightly smaller gap on tablets */
+  }
+  
+  .profile-card {
+    max-width: 100%; /* Full width within the grid cell */
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .alakai-profiles {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .profile-card {
+    max-width: 500px; /* Narrower cards on desktop */
+  }
+}
+</style>

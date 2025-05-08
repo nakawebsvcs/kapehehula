@@ -1,0 +1,140 @@
+<section id="contact" class="contact-section">
+  <div class="contact-wrapper">
+    <div class="contact-content">
+      <h2 class="cinzel">Contact Us</h2>
+      <p style="color: var(--primary); font-size: 1.8rem;">Halau Hula Malani O Kapehe</p>
+      <address>
+        PO Box 977<br>
+        Kihei, HI 96753
+      </address>
+      <a href="tel:+18082814741">Tel: 808-281-4741</a>
+    </div>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="info-wrapper">
+    <div class="info-column">
+      <div class="column-content">
+        <h3 class="cinzel">Halau History</h3>
+        <p>
+          Hālau Hula Malani O Kapehe was formed in 2001 and operated as a Maui County Community class for 9 years as Manutea. 
+          In 2010 Kumu renamed the Halau in honor of her Kupuna and moved from a Maui County Community class to a private, 
+          traditional Halau in order to advance the teaching of Hula and Hawaiian culture to a growing number of advanced 
+          students and alakaʻi.
+        </p>
+      </div>
+    </div>
+    
+    <div class="info-column">
+      <div class="column-content">
+        <h3 class="cinzel">Current Class Schedule</h3>
+        <p>Classes are held at the Hale Mahaolu Elima<br>community hall:</p>
+        <address>11 Mahaolu St., Kahului, Maui, Hawaii</address>
+        <p>Classes take place on Sunday afternoons<br>
+          <span class="class-time">3:30pm - 4:30pm</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+
+.cinzel {
+    font-family: "Cinzel", "Arial", sans-serif;
+  }
+
+  /* Contact section styles */
+  .contact-section {
+    padding: 4rem 2rem;
+    margin: 3rem 0;
+    text-align: center;
+  }
+
+  .contact-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .contact-content {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+ /* Info section styles (green background) */
+  .info-section {
+    background-color: #8BA33D;
+    padding: 3rem 1rem;
+  }
+
+  .info-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .info-column {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .column-content {
+    max-width: 500px;
+    text-align: left;
+  }
+
+  /* Typography */
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 0.5rem;
+    font-size: clamp(1.1rem, 1.4vw, 1.8rem);
+    line-height: 1.5;
+  }
+
+  address {
+    font-style: normal;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+    font-size: clamp(1.4rem, 1.8vw, 2.3rem);
+  }
+
+  a {
+    color: inherit;
+    font-size: clamp(1rem, 1.2vw, 1.8rem);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    transition: border-color 0.3s ease;
+  }
+
+  .info-section a {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  }
+
+  a:hover {
+    border-color: currentColor;
+  }
+
+  .class-time {
+    font-weight: bold;
+  }
+
+  /* Media query for larger screens */
+  @media (min-width: 768px) {
+    .info-wrapper {
+      flex-direction: row;
+    }
+  }
+</style>

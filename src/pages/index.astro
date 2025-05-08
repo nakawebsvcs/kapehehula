@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Carousel from "../components/Carousel.astro";
 import About from "../components/About.astro";
 import Alakai from "../components/Alakai.astro";
+import Contact from "../components/Contact.astro";
 
 // Optimize our landing image and pass it as props to the BaseLayout (for preloading) and Landing (for rendering)
 import {getOptimizedImage} from "../js/utils"
@@ -143,13 +144,14 @@ Inquire about special occasion performances below.
                     </div>
                 </li>
             </ul> -->
-            <a href="mailto:mapuanas@gmail.com" class="cs-button-solid">Contact</a>
+            <a href="mailto:mapuanas@gmail.com" class="cs-button-image">Contact</a>
         </div>
     </div>
 </section>
 
 <About />
 <Alakai />
+<Contact />
 
 </BaseLayout>
 
@@ -362,7 +364,7 @@ html body .cs-text {
 @media only screen and (min-width: 0rem) {
     #sbsr-2273 {
         padding: var(--sectionPadding);
-        background-color: #fdfaf8;
+        background-color: #F9F4F3;
         overflow: hidden;
         position: relative;
         z-index: 1;
@@ -464,49 +466,50 @@ html body .cs-text {
             transition: color 0.3s;
         }
 
-        .cs-button-solid {
-            font-size: (16/16rem);
-            font-weight: 700;
-            /* 46px - 56px */
-            line-height: clamp(2.875rem, 5.5vw, 3.5rem);
-            text-align: center;
-            text-decoration: none;
-            min-width: (150/16rem);
-            margin: 0;
-            padding: 0 (24/16rem);
-            background-color: var(--primary);
-            color: var(--headerColor);
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-
-            &:before {
-                content: "";
-                width: 0%;
-                height: 100%;
-                background: #000;
-                opacity: 1;
-                border-radius: (4/16rem);
-                position: absolute;
-                top: 0;
-                left: 0;
-                z-index: -1;
-                transition: width 0.3s;
-            }
-
-            &:hover {
-                &:before {
-                    width: 100%;
-                }
-            }
+        .cs-button-image {
+        display: inline-block;
+        padding: 1rem 2rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff; /* Text color */
+        background-image: url('/assets/images/buttonbg.png'); /* Path to your image */
+        background-size: cover; /* Cover the entire button */
+        background-position: center; /* Center the image */
+        border-radius: 0.5rem; /* Rounded corners */
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Shadow effect */
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative; /* This is crucial - it makes the pseudo-element relative to the button */
+        
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+          border-radius: 0.5rem;
+          z-index: -1;
         }
-
+        
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+        }
+        
+        &:active {
+          transform: translateY(-1px);
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+      }
         .cs-image-group {
             /* scales the whole section down and ties the font size to the vw and stops at 75% of the vale of 1em, changes at desktop */
             font-size: ~"min(2.8vw, .89rem)";
             /* everything inside this box is in ems so we can scale it all down proportionally with a font size */
             width: (522/16em);
-            height: (611/16em);
+            height: (651/16em);
             order: -1;
             position: relative;
             /* prevents flexbox from squishing it */
@@ -515,7 +518,7 @@ html body .cs-text {
 
         .cs-picture {
             width: (553/16em);
-            height: (583/16em);
+            height: (623/16em);
             display: block;
             position: absolute;
             top: 0;
@@ -559,15 +562,15 @@ html body .cs-text {
         }
 
         .cs-content {
-            text-align: left;
-            align-items: flex-start;
+            text-align: center;
+            align-items: center;
             align-self: center;
         }
 
         .cs-image-group {
             font-size: ~"min(1.3vw, 1rem)";
             height: auto;
-            min-height: (612/16em);
+            min-height: (765/16em);
             order: initial;
         }
 
