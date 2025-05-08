@@ -4,6 +4,9 @@
 
 <!-- Bootstrap Carousel Component -->
 <section class="carousel-section">
+  <div class="text-center py-3 mt-5 mb-5">
+  <h2 class="cs-title cinzel">Want to learn Hula?</h2>
+  </div>
   <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
     <!-- Indicators/dots -->
     <div class="carousel-indicators">
@@ -31,6 +34,21 @@
       <span class="visually-hidden">Next</span>
     </button>
   </div>
+   <div class="col-sm-8 text-center" style="width: 100%; padding: 20px 40px;">
+            <p style="max-width: 960px; margin: 3rem auto;">Classes are available from beginner to experienced. Located in Kahului, our Halau offers weekly classes in the styles of Kahiko and Auana. We hope you will join us!</p>
+                </div> 
+                </div>  
+                <div class="container text-center">  
+                <img class="lehua-div" src="/assets/images/lehua-removebg-preview.png" width="4%">
+                <h1 class="cinzel mt-4">"I mohala no ke lehua i ke ke`ekehi `ia e ka ua."</h1>
+<p class="mt-3"><em>Translation: The Lehua blossom unfolds when the rains tread it.<br>
+Explanation: People respond better to gentle words than to scoldings.</em></p></div>
+       <div class="text-center mt-4 register">
+                    <a class="cs-button-image mt-4" href="https://docs.google.com/forms/d/e/1FAIpQLSfCd_hBIUYni5AiFq9AGUvtzn0Y79q0854gDARJYW-NvXXGgA/viewform" target="_blank">
+                        Register for Classes
+                    </a>
+                </div>
+    </div>
 </section>
 
 <!-- Add Bootstrap CSS and JS via CDN in the component -->
@@ -95,6 +113,29 @@
 </script>
 
 <style>
+
+    html body, 
+html body p, 
+html body .cs-text {
+  font-family: "Afacad", Arial, sans-serif !important;
+  font-size: clamp(1.4rem, 1.8vw, 2.3rem) !important;
+}
+
+   .cinzel {
+    font-family: "Cinzel", "Arial", sans-serif;
+  }
+
+   h2 {
+          font-weight: 400;
+          font-size: clamp(1.8rem, 4vw, 2.5rem);
+          margin-bottom: 2rem;
+        }
+
+        h1 {
+          font-weight: 500;
+          font-size: clamp(1.5rem, 2vw, 2rem);
+        }
+
     .carousel-section {
     padding: clamp(3.75rem, 7.82vw, 6.25rem) 1rem;
   }
@@ -148,4 +189,78 @@
       width: 100%; /* Full width on mobile */
     }
   }
+
+  section {
+  .col-sm-8 {
+    padding: 40px;
+    
+    p {
+      margin-bottom: 40px;
+    }
+  }
+  
+  .container {
+    margin-bottom: 40px;
+    
+    .lehua-div {
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    h1 {
+      margin-bottom: 30px;
+    }
+    
+    p {
+      margin-bottom: 40px;
+    }
+  }
+  
+  .register {
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+}
+
+   /* Button */
+
+  .cs-button-image {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  color: #ffffff; /* Text color */
+  background-image: url('/assets/images/buttonbg.png'); /* Path to your image */
+  background-size: cover; /* Cover the entire button */
+  background-position: center; /* Center the image */
+  border-radius: 0.5rem; /* Rounded corners */
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Shadow effect */
+  transition: transform 0.3s, box-shadow 0.3s;
+
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    border-radius: 0.5rem;
+    z-index: -1;
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+}
+
 </style>
