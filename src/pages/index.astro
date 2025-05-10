@@ -5,17 +5,18 @@ import About from "../components/About.astro";
 import Alakai from "../components/Alakai.astro";
 import Contact from "../components/Contact.astro";
 
-// Optimize our landing image and pass it as props to the BaseLayout (for preloading) and Landing (for rendering)
-import {getOptimizedImage} from "../js/utils"
-import landingImage from "../assets/images/landing.jpg" // <-- THE PATH TO THE ASSET YOU WANT TO PRELOAD - The asset must live in src
-const optimizedImage = await getOptimizedImage(landingImage)
+// Import the image directly without optimization
+import homePhoto from "../assets/images/home-photo.jpg";
+
+// Create a simple object with the src property
+const optimizedImage = { src: homePhoto.src };
 
 ---
 
 <BaseLayout
   title="Hālau Hula Malani O Kapehe"
   description="Under the direction of Kumu Hula Mapuana Samonte-Nowak, Hālau Hula Malani O Kapehe strives to share the love of Hula and Hawaiian traditions as inspired and preserved by our Kupuna."
-  preloadedImage = {optimizedImage}
+  preloadedImage={optimizedImage}
 >   
   <!-- ============================================ -->
   <!--                    Hero                      -->
@@ -37,7 +38,7 @@ const optimizedImage = await getOptimizedImage(landingImage)
       aria-hidden="true"
       decoding="async"
       src={optimizedImage.src}
-      alt="new home"
+      alt="kapehe hula haumana"
       width="2500"
       height="1667"
       loading="eager"
@@ -208,7 +209,7 @@ html body .cs-text {
       padding: clamp(4em, 15vw, 8em) 0;
       position: relative;
     }
-    
+     
     /* Hide the picture element since we're using background */
     .cs-picture {
       display: none;

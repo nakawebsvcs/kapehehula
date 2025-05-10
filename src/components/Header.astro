@@ -14,7 +14,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 <section id="quote-2141">
     <div class="cs-container">
         <div class="cs-content">
-            <img class="cs-quote-icon" loading="lazy" decoding="async" src="assets/images/header logo.png" alt="quote" width="100%" height="100%" aria-hidden="true">
+            <img class="cs-quote-icon" loading="lazy" decoding="async" src="assets/images/header-logo.png" alt="quote" width="100%" height="100%" aria-hidden="true">
         </div>
     </div>
 </section>
@@ -122,12 +122,20 @@ document.addEventListener('DOMContentLoaded', function() {
                                 
 
 <style lang="less">
+  
 /*-- -------------------------- -->
 <---     Header Wrapper         -->
 <--- -------------------------- -*/
+/* Add this to your styles */
 #header-wrapper {
-    position: relative;
-    width: 100%;
+  position: relative;
+  width: 100%;
+  /* Add a higher z-index to ensure it's above other elements */
+  z-index: 10;
+  /* Extend the background color to cover any gaps */
+  background-color: #fff;
+  /* Add padding at the bottom to account for the navigation's negative positioning */
+  padding-bottom: 7rem; /* Match the largest negative bottom value */
 }
 
 /*-- -------------------------- -->
@@ -203,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             &:before {
-                height: 150vh;
+                height: 100vh;
                 opacity: 1;
             }
 
@@ -555,8 +563,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .cs-quote-icon {
-            max-width: 83%; /* Limit width to prevent stretching */
-            max-height: 490px; /* Slightly less than container max-height to account for padding */
+            max-width: 95%; /* Limit width to prevent stretching */
+            max-height: 32.5rem; /* Slightly less than container max-height to account for padding */
             width: auto; /* Let width be determined by height constraint */
             height: auto; /* Let height be determined by width constraint */
             display: block;
