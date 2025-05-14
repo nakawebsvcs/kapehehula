@@ -1,0 +1,62 @@
+[
+  {
+    "id": "aia-la-o-pele",
+    "title": "Aia La O Pele",
+    "thumbnail": "/assets/images/coa1.jpg",
+    "category": "Kahiko",
+    "description": "A traditional hula honoring Pele, the volcano goddess",
+    "vimeoId": "123456789",
+    "lyrics": {
+      "hawaiian": [
+        "Aia la o Pele i Hawai'i",
+        "Ka wahine 'ai honua i Kahiki",
+        "Ke kalali maila i na paia o Kahawali",
+        "E ho'i e ho'i kaua",
+        "E ho'i i ke awa la i Puna",
+        "I ka papa lau 'awa o Kuki'i",
+        "I ka 'aina momona a Kane",
+        "Ke 'aina 'awa lau o Puna",
+        "Ke 'aina momona a Kane"
+      ],
+      "english": [
+        "There is Pele in Hawai'i",
+        "The woman who devoured the land at Kahiki",
+        "She is raging in the cliffs of Kahawali",
+        "Let us return, let us go back",
+        "Let us go back to the harbor at Puna",
+        "To the 'awa leaf platform of Kuki'i",
+        "To the fertile land of Kane",
+        "The land of abundant 'awa in Puna",
+        "The fertile land of Kane"
+      ]
+    },
+    "notes": "This mele honors Pele, the goddess of fire and volcanoes. The dance movements depict her power and the volcanic landscapes she creates."
+  },
+  {
+    "id": "kawika",
+    "title": "Kawika",
+    "thumbnail": "/assets/images/coa1.jpg",
+    "category": "Kahiko",
+    "description": "A traditional mele honoring King David Kalākaua",
+    "vimeoId": "432156789",
+    "lyrics": {
+      "hawaiian": [
+        "Kawika e, e Kawika",
+        "Ku'u pua mae 'ole i ka lā",
+        "Ka uwila ma ka hikina",
+        "Malamalama Hawai'i",
+        "Ua noa, ua noa Hawai'i la",
+        "Ua noa ia Kawika Kalākaua"
+      ],
+      "english": [
+        "David, oh David",
+        "My flower that never fades in the sun",
+        "The lightning in the east",
+        "Hawai'i is enlightened",
+        "Freed, Hawai'i is freed",
+        "Freed by David Kalākaua"
+      ]
+    },
+    "notes": "This traditional mele honors King David Kalākaua, who was instrumental in reviving hula and other Hawaiian cultural practices during his reign from 1874 to 1891."
+  }
+]

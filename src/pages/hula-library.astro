@@ -1,0 +1,666 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import auana from "../data/auana.json";
+
+
+// Import a fallback image for the hero section
+import fallbackImage from "../assets/images/coa1.jpg";
+
+// Create a simple object with the src property for BaseLayout if needed
+const heroImage = { src: fallbackImage.src };
+
+// For now, we'll just use the auana videos
+const hulaVideos = auana;
+
+// Sort videos alphabetically by title
+hulaVideos.sort((a, b) => a.title.localeCompare(b.title));
+
+// Group videos by first letter for alphabetical index
+const videosByLetter = hulaVideos.reduce((acc, video) => {
+  const firstLetter = video.title.charAt(0).toUpperCase();
+  if (!acc[firstLetter]) {
+    acc[firstLetter] = [];
+  }
+  acc[firstLetter].push(video);
+  return acc;
+}, {});
+
+// Get all unique first letters
+const letters = Object.keys(videosByLetter).sort();
+---
+
+<BaseLayout
+  title="Hula Library | Hālau Hula Malani O Kapehe"
+  description="Browse our collection of hula videos, lyrics, and translations for haumāna of Hālau Hula Malani O Kapehe."
+  preloadedImage={heroImage}
+>
+  <section id="library-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="cinzel">Hula Library</h1>
+      <div class="divider"></div>
+      <p class="hero-description">
+        Access our collection of hula videos, lyrics, and translations for practice and study.
+      </p>
+    </div>
+  </section>
+
+  <section id="library-content">
+    <div class="cs-container">
+      <!-- Left Column: Video Index -->
+      <div class="library-index">
+        <div class="alphabet-index">
+          {letters.map(letter => (
+            <a href={`#letter-${letter}`} class="letter-link">{letter}</a>
+          ))}
+        </div>
+
+        <div class="search-container">
+          <input 
+            type="text" 
+            id="video-search" 
+            placeholder="Search by title or description..." 
+            class="search-input"
+          />
+        </div>
+
+        <div class="filter-container">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Kahiko">Kahiko</button>
+          <button class="filter-btn" data-filter="Auana">Auana</button>
+        </div>
+
+        <div class="videos-container">
+          {letters.map(letter => (
+            <div id={`letter-${letter}`} class="letter-section">
+              <h2 class="letter-heading">{letter}</h2>
+              <div class="video-list">
+                {videosByLetter[letter].map(video => (
+                  <div class="video-item" data-category={video.category} data-video-id={video.id}>
+                    <h3 class="video-title">{video.title}</h3>
+                    <span class="video-category">{video.category}</span>
+                    {video.description && <p class="video-description">{video.description}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right Column: Video Display -->
+      <div id="video-display" class="video-display">
+        <div class="video-placeholder">
+          <div class="placeholder-icon">▶</div>
+          <p>Select a video from the library to view</p>
+        </div>
+        
+        {hulaVideos.map(video => (
+          <div id={`video-content-${video.id}`} class="video-content" style="display: none;">
+            <h2 class="video-display-title">{video.title}</h2>
+            <div class="video-display-category">{video.category}</div>
+            
+            {/* Video player */}
+            <div class="video-player-container">
+            {(() => {
+                // For private videos, use the full URL format
+                const vimeoUrl = `https://vimeo.com/${video.vimeoId}`;
+                
+                return (
+                <iframe 
+                    src={`https://player.vimeo.com/video/${video.vimeoId.split('/')[0]}?h=${video.vimeoId.split('/')[1]}`}
+                    width="640"
+                    height="360"
+                    frameborder="0"
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowfullscreen
+                    title={video.title}
+                    class="video-iframe"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                ></iframe>
+                );
+            })()}
+            </div>
+
+            
+            <div class="video-details">
+              {/* Notes section - only show if notes exist */}
+              {video.notes && (
+                <div class="video-notes">
+                  <h3>Notes</h3>
+                  <p>{video.notes}</p>
+                </div>
+              )}
+              
+              {/* Lyrics section - handle different formats */}
+             {video.lyrics && Object.keys(video.lyrics).length > 0 && (
+                <div class="video-lyrics">
+                    <h3>Lyrics</h3>
+                    <div class="lyrics-columns">
+                    {Object.entries(video.lyrics).map(([section, lines]) => (
+                        <div class="lyrics-column">
+                        <h4>{section}</h4>
+                        {Array.isArray(lines) ? 
+                            lines.map(line => (<p>{line}</p>)) : 
+                            <p>{lines}</p>
+                        }
+                        </div>
+                    ))}
+                    </div>
+                </div>
+                )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+    <script is:inline>
+    // Wait for DOM to be fully loaded and processed by Astro
+    document.addEventListener('astro:page-load', () => {
+      // Add a small timeout to ensure everything is rendered
+      setTimeout(() => {
+        // Get all video items and video content elements
+        const videoItems = document.querySelectorAll('.video-item');
+        const videoContents = document.querySelectorAll('.video-content');
+        const videoPlaceholder = document.querySelector('.video-placeholder');
+        
+        console.log('Found video items:', videoItems.length);
+        console.log('Found video contents:', videoContents.length);
+        
+        // Search functionality
+        const searchInput = document.getElementById('video-search');
+        
+        if (searchInput) {
+          searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            videoItems.forEach(item => {
+              const title = item.querySelector('.video-title').textContent.toLowerCase();
+              const description = item.querySelector('.video-description')?.textContent.toLowerCase() || '';
+              
+              if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                item.style.display = '';
+              } else {
+                item.style.display = 'none';
+              }
+            });
+            
+            // Show/hide letter sections based on visible items
+            document.querySelectorAll('.letter-section').forEach(section => {
+              const visibleItems = section.querySelectorAll('.video-item[style=""]').length;
+              section.style.display = visibleItems > 0 ? '' : 'none';
+            });
+          });
+        }
+        
+        // Filter functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        filterButtons.forEach(button => {
+          button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            const filter = this.getAttribute('data-filter');
+            
+            // Show/hide videos based on filter
+            videoItems.forEach(item => {
+              if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                item.style.display = '';
+              } else {
+                item.style.display = 'none';
+              }
+            });
+            
+            // Show/hide letter sections based on visible items
+            document.querySelectorAll('.letter-section').forEach(section => {
+              const visibleItems = section.querySelectorAll('.video-item[style=""]').length;
+              section.style.display = visibleItems > 0 ? '' : 'none';
+            });
+          });
+        });
+        
+        // Video selection functionality
+        videoItems.forEach(item => {
+          item.addEventListener('click', function() {
+            console.log('Video item clicked');
+            
+            // Remove active class from all items
+            videoItems.forEach(i => i.classList.remove('active'));
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Get the video ID
+            const videoId = this.getAttribute('data-video-id');
+            console.log('Video ID:', videoId);
+            
+            // Hide placeholder
+            if (videoPlaceholder) {
+              videoPlaceholder.style.display = 'none';
+            }
+            
+            // Hide all video contents
+            videoContents.forEach(content => {
+              content.style.display = 'none';
+            });
+            
+            // Show the selected video content
+            const selectedContent = document.getElementById(`video-content-${videoId}`);
+            console.log('Selected content element:', selectedContent);
+            
+            if (selectedContent) {
+              selectedContent.style.display = 'block';
+              
+              // Scroll to video display on mobile
+              if (window.innerWidth <= 1024) {
+                document.getElementById('video-display').scrollIntoView({
+                  behavior: 'smooth'
+                });
+              }
+            } else {
+              console.error('Could not find content element for video ID:', videoId);
+              // For debugging, list all content IDs
+              console.log('Available content IDs:');
+              videoContents.forEach(content => {
+                console.log(content.id);
+              });
+            }
+          });
+        });
+        
+        // Smooth scrolling for alphabet links
+        document.querySelectorAll('.letter-link').forEach(link => {
+          link.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+            
+            if (targetElement) {
+              targetElement.scrollIntoView({
+                behavior: 'smooth'
+              });
+            }
+          });
+        });
+      }, 100); // Small timeout to ensure DOM is ready
+    });
+  </script>
+</BaseLayout>
+
+<style lang="less">
+  /* Typography */
+  .cinzel {
+    font-family: "Cinzel", "Arial", serif;
+    font-weight: 400;
+  }
+  
+  .divider {
+    width: 100px;
+    max-width: 90%;
+    height: 2px;
+    background-color: #fff;
+    margin: 2rem auto;
+    border-radius: 1.5px;
+  }
+
+  /* Hero Section */
+  #library-hero {
+    position: relative;
+    height: 75vh;
+    min-height: 300px;
+    width: 100%;
+    background-image: url('/assets/images/coa1.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    
+    @media (max-width: 768px) {
+      height: auto;
+      min-height: 250px;
+      padding: 3rem 1rem;
+    }
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(199, 199, 199, 0.6);
+    z-index: 1;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 1rem;
+    
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin: 0;
+    }
+    
+    .hero-description {
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  /* Library Content Section */
+  #library-content {
+    padding: var(--sectionPadding);
+    
+    .cs-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      gap: 2rem;
+      
+      @media (max-width: 1024px) {
+        flex-direction: column;
+      }
+    }
+  }
+  
+  /* Library Index (Left Column) */
+  .library-index {
+    flex: 1;
+    max-width: 500px;
+    
+    @media (max-width: 1024px) {
+      max-width: 100%;
+    }
+  }
+  
+  /* Alphabet Index */
+  .alphabet-index {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--primary);
+    border-radius: 8px;
+    
+    .letter-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+    }
+  }
+  
+  /* Search */
+  .search-container {
+    margin-bottom: 2rem;
+    
+    .search-input {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      
+      &:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+      }
+    }
+  }
+  
+  /* Filters */
+  .filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    
+    .filter-btn {
+      padding: 0.75rem 1.5rem;
+      background-color: #f0f0f0;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #e0e0e0;
+      }
+      
+      &.active {
+        background-color: var(--primary);
+        color: white;
+      }
+    }
+  }
+  
+  /* Letter Sections */
+  .letter-section {
+    margin-bottom: 3rem;
+    
+    .letter-heading {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary);
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--primary);
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  /* Video List */
+  .video-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Video Items */
+  .video-item {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateX(5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    &.active {
+      border-left: 4px solid var(--primary);
+      background-color: rgba(var(--primary-rgb), 0.05);
+    }
+    
+    .video-title {
+      font-size: 1.2rem;
+      margin: 0 0 0.5rem;
+    }
+    
+    .video-category {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      background-color: #f0f0f0;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .video-description {
+      margin: 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  }
+  
+  /* Video Display (Right Column) */
+  .video-display {
+    flex: 2;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    min-height: 600px;
+    position: sticky;
+    top: 2rem;
+    
+    @media (max-width: 1024px) {
+      position: static;
+    }
+  }
+  
+  /* Video Placeholder */
+  .video-placeholder {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    text-align: center;
+    
+    .placeholder-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+    
+    p {
+      font-size: 1.2rem;
+    }
+  }
+  
+  /* Video Content */
+  .video-content {
+    .video-display-title {
+      font-size: 2rem;
+      margin: 0 0 0.5rem;
+      color: var(--primary);
+    }
+    
+    .video-display-category {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+  }
+  
+  /* Video Player */
+  .video-player-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    margin-bottom: 2rem;
+    
+    .video-iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+    }
+  }
+  
+  /* Video Details */
+  .video-details {
+    .video-notes {
+      margin-bottom: 2rem;
+      
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+      
+      p {
+        line-height: 1.6;
+      }
+    }
+    
+    .video-lyrics {
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+      
+      .lyrics-columns {
+        display: flex;
+        gap: 2rem;
+        
+        @media (max-width: 768px) {
+          flex-direction: column;
+        }
+        
+        .lyrics-column {
+          flex: 1;
+          
+          h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+          }
+          
+          p {
+            margin-bottom: 0.5rem;
+            line-height: 1.6;
+          }
+        }
+      }
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .alphabet-index .letter-link {
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+    }
+    
+    .video-display {
+      padding: 1.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,74 @@
+[
+  {
+    "id": "song-of-old-hawaii",
+    "title": "A Song of Old Hawai'i & The One They Call Hawai'i",
+    "description": "A nostalgic song about changes to one's homeland",
+    "category": "Auana",
+    "vimeoId": "414114234/dbd2d9477c",
+    "lyrics": {
+      "By Andy Williams": [
+        "There's the perfume of a million flowers",
+        "Clinging to the heart of old Hawai'i",
+        "There's a rainbow following the showers",
+        "Bringing me a part of old Hawai'i",
+        "There's a silver moon",
+        "A symphony of stars",
+        "There's a hula tune",
+        "And the hum of soft guitars",
+        "There's the tradewind",
+        "Sighing in the heavens",
+        "Singing me",
+        "A song of old Hawai'i"
+      ],
+      "By Loeka Longakit": [
+        "If I could be the ocean",
+        "Embracing all the land",
+        "If I could be the sunlight",
+        "That dries up all the sand",
+        "If I could be the lava",
+        "That flows to the sea",
+        "Then I would be the one they call Hawaii",
+        "Hawaii, Hawaii",
+        "If I could play the guitar",
+        "I'd play Hawaiian songs",
+        "If I could do the hula",
+        "I'd do it all day long",
+        "If I could be a koa canoe",
+        "I would float myself to sea",
+        "I guess I'd be the one they call Hawaii",
+        "Hawaii, Hawaii",
+        "If I could be the flowers",
+        "I'd turn into a lei",
+        "If I could be a rainbow",
+        "I'd make a…"
+      ]
+    }
+  },
+  {
+    "id": "blue-hawaii",
+    "title": "Blue Hawai'i",
+    "description": "A nostalgic song about changes to one's homeland",
+    "category": "Auana",
+    "vimeoId": "59962382/dbd2d9477c",
+    "authors": "Leo Robin and Ralph Rainger",
+    "lyrics": {
+      "english": [
+        "Perfume in the air and rare flowers everywhere",
+        "And white shadows we could share at Waikīkī",
+        "A sky full of stars and soft far away guitars",
+        "It seems to be only a reverie",
+        "Night and you and blue Hawaiʻi",
+        "The night is heavenly",
+        "And you are heaven to me",
+        "Lovely you and blue Hawaiʻi",
+        "With all this loveliness",
+        "There should be love",
+        "Come with me while the moon is on the sea",
+        "The night is young and so are we",
+        "Dreams come true in blue Hawaiʻi",
+        "And mine could all come true",
+        "This magic night of nights with you"
+      ]
+    }
+  }
+]
