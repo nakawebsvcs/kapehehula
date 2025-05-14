@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
         /* prevents padding and border from affecting height and width */
         box-sizing: border-box;
         padding: (12/16rem) (16/16rem);
-        background-color: #fff;
+        background-color: var(--primary);
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
         position: absolute;
         bottom: -2rem;
@@ -194,8 +194,8 @@ document.addEventListener('DOMContentLoaded', function() {
             bottom: auto;
         }
 
-        &:after {
-            /* on hover green bar */
+     /*    &:after {
+             
             content: "";
             width: 40%;
             max-width: (146/16rem);
@@ -207,8 +207,8 @@ document.addEventListener('DOMContentLoaded', function() {
             top: 0;
             left: 0%;
             z-index: -1;
-            transition: width 0.2s, max-width 0.3s, background-color 0.3s;
-        }
+            transition: width 0.2s, max-width 0.3s, background-color 0.3s; 
+        } */
 
         &:before {
             /* grey blurrd overlay */

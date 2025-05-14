@@ -94,10 +94,18 @@
         font-weight: 700;
     }
     
-    .lehua-div {
-        width: 5%;
-        margin: 4.5rem auto 1rem auto;
-    }
+   .lehua-div {
+  width: auto;
+  height: auto;
+  max-width: 80px; /* Set a fixed max-width instead of percentage */
+  margin: 4.5rem auto 1rem auto;
+  
+  /* Responsive sizing */
+  @media only screen and (max-width: 768px) {
+    max-width: 60px; /* Slightly smaller on mobile but still visible */
+    margin: 3rem auto 1rem auto; /* Reduce margin on mobile */
+  }
+}
     
     /* Animation classes */
     .animate-on-scroll {

@@ -494,33 +494,32 @@ html body .cs-text {
           box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
       }
-        .cs-image-group {
-            /* scales the whole section down and ties the font size to the vw and stops at 75% of the vale of 1em, changes at desktop */
+       .cs-image-group {
+            /* Modify these styles */
             font-size: ~"min(2.8vw, .89rem)";
-            /* everything inside this box is in ems so we can scale it all down proportionally with a font size */
-            width: (522/16em);
-            height: (651/16em);
-            order: -1;
+            width: 100%; /* Change from fixed width to 100% */
+            height: auto; /* Allow height to adjust automatically */
+            max-width: (522/16em); /* Add max-width to maintain proportions */
+            margin: 0 auto; /* Center the image group */
             position: relative;
-            /* prevents flexbox from squishing it */
             flex: none;
         }
 
         .cs-picture {
-            width: (553/16em);
-            height: (623/16em);
+            width: 100%; /* Change from fixed width to 100% */
+            height: auto; /* Allow height to adjust automatically */
+            max-width: (553/16em); /* Add max-width to maintain proportions */
+            position: relative; /* Change from absolute to relative */
             display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-
+            margin: 0 auto; /* Center the picture */
+            
             img {
                 width: 100%;
-                height: 100%;
+                height: auto; /* Allow height to adjust with width */
                 object-fit: cover;
-                position: absolute;
-                top: 0;
-                left: 0;
+                position: relative; /* Change from absolute to relative */
+                top: auto;
+                left: auto;
             }
         }
     }
@@ -538,6 +537,11 @@ html body .cs-text {
             text-align: left;
             align-items: flex-start;
             grid-column: span 6;
+        }
+
+        .cs-image-group {
+            /* Adjust for tablet if needed */
+            max-width: 90%; /* Slightly wider on tablet */
         }
     }
 }
@@ -578,6 +582,29 @@ html body .cs-text {
         .cs-item {
             flex-direction: row;
         }
+
+         .cs-image-group {
+            /* Restore desktop styles */
+            font-size: ~"min(1.3vw, 1rem)";
+            height: auto;
+            min-height: (765/16em);
+            width: (522/16em); /* Fixed width for desktop */
+            margin: 0; /* Remove auto margin */
+        }
+
+        .cs-picture {
+            width: (553/16em); /* Fixed width for desktop */
+            height: auto;
+            position: absolute; /* Restore absolute positioning for desktop */
+            top: 0;
+            left: 0;
+            
+            img {
+                position: absolute; /* Restore absolute positioning for desktop */
+                top: 0;
+                left: 0;
+            }
+          }
     }
 }
 
