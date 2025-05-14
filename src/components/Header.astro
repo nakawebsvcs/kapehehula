@@ -13,9 +13,10 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 <section id="quote-2141">
     <div class="cs-container">
-        <div class="cs-content">
-            <img class="cs-quote-icon" loading="lazy" decoding="async" src="assets/images/header-logo.png" alt="quote" width="100%" height="100%" aria-hidden="true">
-        </div>
+      <div class="cs-content">
+    <img class="cs-quote-icon cs-quote-icon-desktop" loading="lazy" decoding="async" src="src/assets/images/header-logo.png" alt="quote" width="100%" height="100%" aria-hidden="true">
+    <img class="cs-quote-icon cs-quote-icon-mobile" loading="lazy" decoding="async" src="src/assets/images/header-logo-mobile.png" alt="quote" width="100%" height="100%" aria-hidden="true">
+</div>
     </div>
 </section>
 
@@ -117,6 +118,27 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll);
+
+// Add a global click handler
+    document.addEventListener('click', function(e) {
+        // Check if we clicked a link inside the navigation
+        if (e.target.tagName === 'A' && 
+            navigation.contains(e.target) && 
+            e.target.classList.contains('cs-li-link')) {
+            
+            // Close the menu
+            navigation.classList.remove('cs-active');
+            document.body.classList.remove('cs-open');
+            
+            // Get the toggle button at the time of the click
+            const toggleButton = document.getElementById('mobile-menu-toggle');
+            
+            // Only try to update the toggle button if it exists
+            if (toggleButton) {
+                toggleButton.setAttribute('aria-expanded', 'false');
+            }
+        }
+    }, true); // Use capture phase to ensure this runs before other handlers
 });
 </script>
                                 
@@ -135,8 +157,10 @@ document.addEventListener('DOMContentLoaded', function() {
   /* Extend the background color to cover any gaps */
   background-color: #fff;
   /* Add padding at the bottom to account for the navigation's negative positioning */
-  padding-bottom: 7rem; /* Match the largest negative bottom value */
+  padding-bottom: 4.5rem; /* Match the largest negative bottom value */
+  margin-bottom: 1.5rem;
 }
+
 
 /*-- -------------------------- -->
 <---     Mobile Navigation      -->
@@ -225,6 +249,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 opacity: 1;
                 transform: translateY(0);
             }
+            
+            /* Move the active toggle styles here */
+            .cs-toggle {
+                .cs-line1 {
+                    top: 50%;
+                    transform: translate(-50%, -50%) rotate(225deg);
+                }
+
+                .cs-line2 {
+                    top: 50%;
+                    transform: translate(-50%, -50%) translateY(0) rotate(-225deg);
+                    transform-origin: center;
+                }
+
+                .cs-line3 {
+                    opacity: 0;
+                    bottom: 100%;
+                }
+            }
         }
 
         .cs-toggle {
@@ -238,23 +281,33 @@ document.addEventListener('DOMContentLoaded', function() {
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        .cs-active {
+            
+            /* Default state for the toggle (hamburger) */
             .cs-line1 {
-                top: 50%;
-                transform: translate(-50%, -50%) rotate(225deg);
+                top: 0;
+                transform: translate(-50%, 0);
+                transition: transform 0.5s, top 0.3s, left 0.3s;
+                animation-duration: 0.7s;
+                animation-timing-function: ease;
+                animation-direction: normal;
+                animation-fill-mode: forwards;
+                transform-origin: center;
             }
 
             .cs-line2 {
                 top: 50%;
-                transform: translate(-50%, -50%) translateY(0) rotate(-225deg);
-                transform-origin: center;
+                transform: translateX(-50%) translateY(-50%);
+                transition: top 0.3s, left 0.3s, transform 0.5s;
+                animation-duration: 0.7s;
+                animation-timing-function: ease;
+                animation-direction: normal;
+                animation-fill-mode: forwards;
             }
 
             .cs-line3 {
-                opacity: 0;
-                bottom: 100%;
+                bottom: 0;
+                opacity: 1;
+                transition: bottom 0.3s, opacity 0.3s;
             }
         }
 
@@ -274,31 +327,6 @@ document.addEventListener('DOMContentLoaded', function() {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-        }
-
-        .cs-line1 {
-            top: 0;
-            transition: transform 0.5s, top 0.3s, left 0.3s;
-            animation-duration: 0.7s;
-            animation-timing-function: ease;
-            animation-direction: normal;
-            animation-fill-mode: forwards;
-            transform-origin: center;
-        }
-
-        .cs-line2 {
-            top: 50%;
-            transform: translateX(-50%) translateY(-50%);
-            transition: top 0.3s, left 0.3s, transform 0.5s;
-            animation-duration: 0.7s;
-            animation-timing-function: ease;
-            animation-direction: normal;
-            animation-fill-mode: forwards;
-        }
-
-        .cs-line3 {
-            bottom: 0;
-            transition: bottom 0.3s, opacity 0.3s;
         }
 
         .cs-ul-wrapper {
@@ -563,7 +591,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .cs-quote-icon {
-            max-width: 95%; /* Limit width to prevent stretching */
+            max-width: 100%; /* Limit width to prevent stretching */
             max-height: 32.5rem; /* Slightly less than container max-height to account for padding */
             width: auto; /* Let width be determined by height constraint */
             height: auto; /* Let height be determined by width constraint */
@@ -574,8 +602,45 @@ document.addEventListener('DOMContentLoaded', function() {
             object-fit: contain; /* Keep aspect ratio */
             margin: 0 auto; /* Center horizontally */
             padding: 1rem;
-            padding-bottom: 2rem;
+            padding-bottom: -1rem;
         }
+    }
+}
+
+/* Mobile - 1023.5px */
+@media only screen and (max-width: 63.96875rem) {
+    .cs-quote-icon-desktop {
+        display: none !important;
+    }
+    .cs-quote-icon-mobile {
+        display: block !important;
+        top: 0.3rem !important;
+    }
+    
+    /* Reduce padding below the image */
+    #quote-2141 .cs-quote-icon {
+        padding-bottom: 0.5rem;
+        margin-bottom: 0;
+    }
+    
+    /* Adjust the header wrapper padding */
+    #header-wrapper {
+        padding-bottom: 4rem; /* Balanced value */
+    }
+    
+    /* Move the navigation up but maintain overlay functionality */
+    #cs-navigation {
+        bottom: -1.5rem;
+    }
+}
+
+/* Desktop - 1024px and above */
+@media only screen and (min-width: 64rem) {
+    .cs-quote-icon-desktop {
+        display: block !important;
+    }
+    .cs-quote-icon-mobile {
+        display: none !important;
     }
 }
 </style>
