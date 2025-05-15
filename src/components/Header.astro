@@ -691,11 +691,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Desktop - 1024px and above */
 @media only screen and (min-width: 64rem) {
+    #header-wrapper {
+        padding-bottom: 6rem; /* Increase padding to accommodate the full image */
+        overflow: visible; /* Ensure content isn't clipped */
+    }
+    
     .cs-quote-icon-desktop {
         display: block !important;
-        max-height: 31rem;
+        max-height: 32.5rem;
         margin-bottom: 2rem;
-        z-index: 5;
+        z-index: 5; /* Keep image above the background */
     }
     .cs-quote-icon-mobile {
         display: none !important;
