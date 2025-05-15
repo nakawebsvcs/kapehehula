@@ -695,9 +695,15 @@ document.addEventListener('DOMContentLoaded', function() {
         display: block !important;
         max-height: 31rem;
         margin-bottom: 2rem;
+        z-index: 5;
     }
     .cs-quote-icon-mobile {
         display: none !important;
+    }
+
+     #quote-2141 {
+        position: relative;
+        z-index: 5; /* Increase from 1 to ensure proper stacking context */
     }
 }
 </style>
