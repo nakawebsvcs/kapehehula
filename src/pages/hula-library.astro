@@ -2,6 +2,12 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import auana from "../data/auana.json";
 
+// Protect this page from unauthenticated access
+const isLoggedIn = Astro.cookies.has("sb-access-token");
+if (!isLoggedIn) {
+  return Astro.redirect("/");
+}
+
 
 // Import a fallback image for the hero section
 import fallbackImage from "../assets/images/coa1.jpg";

@@ -1,6 +1,12 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 
+// Protect this page from unauthenticated access
+const isLoggedIn = Astro.cookies.has("sb-access-token");
+if (!isLoggedIn) {
+  return Astro.redirect("/");
+}
+
 // Import the image for optimization
 import oldHalauPhoto from "../assets/images/old-halau-photo.jpg";
 

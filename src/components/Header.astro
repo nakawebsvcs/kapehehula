@@ -2,6 +2,12 @@
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import headerLogo from "../assets/images/header-logo.png";
 import headerLogoMobile from "../assets/images/header-logo-mobile.png";
+import Login from "./Login.astro";
+
+
+// Check if user is logged in by looking for the authentication cookie
+const isLoggedIn = Astro.cookies.has("sb-access-token");
+console.log("Authentication status:", isLoggedIn);
 ---
 
 <!-- ============================================ -->
@@ -18,6 +24,7 @@ import headerLogoMobile from "../assets/images/header-logo-mobile.png";
       <div class="cs-content">
     <img class="cs-quote-icon cs-quote-icon-desktop" loading="lazy" decoding="async" src={headerLogo.src} alt="quote" width="100%" height="100%" aria-hidden="true">
     <img class="cs-quote-icon cs-quote-icon-mobile" loading="lazy" decoding="async" src={headerLogoMobile.src} alt="quote" width="100%" height="100%" aria-hidden="true">
+    </div>
     </div>
 </section>
 
@@ -74,15 +81,18 @@ import headerLogoMobile from "../assets/images/header-logo-mobile.png";
                 </a>
             </li>
              <li class="cs-li cs-login">
-                <a href="" class="cs-li-link">
-                    Member Login
-                </a>
-            </li>
+    <a href="/api/auth/TS%20signout" class="cs-li-link" id="auth-link">
+        {isLoggedIn ? 'Sign Out' : 'Member Login'}
+    </a>
+</li>
             </ul>
         </div>
     </nav>
 </header>
 </div>
+
+{!isLoggedIn && <Login />}
+
 
 <script>
   // Script to handle the sticky navigation
@@ -120,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleScroll);
 
-// Add a global click handler
+    // Add a global click handler
     document.addEventListener('click', function(e) {
         // Check if we clicked a link inside the navigation
         if (e.target.tagName === 'A' && 
@@ -140,11 +150,55 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }, true); // Use capture phase to ensure this runs before other handlers
+    
+    // Handle login link click
+    const loginLink = document.getElementById('login-link');
+    const signinLightbox = document.getElementById('signin-lightbox');
+    
+    if (loginLink && signinLightbox) {
+        loginLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            signinLightbox.classList.add('active');
+            document.body.classList.add('no-scroll');
+        });
+    }
 });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Client-side check for authentication cookie
+    const hasAuthCookie = document.cookie.split(';').some(item => item.trim().startsWith('sb-access-token='));
+    const authLink = document.getElementById('auth-link');
+    
+    if (hasAuthCookie && authLink) {
+      // User is logged in
+      authLink.textContent = 'Sign Out';
+      authLink.href = '/api/auth/TS%20signout';
+    } else if (authLink) {
+      // User is not logged in
+      authLink.textContent = 'Member Login';
+      authLink.href = '#';
+      
+      // Add event listener for login lightbox
+      authLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        const signinLightbox = document.getElementById('signin-lightbox');
+        if (signinLightbox) {
+          signinLightbox.classList.add('active');
+          document.body.classList.add('no-scroll');
+        }
+      });
+    }
+  });
 </script>
                                 
 
 <style lang="less">
+
+    body.no-scroll {
+    overflow: hidden;
+  }
   
 /*-- -------------------------- -->
 <---     Header Wrapper         -->
