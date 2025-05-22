@@ -162,31 +162,122 @@
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const lightbox = document.getElementById('signin-lightbox');
-    const closeButton = lightbox.querySelector('.close-button');
-    const forgotPasswordBtn = document.getElementById('forgot-password-btn');
-    
-    // Close lightbox when clicking the close button
-    closeButton.addEventListener('click', () => {
-      lightbox.classList.remove('active');
-      document.body.classList.remove('no-scroll');
-    });
-    
-    // Close lightbox when clicking outside the form
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
+  // Self-executing function to avoid global scope pollution
+  (function() {
+    // Named function for login modal initialization to prevent duplicate bindings
+    function initLoginModal() {
+      console.log('Initializing login modal');
+      
+      // Scoped element selection
+      const lightbox = document.getElementById('signin-lightbox');
+      if (!lightbox) {
+        console.error('Signin lightbox not found!');
+        return; // Exit if lightbox doesn't exist
+      }
+      
+      console.log('Lightbox found:', lightbox);
+      
+      // Find elements within the lightbox for better scoping
+      const closeButton = lightbox.querySelector('.close-button');
+      const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+      
+      // Find auth link in the header
+      const authLink = document.getElementById('auth-link');
+      
+      // Set up auth link click handler if it exists
+      if (authLink) {
+        console.log('Auth link found, setting up click handler');
+        
+        // Remove any existing listeners to prevent duplicates
+        authLink.removeEventListener('click', handleAuthLinkClick);
+        
+        // Add the click handler
+        authLink.addEventListener('click', handleAuthLinkClick);
+      } else {
+        console.warn('Auth link not found in the DOM');
+      }
+      
+      // Named handler function for auth link
+      function handleAuthLinkClick(e) {
+        e.preventDefault();
+        console.log('Auth link clicked');
+        
+        // Use setTimeout to ensure DOM is fully processed
+        setTimeout(() => {
+          if (lightbox) {
+            console.log('Opening login modal');
+            lightbox.classList.add('active');
+            document.body.classList.add('no-scroll');
+          }
+        }, 10);
+      }
+      
+      // Set up close button handler
+      if (closeButton) {
+        closeButton.removeEventListener('click', handleCloseClick);
+        closeButton.addEventListener('click', handleCloseClick);
+      }
+      
+      // Named handler function for close button
+      function handleCloseClick() {
+        console.log('Close button clicked');
         lightbox.classList.remove('active');
         document.body.classList.remove('no-scroll');
       }
+      
+      // Set up lightbox background click handler
+      lightbox.removeEventListener('click', handleLightboxClick);
+      lightbox.addEventListener('click', handleLightboxClick);
+      
+      // Named handler function for lightbox background
+      function handleLightboxClick(e) {
+        if (e.target === lightbox) {
+          console.log('Clicked outside form');
+          lightbox.classList.remove('active');
+          document.body.classList.remove('no-scroll');
+        }
+      }
+      
+      // Set up forgot password button handler
+      if (forgotPasswordBtn) {
+        forgotPasswordBtn.removeEventListener('click', handleForgotPassword);
+        forgotPasswordBtn.addEventListener('click', handleForgotPassword);
+      }
+      
+      // Named handler function for forgot password
+      function handleForgotPassword() {
+        alert('Please contact kapehehula@gmail.com to reset your password.');
+      }
+    }
+
+    // Multiple event listeners to handle different page load scenarios
+    
+    // 1. For Astro view transitions
+    document.addEventListener('astro:page-load', function() {
+      console.log('astro:page-load event fired');
+      initLoginModal();
     });
     
-    // Handle forgot password button click
-    if (forgotPasswordBtn) {
-      forgotPasswordBtn.addEventListener('click', () => {
-        alert('Please contact kapehehula@gmail.com to reset your password.');
-      });
+    // 2. For after view transitions complete
+    document.addEventListener('astro:after-swap', function() {
+      console.log('astro:after-swap event fired');
+      // Small delay to ensure DOM is updated
+      setTimeout(initLoginModal, 100);
+    });
+    
+    // 3. Backup for direct navigation
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOMContentLoaded event fired');
+      initLoginModal();
+    });
+    
+    // 4. Immediate execution check for already loaded pages
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      console.log('Document already loaded, initializing immediately');
+      // Small delay for immediate execution
+      setTimeout(initLoginModal, 10);
     }
-  });
+  })();
 </script>
+
 

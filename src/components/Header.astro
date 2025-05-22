@@ -81,117 +81,20 @@ console.log("Authentication status:", isLoggedIn);
                 </a>
             </li>
              <li class="cs-li cs-login">
-    <a href="/api/auth/TS%20signout" class="cs-li-link" id="auth-link">
-        {isLoggedIn ? 'Sign Out' : 'Member Login'}
-    </a>
+    <a href="#" class="cs-li-link" id="auth-link" data-logged-in={isLoggedIn.toString()}>
+    {isLoggedIn ? 'Sign Out' : 'Member Login'}
+</a>
 </li>
             </ul>
         </div>
     </nav>
 </header>
 </div>
+<div style="display: none;">
+  Login component rendered: {!isLoggedIn ? "Yes" : "No"}
+</div>
 
 {!isLoggedIn && <Login />}
-
-
-<script>
-  // Script to handle the sticky navigation
-document.addEventListener('DOMContentLoaded', function() {
-    const quoteSection = document.getElementById('quote-2141');
-    const navigation = document.getElementById('cs-navigation');
-    
-    // Calculate the total height including padding
-    function getTotalHeight() {
-        const quoteSectionHeight = quoteSection.offsetHeight;
-        // Add the padding-bottom of the quote icon (2rem = 32px at default font size)
-        const paddingBottom = 32; 
-        return quoteSectionHeight + paddingBottom;
-    }
-    
-    // Handle scroll behavior
-    function handleScroll() {
-        const totalHeight = getTotalHeight();
-        const scrollPosition = window.scrollY;
-        
-        // Add a small additional offset for smoother transition
-        const additionalOffset = 20;
-        
-        if (scrollPosition >= (totalHeight + additionalOffset)) {
-            navigation.classList.add('sticky');
-        } else {
-            navigation.classList.remove('sticky');
-        }
-    }
-    
-    // Initial check
-    handleScroll();
-    
-    // Add event listeners
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll);
-
-    // Add a global click handler
-    document.addEventListener('click', function(e) {
-        // Check if we clicked a link inside the navigation
-        if (e.target.tagName === 'A' && 
-            navigation.contains(e.target) && 
-            e.target.classList.contains('cs-li-link')) {
-            
-            // Close the menu
-            navigation.classList.remove('cs-active');
-            document.body.classList.remove('cs-open');
-            
-            // Get the toggle button at the time of the click
-            const toggleButton = document.getElementById('mobile-menu-toggle');
-            
-            // Only try to update the toggle button if it exists
-            if (toggleButton) {
-                toggleButton.setAttribute('aria-expanded', 'false');
-            }
-        }
-    }, true); // Use capture phase to ensure this runs before other handlers
-    
-    // Handle login link click
-    const loginLink = document.getElementById('login-link');
-    const signinLightbox = document.getElementById('signin-lightbox');
-    
-    if (loginLink && signinLightbox) {
-        loginLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            signinLightbox.classList.add('active');
-            document.body.classList.add('no-scroll');
-        });
-    }
-});
-</script>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Client-side check for authentication cookie
-    const hasAuthCookie = document.cookie.split(';').some(item => item.trim().startsWith('sb-access-token='));
-    const authLink = document.getElementById('auth-link');
-    
-    if (hasAuthCookie && authLink) {
-      // User is logged in
-      authLink.textContent = 'Sign Out';
-      authLink.href = '/api/auth/TS%20signout';
-    } else if (authLink) {
-      // User is not logged in
-      authLink.textContent = 'Member Login';
-      authLink.href = '#';
-      
-      // Add event listener for login lightbox
-      authLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        const signinLightbox = document.getElementById('signin-lightbox');
-        if (signinLightbox) {
-          signinLightbox.classList.add('active');
-          document.body.classList.add('no-scroll');
-        }
-      });
-    }
-  });
-</script>
                                 
 
 <style lang="less">
@@ -214,6 +117,11 @@ document.addEventListener('DOMContentLoaded', function() {
   /* Add padding at the bottom to account for the navigation's negative positioning */
   padding-bottom: 4.5rem; /* Match the largest negative bottom value */
   margin-bottom: 1.5rem;
+}
+
+#signin-lightbox {
+  z-index: 9999;
+  position: fixed;
 }
 
 
@@ -714,3 +622,70 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Sticky navigation logic
+    const quoteSection = document.getElementById('quote-2141');
+    const navigation = document.getElementById('cs-navigation');
+    const authLink = document.getElementById('auth-link');
+    const signinLightbox = document.getElementById('signin-lightbox');
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+
+    function getTotalHeight() {
+      const quoteSectionHeight = quoteSection?.offsetHeight || 0;
+      const paddingBottom = 32;
+      return quoteSectionHeight + paddingBottom;
+    }
+
+    function handleScroll() {
+      const totalHeight = getTotalHeight();
+      const scrollPosition = window.scrollY;
+      const additionalOffset = 20;
+
+      if (scrollPosition >= (totalHeight + additionalOffset)) {
+        navigation?.classList.add('sticky');
+      } else {
+        navigation?.classList.remove('sticky');
+      }
+    }
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll);
+
+    // Handle nav link clicks (close mobile menu)
+    document.addEventListener('click', function (e) {
+      if (
+        e.target.tagName === 'A' &&
+        navigation.contains(e.target) &&
+        e.target.classList.contains('cs-li-link')
+      ) {
+        navigation.classList.remove('cs-active');
+        document.body.classList.remove('cs-open');
+        mobileMenuToggle?.setAttribute('aria-expanded', 'false');
+      }
+    }, true);
+
+    // Cookie check for auth status
+    const hasAuthCookie = document.cookie.split(';').some(item =>
+      item.trim().startsWith('sb-access-token=')
+    );
+
+    if (authLink) {
+  // Get authentication state from data attribute instead of cookies
+  const isLoggedIn = authLink.getAttribute('data-logged-in') === 'true';
+  console.log('Auth state from data attribute:', isLoggedIn);
+  
+  if (isLoggedIn) {
+    // User is logged in
+    authLink.textContent = 'Sign Out';
+    authLink.href = '/api/auth/TS%20signout';
+  } else {
+    // User is not logged in
+    authLink.textContent = 'Member Login';
+    authLink.href = '#';
+  }
+}
+  });
+</script>
