@@ -170,25 +170,50 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
     const videoLyrics = document.getElementById('video-lyrics');
     const lyricsContent = document.getElementById('lyrics-content');
 
-    // Helper function to render lyrics
-    function renderLyrics(lyrics) {
-      if (!lyrics || typeof lyrics !== 'object') return '';
-      
-      let html = '';
-      Object.entries(lyrics).forEach(([section, lines]) => {
-        html += `<div class="lyrics-section">`;
-        html += `<h4>${section}</h4>`;
-        if (Array.isArray(lines)) {
-          lines.forEach(line => {
-            html += `<p>${line}</p>`;
-          });
+  // Helper function to render lyrics
+function renderLyrics(lyrics) {
+  console.log('renderLyrics called with:', lyrics); // DEBUG
+  
+  if (!lyrics || typeof lyrics !== 'object') {
+    console.log('No lyrics or invalid format'); // DEBUG
+    return '';
+  }
+  
+  let html = '';
+  Object.entries(lyrics).forEach(([section, lines]) => {
+    console.log(`Processing section: ${section}, lines:`, lines); // DEBUG
+    
+    html += `<div class="lyrics-section">`;
+    html += `<h4>${section}</h4>`;
+    if (Array.isArray(lines)) {
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const nextLine = lines[i + 1];
+        
+        if (line === '' || line.trim() === '') {
+          // Skip empty lines, but mark the next line for extra spacing
+          continue;
         } else {
-          html += `<p>${lines}</p>`;
+          // Check if the previous line was empty
+          const prevLine = lines[i - 1];
+          const isAfterBreak = prevLine === '' || prevLine?.trim() === '';
+          
+          if (isAfterBreak) {
+            html += `<p class="after-break">${line}</p>`;
+          } else {
+            html += `<p>${line}</p>`;
+          }
         }
-        html += `</div>`;
-      });
-      return html;
+      }
+    } else {
+      html += `<p>${lines}</p>`;
     }
+    html += `</div>`;
+  });
+  
+  console.log('Generated HTML:', html); // DEBUG
+  return html;
+}
 
     // Display video function
     function displayVideo(videoId) {
@@ -213,7 +238,7 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
 
       // Handle authors/credits
       if (video.authors) {
-        videoAuthors.textContent = `By ${video.authors}`;
+        videoAuthors.textContent = video.authors;
         videoAuthors.style.display = 'block';
       } else {
         videoAuthors.style.display = 'none';
@@ -574,7 +599,7 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 2rem;
-    min-height: 600px;
+    min-height: auto;
     position: sticky;
     top: 2rem;
     
@@ -622,6 +647,13 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
       font-weight: 500;
       margin-bottom: 1.5rem;
     }
+
+    .video-authors {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 2.5rem; /* This controls spacing before the video */
+    font-size: 1rem;
+  }
   }
   
   /* Video Player */
@@ -656,6 +688,8 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
         line-height: 1.6;
       }
     }
+
+    
     
     .video-lyrics {
       h3 {
@@ -666,34 +700,45 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
     }
   }
   
-  /* New Lyrics Structure */
-  .lyrics-content {
-    display: flex;
+/* New Lyrics Structure */
+.lyrics-content {
+  display: flex;
+  gap: 3rem; /* Increased gap between columns */
+  flex-wrap: wrap;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
     gap: 2rem;
-    flex-wrap: wrap;
+  }
+}
+  
+.lyrics-section {
+  flex: 1;
+  min-width: 10rem;
+  max-width: none;
+  
+  @media (min-width: 1200px) {
+    min-width: 10rem;
+  }
+  
+  h4 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #eee;
+    color: var(--primary);
+  }
+  
+  p {
+    margin-bottom: 0.5rem;
+    line-height: 1.6;
+    font-size: 1rem;
     
-    @media (max-width: 768px) {
-      flex-direction: column;
-    }
-    
-    .lyrics-section {
-      flex: 1;
-      min-width: 250px;
-      
-      h4 {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid #eee;
-        color: var(--primary);
-      }
-      
-      p {
-        margin-bottom: 0.5rem;
-        line-height: 1.6;
-      }
+    &.after-break {
+      margin-top: 1.5rem; /* Extra spacing for verse breaks */
     }
   }
+}
   
   /* Responsive adjustments */
   @media (max-width: 768px) {

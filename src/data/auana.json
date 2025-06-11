@@ -2,7 +2,7 @@
   {
     "id": "song-of-old-hawaii",
     "title": "A Song of Old Hawai'i & The One They Call Hawai'i",
-    "description": "A nostalgic song about changes to one's homeland",
+    "description": "",
     "category": "Auana",
     "vimeoEmbedUrl": "https://player.vimeo.com/video/414114234?h=dbd2d9477c",
     "lyrics": {
@@ -47,7 +47,7 @@
   {
     "id": "blue-hawaii",
     "title": "Blue Hawai'i",
-    "description": "A nostalgic song about changes to one's homeland",
+    "description": "",
     "category": "Auana",
     "vimeoEmbedUrl": "https://player.vimeo.com/video/59962382?h=dbd2d9477c",
     "authors": "Leo Robin and Ralph Rainger",
@@ -68,6 +68,154 @@
         "Dreams come true in blue Hawaiʻi",
         "And mine could all come true",
         "This magic night of nights with you"
+      ]
+    }
+  },
+  {
+    "id": "e-kuu-morning-dew",
+    "title": "E Kuʻu Morning Dew",
+    "description": "",
+    "category": "Auana",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/103211934?h=5ac124deab",
+    "authors": "Larry Kimura",
+    "lyrics": {
+      "Hawaiian": [
+        "E kuʻu morning dew",
+        "Alia mai, alia mai",
+        "Maliu mai ʻoe",
+        "I kaʻu e hea nei",
+        "E kali mai ʻoe",
+        "Iaʻu nei, iaʻu nei",
+        "ʻO wau iho nō",
+        "Me ke aloha",
+        "",
+        "Wehe mai ke alaula",
+        "ʻOliliko nei līhau",
+        "E hoʻohehelo ana",
+        "I neia papālina",
+        "I uka o Mānā",
+        "I ka ʻiu uhiwai",
+        "Ma laila nō kāua",
+        "E pili mau ai",
+        "Ma laila nō kāua",
+        "E pili mau ai"
+      ],
+      "English": [
+        "My morning dew",
+        "Wait a moment",
+        "Pay attention",
+        "To what I call out",
+        "Wait",
+        "For me, for me",
+        "I remain yours",
+        "With love",
+        "",
+        "Dawn breaks",
+        "And the wet dew sparkles",
+        "Causing a rosy color",
+        "On these cheeks",
+        "Up at Mānā",
+        "In the mist-shrouded highland",
+        "There, you and I",
+        "Will remain forever",
+        "There, you and I",
+        "Will remain forever"
+      ]
+    }
+  },
+  {
+    "id": "from-a-dancer",
+    "title": "From a Dancer",
+    "description": "",
+    "category": "Auana",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/226665937?h=564b09c286",
+    "authors": "",
+    "lyrics": {
+      "English": [
+        "When I leave, I will take from this place the lei that we share",
+        "When I leave, I will breathe in the grace of this love in the air",
+        "And it will live, as long as I live",
+        "And with every song that I hear",
+        "",
+        "I'll believe that my spirit still lives in the wind and the sea",
+        "And I'll breathe every memory of you as it wafts out to me",
+        "And I'll be here, as long as you're here",
+        "And wherever I go",
+        "",
+        "Ride on the songs you've been given",
+        "Fly back to us when you hear them, oh hear them",
+        "",
+        "I have seen all the signs of my life as they daily unfold",
+        "I am pleased to have joined with you all in the dance of my soul",
+        "And I will feel as long as you feel",
+        "That we're never apart",
+        "When I leave, oh when I leave"
+      ]
+    }
+  },
+  {
+    "id": "hawaiian-lullaby",
+    "title": "Hawaiian Lullaby",
+    "description": "",
+    "category": "Auana",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/59955792?h=d89c63eef4",
+    "authors": "Words by Hector Venegas & Peter Moon, music by Peter Moon",
+    "lyrics": {
+      "English": [
+        "Where I live, there are rainbows",
+        "With life in the laughter of morning and starry nights",
+        "Where I live, there are rainbows",
+        "And flowers full of colors and birds filled with song",
+        "",
+        "I can smile when it's raining",
+        "And touch the warmth of the sun",
+        "I hear children laughing in this place that I love",
+        "",
+        "Where I live, there are rainbows",
+        "With life and the laughter of morning and starry nights"
+      ]
+    }
+  },
+  {
+    "id": "he-mele-no-lilo",
+    "title": "He Mele No Lilo",
+    "description": "",
+    "category": "Auana",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/86140259?h=9a54d1ea96",
+    "authors": "",
+    "lyrics": {
+      "Hawaiian": [
+        "'O Kalākaua he inoa",
+        "'O Ka pua mae'ole i ka lā",
+        "Ka pua maila i ka mauna",
+        "I ke kuahiwi 'o Mauna Kea",
+        "Ke 'ā maila i Kīlauea",
+        "Mālamalama i Wahinekapu",
+        "A ka luna o Uwēkahuna",
+        "I ka pali kapu o Ka'auea",
+        "",
+        "Ea mai ke ali'i kia manu",
+        "Ua wehi i ka hulu o ka mamo",
+        "Ka pua nani a'o Hawai'i",
+        "'O Kalākaua he inoa",
+        "",
+        "'O Kalākaua he inoa",
+        "'O Ka pua mae'ole i ka lā",
+        "Ka pua maila i ka mauna",
+        "I ke kuahiwi 'o Mauna Kea",
+        "Ke 'ā maila i Kīlauea",
+        "Mālamalama i Wahinekapu",
+        "A ka luna o Uwēkahuna",
+        "I ka pali kapu o Ka'auea",
+        "",
+        "Mahalo nui 'ia ke Ali'i wahine",
+        "'O Lili'ulani 'O ka Wohi kū",
+        "Ea mai ke ali'i kia manu",
+        "Ua wehi i ka hulu o ka mamo",
+        "Ka pua nani a'o Hawai'i",
+        "'O Kalākaua he inoa",
+        "",
+        "He Inoa No Kalani Kalākaua Kulele"
       ]
     }
   }
