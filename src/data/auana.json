@@ -4,7 +4,7 @@
     "title": "A Song of Old Hawai'i & The One They Call Hawai'i",
     "description": "A nostalgic song about changes to one's homeland",
     "category": "Auana",
-    "vimeoId": "414114234/dbd2d9477c",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/414114234?h=dbd2d9477c",
     "lyrics": {
       "By Andy Williams": [
         "There's the perfume of a million flowers",
@@ -49,10 +49,10 @@
     "title": "Blue Hawai'i",
     "description": "A nostalgic song about changes to one's homeland",
     "category": "Auana",
-    "vimeoId": "59962382/dbd2d9477c",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/59962382?h=dbd2d9477c",
     "authors": "Leo Robin and Ralph Rainger",
     "lyrics": {
-      "english": [
+      "English": [
         "Perfume in the air and rare flowers everywhere",
         "And white shadows we could share at Waikīkī",
         "A sky full of stars and soft far away guitars",
