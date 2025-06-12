@@ -170,48 +170,30 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
     const videoLyrics = document.getElementById('video-lyrics');
     const lyricsContent = document.getElementById('lyrics-content');
 
-  // Helper function to render lyrics
+ // Helper function to render lyrics
 function renderLyrics(lyrics) {
-  console.log('renderLyrics called with:', lyrics); // DEBUG
-  
   if (!lyrics || typeof lyrics !== 'object') {
-    console.log('No lyrics or invalid format'); // DEBUG
     return '';
   }
   
   let html = '';
   Object.entries(lyrics).forEach(([section, lines]) => {
-    console.log(`Processing section: ${section}, lines:`, lines); // DEBUG
-    
     html += `<div class="lyrics-section">`;
     html += `<h4>${section}</h4>`;
     if (Array.isArray(lines)) {
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        const nextLine = lines[i + 1];
-        
-        if (line === '' || line.trim() === '') {
-          // Skip empty lines, but mark the next line for extra spacing
-          continue;
-        } else {
-          // Check if the previous line was empty
-          const prevLine = lines[i - 1];
-          const isAfterBreak = prevLine === '' || prevLine?.trim() === '';
-          
-          if (isAfterBreak) {
-            html += `<p class="after-break">${line}</p>`;
-          } else {
-            html += `<p>${line}</p>`;
-          }
+      lines.forEach(line => {
+        if (line === 'LINEBREAK') {
+          html += `<br><br>`;
+        } else if (line !== '') {
+          html += `<p>${line}</p>`;
         }
-      }
+      });
     } else {
       html += `<p>${lines}</p>`;
     }
     html += `</div>`;
   });
   
-  console.log('Generated HTML:', html); // DEBUG
   return html;
 }
 
