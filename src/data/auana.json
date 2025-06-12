@@ -242,5 +242,194 @@
         "It is the voice of the sea"
       ]
     }
+  },
+  {
+    "id": "jingle-bells",
+    "title": "Jingle Bells",
+    "description": "",
+    "category": "Auana",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/195228954?h=77beff2e60",
+    "authors": "James Pierpont",
+    "lyrics": {
+      "English": [
+        "Dashing through the snow",
+        "In a one-horse open sleigh",
+        "O'er the fields we go",
+        "Laughing all the way",
+        "Bells on bobtails ring",
+        "Making spirits bright",
+        "What fun it is to ride and sing",
+        "A sleighing song tonight",
+        "LINEBREAK",
+        "[Chorus]",
+        "Jingle bells, jingle bells",
+        "Jingle all the way",
+        "Oh, what fun it is to ride",
+        "In a one-horse open sleigh, hey",
+        "Jingle bells, jingle bells",
+        "Jingle all the way",
+        "Oh, what fun it is to ride",
+        "In a one-horse open sleigh"
+      ]
+    }
+  },
+  {
+    "id": "ka-lehua-punono",
+    "title": "Ka Lehua Punono",
+    "description": "",
+    "category": "Auana",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/103199198?h=7d90c0cff5",
+    "authors": "Kalikolihau Hannahs",
+    "lyrics": {
+      "Hawaiian": [
+        "Aia i ka lehua popohe maʻu",
+        "Kele lele na kini manu i ka lehulehu",
+        "Huli kaʻiʻiwi i ka pua hiwahiwa",
+        "Iwalea ka manu i ka lehua, punono",
+        "Nolu pe ka lehua i ka lihau",
+        "Hau mai nei ka makani oluʻolu",
+        "Lu ke kehau mai ka lihilihi",
+        "Hiaʻai wale i ka liko",
+        "Koʻili ka manu i ka pua lehua e",
+        "A inu i ka wai o ka hopoe pua",
+        "LINEBREAK",
+        "Puana ke mele o ka lehua punono",
+        "Noluehu pua hiwa i ke kiliʻohu",
+        "Hulali ka pua, ʻai ka manu i luna",
+        "Na ka ʻiʻiwi e hohoʻi mai",
+        "A inu i ka wai o ka hopoe pua",
+        "A inu i ka wai o ka pua punono"
+      ],
+      "English": [
+        "The mature lehua lies in the rainforest",
+        "Many birds fly amongst her branches",
+        "The ʻiʻiwi bird searches for the precious flower",
+        "The bird longs for the gorgeous lehua",
+        "The lehua is drenched in the lehua rain",
+        "A pleasant wind blows softly",
+        "The dewdrops fall from the petals",
+        "And the bird is delighted at the shine",
+        "The bird nestles into the lehua",
+        "And drinks the fully blossomed flowers nectar",
+        "LINEBREAK",
+        "Sung is the song of the gorgeous lehua",
+        "The precious flower is softened by the mist",
+        "The blossom glistens, the bird is drawn to it",
+        "It is the ʻiʻiwi bird that will always return",
+        "And drink of the lehua's nectar",
+        "And drink the lehua's nectar"
+      ]
+    }
+  },
+  {
+    "id": "ka-lehua-ula",
+    "title": "Ka Lehua 'Ula",
+    "description": "",
+    "category": "Auana",
+    "vimeoEmbedUrls": [
+      {
+        "label": "Video 1",
+        "url": "https://player.vimeo.com/video/73497126?h=d3d8fa365d"
+      },
+      {
+        "label": "Video 2",
+        "url": "https://player.vimeo.com/video/202498161?h=42cc19f02b"
+      }
+    ],
+    "authors": "Weldon Kekauoha",
+    "lyrics": {
+      "Hawaiian": [
+        "Aia ia 'e e ku'u pua",
+        "Ku'u pua Lehua 'ula o uka",
+        "Kau i ka uluwehi a 'o Pana'ewa",
+        "Milika'a e ka Inuwai",
+        "LINEBREAK",
+        "Ke 'ike aku i ka nani o ia pua",
+        "Ala mai nei ka 'i'wi polena",
+        "E mukiki a kena i ka wai onaona",
+        "A poniu i ke aloha",
+        "LINEBREAK",
+        "I ke aheahe a ka makani",
+        "Naue malie me he 'ahu'ula",
+        "Hea mai ana kou u'i",
+        "E kono mai no",
+        "I ane'i no kaua",
+        "A pili mau i ke aloha",
+        "LINEBREAK",
+        "Na'u no e hi'ipoe a li'a nei",
+        "I kou aloha makamae, e ku'u pua",
+        "'O 'oe no ka'u mana'o ai la",
+        "Ho'oni ana i ka pu'uwai",
+        "LINEBREAK",
+        "Eia ka puana a i lohe 'ia",
+        "Ku'u pua Lehua 'ula o uka",
+        "A'ohe ona lua e like ai",
+        "Kipuni mau i ka poli"
+      ],
+      "English": [
+        "There you are my sweetheart",
+        "My Lehua of the far reaches",
+        "Dwelling in the lushness of Pana'ewa",
+        "Caressed by the Inuwai winds",
+        "LINEBREAK",
+        "When gazing upon the beauty of (my) sweetheart",
+        "This 'i'iwi comes to life",
+        "(come) and partake and be quenched by the water",
+        "Until dizzy and overtaken with love",
+        "LINEBREAK",
+        "Your beauty calls to me",
+        "An invitation indeed",
+        "Let us two be together",
+        "Bound forever in love",
+        "As the gentle winds blow",
+        "Swaying to and fro as if a red draped cloak",
+        "LINEBREAK",
+        "For it is my desire to always cherish (you)",
+        "For your love is precious, my sweetheart",
+        "You are always in my thoughts",
+        "Causing a stirring in my heart",
+        "LINEBREAK",
+        "Here is my story to be heard by all",
+        "My native Lehua of the far reaches",
+        "For there is no one that can compare",
+        "Forever you shall be surrounded by love"
+      ]
+    }
+  },
+  {
+    "id": "ka-pilina",
+    "title": "Ka Pilina",
+    "description": "",
+    "category": "Auana",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/60062133?h=d6b0e1e0d1",
+    "authors": "Frank K. Hewitt",
+    "lyrics": {
+      "Hawaiian": [
+        "ʻŌʻioʻio ka ʻelepaio",
+        "I ke kulu o ke aumoe",
+        "Kani aʻe ka ʻapapane",
+        "Me kona leo nahenahe",
+        "Lohe ʻia ke ao",
+        "He mele ko ka ʻiʻiwi pōlena",
+        "Eia aʻe ka wahine",
+        "Halihali ʻia mai e nā manu",
+        "LINEBREAK",
+        "ʻO ka pilina ā kāua",
+        "ʻO ka pilina ā kāua"
+      ],
+      "English": [
+        "The elepaio chirps",
+        "As midnight approaches",
+        "The ʻapapane sings",
+        "With his beautiful voice",
+        "Heard at dawn,",
+        "A song of the ʻiʻiwi pōlena",
+        "Now approaches the woman,",
+        "Attended by the birds",
+        "LINEBREAK",
+        "Our love and intimacy",
+        "Our love and intimacy"
+      ]
+    }
   }
 ]

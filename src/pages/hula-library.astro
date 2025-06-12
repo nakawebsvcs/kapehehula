@@ -112,6 +112,11 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
           <div id="video-authors" class="video-authors" style="display: none;"></div> 
           
           <!-- Video player -->
+
+          <div class="video-player-section">
+  <div id="video-tabs" class="video-tabs" style="display: none;">
+    <!-- Tabs will be dynamically created here -->
+  </div>
           <div class="video-player-container">
             <iframe 
               id="video-iframe"
@@ -123,6 +128,7 @@ const videoDataJson = JSON.stringify(hulaVideos).replace(/</g, '\\u003c').replac
               class="video-iframe"
               referrerpolicy="strict-origin-when-cross-origin"
             ></iframe>
+          </div>
           </div>
           
           <div class="video-details">
@@ -198,62 +204,90 @@ function renderLyrics(lyrics) {
 }
 
     // Display video function
-    function displayVideo(videoId) {
-      console.log('displayVideo called with ID:', videoId);
-      
-      const video = videoData.find(v => v.id === videoId);
-      console.log('Found video:', video);
-      
-      if (!video) {
-        console.error('Video not found for ID:', videoId);
-        return;
-      }
+function displayVideo(videoId) {
+  console.log('displayVideo called with ID:', videoId);
+  const video = videoData.find(v => v.id === videoId);
+  console.log('Found video:', video);
+  
+  if (!video) {
+    console.error('Video not found for ID:', videoId);
+    return;
+  }
 
-      // Update video info
-      videoTitle.textContent = video.title;
-      videoCategory.textContent = video.category;
-      
-      // Use the full embed URL directly
-      console.log('Setting iframe src to:', video.vimeoEmbedUrl);
-      videoIframe.src = video.vimeoEmbedUrl;
-      videoIframe.title = video.title;
+  // Update video info
+  videoTitle.textContent = video.title;
+  videoCategory.textContent = video.category;
 
-      // Handle authors/credits
-      if (video.authors) {
-        videoAuthors.textContent = video.authors;
-        videoAuthors.style.display = 'block';
-      } else {
-        videoAuthors.style.display = 'none';
-      }
+  // Handle authors/credits
+  if (video.authors) {
+    videoAuthors.textContent = video.authors;
+    videoAuthors.style.display = 'block';
+  } else {
+    videoAuthors.style.display = 'none';
+  }
 
-      // Handle notes
-      if (video.notes) {
-        notesContent.textContent = video.notes;
-        videoNotes.style.display = 'block';
-      } else {
-        videoNotes.style.display = 'none';
-      }
+  // Handle video URLs - check if it's an array or single URL
+  const videoTabsContainer = document.getElementById('video-tabs');
+  
+  if (video.vimeoEmbedUrls && Array.isArray(video.vimeoEmbedUrls)) {
+    // Multiple videos - create tabs
+    videoTabsContainer.innerHTML = '';
+    videoTabsContainer.style.display = 'flex';
+    
+    video.vimeoEmbedUrls.forEach((videoObj, index) => {
+      const tab = document.createElement('button');
+      tab.className = `video-tab ${index === 0 ? 'active' : ''}`;
+      tab.textContent = videoObj.label;
+      tab.addEventListener('click', () => {
+        // Remove active class from all tabs
+        document.querySelectorAll('.video-tab').forEach(t => t.classList.remove('active'));
+        // Add active class to clicked tab
+        tab.classList.add('active');
+        // Update iframe src
+        videoIframe.src = videoObj.url;
+      });
+      videoTabsContainer.appendChild(tab);
+    });
+    
+    // Set initial video to first one
+    videoIframe.src = video.vimeoEmbedUrls[0].url;
+    
+  } else {
+    // Single video - hide tabs and use single URL
+    videoTabsContainer.style.display = 'none';
+    const videoUrl = video.vimeoEmbedUrl || video.vimeoEmbedUrls;
+    videoIframe.src = videoUrl;
+  }
 
-      // Handle lyrics
-      if (video.lyrics && Object.keys(video.lyrics).length > 0) {
-        lyricsContent.innerHTML = renderLyrics(video.lyrics);
-        videoLyrics.style.display = 'block';
-      } else {
-        videoLyrics.style.display = 'none';
-      }
+  videoIframe.title = video.title;
 
-      // Show video content, hide placeholder
-      console.log('Showing video content, hiding placeholder');
-      videoPlaceholder.style.display = 'none';
-      videoContent.style.display = 'block';
+  // Handle notes
+  if (video.notes) {
+    notesContent.textContent = video.notes;
+    videoNotes.style.display = 'block';
+  } else {
+    videoNotes.style.display = 'none';
+  }
 
-      // Scroll to video on mobile
-      if (window.innerWidth <= 1024) {
-        document.getElementById('video-display').scrollIntoView({
-          behavior: 'smooth'
-        });
-      }
-    }
+  // Handle lyrics
+  if (video.lyrics && Object.keys(video.lyrics).length > 0) {
+    lyricsContent.innerHTML = renderLyrics(video.lyrics);
+    videoLyrics.style.display = 'block';
+  } else {
+    videoLyrics.style.display = 'none';
+  }
+
+  // Show video content, hide placeholder
+  videoPlaceholder.style.display = 'none';
+  videoContent.style.display = 'block';
+
+  // Scroll to video on mobile
+  if (window.innerWidth <= 1024) {
+    document.getElementById('video-display').scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+}
 
     // Video item click handlers
     videoItems.forEach((item, index) => {
@@ -589,6 +623,51 @@ function renderLyrics(lyrics) {
       position: static;
     }
   }
+
+/* Add :global() around the video tab styles */
+:global(.video-tabs) {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+  
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+}
+
+:global(.video-tab) {
+  padding: 1rem 2rem;
+  background-color: white;
+  border: 2px solid var(--primary);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  
+  @media (max-width: 768px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    min-width: 100px;
+  }
+  
+  &:hover {
+    background-color: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  &.active {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+}
   
   /* Video Placeholder */
   .video-placeholder {
