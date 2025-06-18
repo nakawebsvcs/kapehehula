@@ -6,14 +6,29 @@
   <div class="lightbox-content">
     <button class="close-button" aria-label="Close sign in form" type="button">×</button>
     <h2>Sign In</h2>
-    <form id="signin-form" method="POST" action="/api/auth/TS%20signin" enctype="application/x-www-form-urlencoded">
+    <form id="signin-form">
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" id="email" name="email" required>
       </div>
       <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" required>
+        <div class="password-input-container">
+          <input type="password" id="password" name="password" required>
+          <button type="button" id="toggle-password" class="password-toggle" aria-label="Toggle password visibility">
+            <!-- Eye icon (hidden) -->
+            <svg id="eye-hidden" class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <!-- Eye slash icon (visible) -->
+            <svg id="eye-visible" class="eye-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+              <circle cx="12" cy="12" r="3"></circle>
+              <line x1="1" y1="1" x2="23" y2="23"></line>
+            </svg>
+          </button>
+        </div>
       </div>
       <div class="form-error" id="signin-error"></div>
       <button type="submit" class="submit-button">Sign In</button>
@@ -100,6 +115,45 @@
       }
     }
     
+    .password-input-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      
+      input {
+        padding-right: 3rem; // Make room for the toggle button
+      }
+      
+      .password-toggle {
+        position: absolute;
+        right: 0.75rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #666;
+        transition: color 0.2s ease;
+        
+        &:hover {
+          color: var(--primary);
+        }
+        
+        &:focus {
+          outline: none;
+          color: var(--primary);
+        }
+      }
+      
+      .eye-icon {
+        width: 20px;
+        height: 20px;
+        transition: opacity 0.2s ease;
+      }
+    }
+    
     .form-error {
       color: #e74c3c;
       margin-bottom: 1rem;
@@ -161,123 +215,5 @@
   }
 </style>
 
-<script>
-  // Self-executing function to avoid global scope pollution
-  (function() {
-    // Named function for login modal initialization to prevent duplicate bindings
-    function initLoginModal() {
-      console.log('Initializing login modal');
-      
-      // Scoped element selection
-      const lightbox = document.getElementById('signin-lightbox');
-      if (!lightbox) {
-        console.error('Signin lightbox not found!');
-        return; // Exit if lightbox doesn't exist
-      }
-      
-      console.log('Lightbox found:', lightbox);
-      
-      // Find elements within the lightbox for better scoping
-      const closeButton = lightbox.querySelector('.close-button');
-      const forgotPasswordBtn = document.getElementById('forgot-password-btn');
-      
-      // Find auth link in the header
-      const authLink = document.getElementById('auth-link');
-      
-      // Set up auth link click handler if it exists
-      if (authLink) {
-        console.log('Auth link found, setting up click handler');
-        
-        // Remove any existing listeners to prevent duplicates
-        authLink.removeEventListener('click', handleAuthLinkClick);
-        
-        // Add the click handler
-        authLink.addEventListener('click', handleAuthLinkClick);
-      } else {
-        console.warn('Auth link not found in the DOM');
-      }
-      
-      // Named handler function for auth link
-      function handleAuthLinkClick(e) {
-        e.preventDefault();
-        console.log('Auth link clicked');
-        
-        // Use setTimeout to ensure DOM is fully processed
-        setTimeout(() => {
-          if (lightbox) {
-            console.log('Opening login modal');
-            lightbox.classList.add('active');
-            document.body.classList.add('no-scroll');
-          }
-        }, 10);
-      }
-      
-      // Set up close button handler
-      if (closeButton) {
-        closeButton.removeEventListener('click', handleCloseClick);
-        closeButton.addEventListener('click', handleCloseClick);
-      }
-      
-      // Named handler function for close button
-      function handleCloseClick() {
-        console.log('Close button clicked');
-        lightbox.classList.remove('active');
-        document.body.classList.remove('no-scroll');
-      }
-      
-      // Set up lightbox background click handler
-      lightbox.removeEventListener('click', handleLightboxClick);
-      lightbox.addEventListener('click', handleLightboxClick);
-      
-      // Named handler function for lightbox background
-      function handleLightboxClick(e) {
-        if (e.target === lightbox) {
-          console.log('Clicked outside form');
-          lightbox.classList.remove('active');
-          document.body.classList.remove('no-scroll');
-        }
-      }
-      
-      // Set up forgot password button handler
-      if (forgotPasswordBtn) {
-        forgotPasswordBtn.removeEventListener('click', handleForgotPassword);
-        forgotPasswordBtn.addEventListener('click', handleForgotPassword);
-      }
-      
-      // Named handler function for forgot password
-      function handleForgotPassword() {
-        alert('Please contact kapehehula@gmail.com to reset your password.');
-      }
-    }
-
-    // Multiple event listeners to handle different page load scenarios
-    
-    // 1. For Astro view transitions
-    document.addEventListener('astro:page-load', function() {
-      console.log('astro:page-load event fired');
-      initLoginModal();
-    });
-    
-    // 2. For after view transitions complete
-    document.addEventListener('astro:after-swap', function() {
-      console.log('astro:after-swap event fired');
-      // Small delay to ensure DOM is updated
-      setTimeout(initLoginModal, 100);
-    });
-    
-    // 3. Backup for direct navigation
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('DOMContentLoaded event fired');
-      initLoginModal();
-    });
-    
-    // 4. Immediate execution check for already loaded pages
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-      console.log('Document already loaded, initializing immediately');
-      // Small delay for immediate execution
-      setTimeout(initLoginModal, 10);
-    }
-  })();
-</script>
 
 

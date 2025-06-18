@@ -4,11 +4,12 @@ import headerLogo from "../assets/images/header-logo.png";
 import headerLogoMobile from "../assets/images/header-logo-mobile.png";
 import Login from "./Login.astro";
 
-
-// Check if user is logged in by looking for the authentication cookie
-const isLoggedIn = Astro.cookies.has("sb-access-token");
+// Check if user is logged in by looking for the Firebase token cookie
+const isLoggedIn = Astro.cookies.has("firebase-token");
 console.log("Authentication status:", isLoggedIn);
 ---
+
+<script type="module" src="/src/js/login.js"></script>
 
 <!-- ============================================ -->
 <!--                  Header Wrapper              -->
@@ -98,6 +99,7 @@ console.log("Authentication status:", isLoggedIn);
                                 
 
 <style lang="less">
+/* Keep all your existing styles - they don't need to change */
 
     body.no-scroll {
     overflow: hidden;
@@ -623,69 +625,3 @@ console.log("Authentication status:", isLoggedIn);
 }
 </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Sticky navigation logic
-    const quoteSection = document.getElementById('quote-2141');
-    const navigation = document.getElementById('cs-navigation');
-    const authLink = document.getElementById('auth-link');
-    const signinLightbox = document.getElementById('signin-lightbox');
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-
-    function getTotalHeight() {
-      const quoteSectionHeight = quoteSection?.offsetHeight || 0;
-      const paddingBottom = 32;
-      return quoteSectionHeight + paddingBottom;
-    }
-
-    function handleScroll() {
-      const totalHeight = getTotalHeight();
-      const scrollPosition = window.scrollY;
-      const additionalOffset = 20;
-
-      if (scrollPosition >= (totalHeight + additionalOffset)) {
-        navigation?.classList.add('sticky');
-      } else {
-        navigation?.classList.remove('sticky');
-      }
-    }
-
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('resize', handleScroll);
-
-    // Handle nav link clicks (close mobile menu)
-    document.addEventListener('click', function (e) {
-      if (
-        e.target.tagName === 'A' &&
-        navigation.contains(e.target) &&
-        e.target.classList.contains('cs-li-link')
-      ) {
-        navigation.classList.remove('cs-active');
-        document.body.classList.remove('cs-open');
-        mobileMenuToggle?.setAttribute('aria-expanded', 'false');
-      }
-    }, true);
-
-    // Cookie check for auth status
-    const hasAuthCookie = document.cookie.split(';').some(item =>
-      item.trim().startsWith('sb-access-token=')
-    );
-
-    if (authLink) {
-  // Get authentication state from data attribute instead of cookies
-  const isLoggedIn = authLink.getAttribute('data-logged-in') === 'true';
-  console.log('Auth state from data attribute:', isLoggedIn);
-  
-  if (isLoggedIn) {
-    // User is logged in
-    authLink.textContent = 'Sign Out';
-    authLink.href = '/api/auth/TS%20signout';
-  } else {
-    // User is not logged in
-    authLink.textContent = 'Member Login';
-    authLink.href = '#';
-  }
-}
-  });
-</script>
