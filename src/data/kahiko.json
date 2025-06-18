@@ -1,62 +1,300 @@
 [
   {
-    "id": "aia-la-o-pele",
-    "title": "Aia La O Pele",
-    "thumbnail": "/assets/images/coa1.jpg",
+    "id": "a-koolau-wau",
+    "title": "A Ko'olau Wau",
+    "description": "",
     "category": "Kahiko",
-    "description": "A traditional hula honoring Pele, the volcano goddess",
-    "vimeoId": "123456789",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/147400131?h=2fefec97ff",
+    "authors": "",
     "lyrics": {
-      "hawaiian": [
-        "Aia la o Pele i Hawai'i",
-        "Ka wahine 'ai honua i Kahiki",
-        "Ke kalali maila i na paia o Kahawali",
-        "E ho'i e ho'i kaua",
-        "E ho'i i ke awa la i Puna",
-        "I ka papa lau 'awa o Kuki'i",
-        "I ka 'aina momona a Kane",
-        "Ke 'aina 'awa lau o Puna",
-        "Ke 'aina momona a Kane"
+      "Hawaiian": [
+        "A ko'olau wau ike I ka ua",
+        "E ko-kolo la-lepo mai ana e ka ua",
+        "LINEBREAK",
+        "E ka'i ku ana mai ana e ka ua",
+        "E nu mai ana e ka ua I ke kuahiwi",
+        "LINEBREAK",
+        "E po'i ana e ka ua me he nalu ala",
+        "E puka, e puka mai ana e ka ua",
+        "LINEBREAK",
+        "Waliwali ke one i ka hehi'a e ka ua",
+        "Ua holo-wai na kaha-wai",
+        "Ua ko-ke wale na pali",
+        "LINEBREAK",
+        "Aia ka wai la I ka ilina, he ilio",
+        "He ilio hae, ke nahu nei e puka"
       ],
-      "english": [
-        "There is Pele in Hawai'i",
-        "The woman who devoured the land at Kahiki",
-        "She is raging in the cliffs of Kahawali",
-        "Let us return, let us go back",
-        "Let us go back to the harbor at Puna",
-        "To the 'awa leaf platform of Kuki'i",
-        "To the fertile land of Kane",
-        "The land of abundant 'awa in Puna",
-        "The fertile land of Kane"
+      "English": [
+        "At Ko'olau I greeted the rain",
+        "The rains creeping and tossing the dust",
+        "LINEBREAK",
+        "Dancing in columns, the rains appear",
+        "Roaring rains through the mountains",
+        "LINEBREAK",
+        "The crest of the rains, break like the waves",
+        "An opening through which the rains appear",
+        "LINEBREAK",
+        "Pasty comes the earth from the stamping rains",
+        "Filling the streams with a rushing flood",
+        "The mountain walls leap with the rain",
+        "LINEBREAK",
+        "See the water chafing its bounds like a dog",
+        "A raging dog, gnawing its way to pass out"
       ]
-    },
-    "notes": "This mele honors Pele, the goddess of fire and volcanoes. The dance movements depict her power and the volcanic landscapes she creates."
+    }
   },
   {
-    "id": "kawika",
-    "title": "Kawika",
-    "thumbnail": "/assets/images/coa1.jpg",
+    "id": "aia-la-o-pele-i-hawaii",
+    "title": "A'ia La O Pele I Hawai'i",
+    "description": "",
+    "notes": "The traditional, chanted version of \"Aia lā 'o Pele\" belongs to the collection of Joseph Keali'iakamoku 'Īlālā'ole (1873–1965), one of the \"last great Hawaiian chanters to have been born in the 19th century\"",
     "category": "Kahiko",
-    "description": "A traditional mele honoring King David Kalākaua",
-    "vimeoId": "432156789",
+    "vimeoEmbedUrls": [
+      {
+        "label": "Video 1",
+        "url": "https://player.vimeo.com/video/173429207?h=3671bfe61d"
+      },
+      {
+        "label": "Video 2",
+        "url": "https://player.vimeo.com/video/173429208?h=0ea0d45cc3"
+      }
+    ],
+    "authors": "",
     "lyrics": {
-      "hawaiian": [
-        "Kawika e, e Kawika",
-        "Ku'u pua mae 'ole i ka lā",
-        "Ka uwila ma ka hikina",
-        "Malamalama Hawai'i",
-        "Ua noa, ua noa Hawai'i la",
-        "Ua noa ia Kawika Kalākaua"
+      "Hawaiian": [
+        "Aia lā 'o Pele i Hawai'i 'eā",
+        "Ke ha'a mai lā i Maukele 'eā",
+        "'Ūhī'ūhā mai ana 'eā",
+        "Ke nome a'e lā iā Puna, 'eā",
+        "'Owaka i ka lani, nokenoke",
+        "Ē Pele ē Pele ē.",
+        "LINEBREAK",
+        "Ka mea nani ka i Paliuli 'eā",
+        "Ke pulelo a'e lā i nā pali 'eā",
+        "Aia ka palena i Maui 'eā",
+        "'Āina o Kaululā'au 'eā",
+        "'Owaka i ka lani, nokenoke",
+        "Ē Pele ē Pele ē.",
+        "LINEBREAK",
+        "I hea kāua e la'i ai 'eā?",
+        "I ka 'ale nui a'e li'a nei 'eā",
+        "'Ā i luna , 'ā i lalo, ne'ene'e 'eā",
+        "'O Pele ka wahine mai Kahiki 'eā",
+        "'Owaka i ka lani, nokenoke",
+        "Ē Pele ē Pele ē.",
+        "LINEBREAK",
+        "Ha'ina 'ia mai ka puana 'eā",
+        "Aia lā 'o Pele i Hawai'i 'eā",
+        "Ha'ina hou mai ka puana 'eā",
+        "No Hi'iaka nō he inoa 'eā",
+        "'Owaka i ka lani, nokenoke",
+        "Ē Pele ē Pele ē."
       ],
-      "english": [
-        "David, oh David",
-        "My flower that never fades in the sun",
-        "The lightning in the east",
-        "Hawai'i is enlightened",
-        "Freed, Hawai'i is freed",
-        "Freed by David Kalākaua"
+      "English": [
+        "Pele is in Hawai'i",
+        "She is dancing at Maukele",
+        "She rumbles and mutters",
+        "As she consumes Puna.",
+        "Flashing in the heavens, on and on",
+        "O Pele, Pele.",
+        "LINEBREAK",
+        "The Beautiful One is at Paliuli",
+        "Rising over the cliffs",
+        "She is at the borders of Maui",
+        "Land of the chief Kaululā'au",
+        "Flashing in the heavens, on and on",
+        "O Pele, Pele.",
+        "LINEBREAK",
+        "Where will we find peace?",
+        "On the great billows we love",
+        "Blazing above, blazing below, hitching along",
+        "Pele is the woman from Kahiki",
+        "Flashing in the heavens, on and on",
+        "O Pele, Pele.",
+        "LINEBREAK",
+        "This is the end of my song",
+        "Pele is in Hawai'i",
+        "Tell again the refrain",
+        "In honor of Hi'iaka",
+        "Flashing in the heavens, on and on",
+        "O Pele, Pele."
       ]
-    },
-    "notes": "This traditional mele honors King David Kalākaua, who was instrumental in reviving hula and other Hawaiian cultural practices during his reign from 1874 to 1891."
+    }
+  },
+  {
+    "id": "e-ala-e",
+    "title": "E Ala E",
+    "description": "chanted before sunrise",
+    "category": "Kahiko",
+    "vimeoEmbedUrls": [
+      {
+        "label": "Video 1",
+        "url": "https://player.vimeo.com/video/173444697?h=1bb5d3d1c3"
+      },
+      {
+        "label": "Video 2",
+        "url": "https://player.vimeo.com/video/173444323?h=632514fb9d"
+      }
+    ],
+    "authors": "Pualani Kanahele",
+    "lyrics": {
+      "Hawaiian": [
+        "E ala e, ka lā i ka hikina,",
+        "LINEBREAK",
+        "I ka moana, ka moana hohonu,",
+        "LINEBREAK",
+        "Pi'i ka lewa, ka lewa nu'u,",
+        "LINEBREAK",
+        "I ka hikina, aia ka lā, e ala e!"
+      ],
+      "English": [
+        "Awaken/Arise, the sun in the east",
+        "LINEBREAK",
+        "From the ocean, the deep ocean,",
+        "LINEBREAK",
+        "Climbing to heaven, the highest heaven,",
+        "LINEBREAK",
+        "In the east, there is the sun, arise!"
+      ]
+    }
+  },
+  {
+    "id": "hele-aku-au-me-hiaka",
+    "title": "Hele Aku Au Me Hi'aka",
+    "description": "",
+    "category": "Kahiko",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/158825110?h=cadf71da60",
+    "authors": "",
+    "lyrics": {
+      "Hawaiian": [
+        "HELE AKU AU ME HI'IAKA",
+        "ME NA HOE WA'A O KAMOHOALI'I",
+        "LINEBREAK",
+        "HOE KA MO'I O KE KAI x 2",
+        "LINEBREAK",
+        "HOLO AKU MAKOU I KA MOANA",
+        "'AKU 'AKU E KA IHU LA O KA WA'A",
+        "LINEBREAK",
+        "HO'OKELE I NA KAI 'EWALU x 2",
+        "LINEBREAK",
+        "KE KOKOMO MAI LA KA WA'A",
+        "A LIKE ME KA WA'A HONUAIAKEA",
+        "LINEBREAK",
+        "HOE KAWA'A KA ULUA x 2",
+        "LINEBREAK",
+        "LI'U KA 'IKE I KA HOLO WA'A",
+        "HO'OMO'O I KA HOKU MAKAHAWA'A",
+        "LINEBREAK",
+        "HOE KA KUA MO'O OLELO I NA PO'E x 2",
+        "LINEBREAK",
+        "E O E KA HUAKI'I A PELE",
+        "ME NO HOE WA'A O KAMOHOALI'I",
+        "LINEBREAK",
+        "HOE KA MO'I O KE KAI x 2",
+        "LINEBREAK",
+        "Eoe"
+      ]
+    }
+  },
+  {
+    "id": "no-luna",
+    "title": "No Luna",
+    "description": "",
+    "category": "Kahiko",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/137671089?h=d7a4790972",
+    "authors": "",
+    "lyrics": {
+      "Hawaiian": [
+        "No luna ʻi ka hale kai o ka Maʻalewa",
+        "Nana ka maka i a Moananui-ka-lehua la",
+        "Noho i ke kai la maliu ē",
+        "I ku aʻela ka lehua ilaila la",
+        "Ea la, ea la, ea,",
+        "ilaila hoʻi, ilaila hoʻi",
+        "LINEBREAK",
+        "Hōpoe ka lehua kiʻekiʻe i luna lā",
+        "Makaʻu ke kanaka I ka lehua",
+        "Lilo ilalo e hele ai",
+        "Ea la, ea la, ea,",
+        "i lalo hoʻi, i lalo hoʻi",
+        "LINEBREAK",
+        "O keaʻau iliʻili nehe i ke kai la",
+        "Hoʻolono i ke kai aʻo Puna",
+        "Aʻo Puna i ka ulu hala la",
+        "Ea la, ea la, ea,",
+        "kai koʻo Puna, kai koʻo Puna",
+        "LINEBREAK",
+        "He inoa no Hiʻiaka I ka poli o Pele"
+      ],
+      "English": [
+        "On Mount Halekai hangs the Maʻalewa",
+        "Gazing at goddess Moananui-ka-lehua",
+        "Sitting peacefully by the sea",
+        "With lehua standing there",
+        "LINEBREAK",
+        "There, indeed. There, indeed",
+        "LINEBREAK",
+        "The lehua tree of Hopoe stands majestically tall",
+        "The lehua is fearful of man",
+        "Leaving him to walk on the ground",
+        "LINEBREAK",
+        "Down below. Down below, indeed",
+        "LINEBREAK",
+        "The pebbles at Keaʻau grind in the surf",
+        "The sea of Keaʻau calls to Puna",
+        "Fierce is the sea of Puna in the Hala groves",
+        "LINEBREAK",
+        "The rough sea of Puna. The rough sea of Puna"
+      ]
+    }
+  },
+  {
+    "id": "pele-kai",
+    "title": "Pele Kaʻi",
+    "description": "",
+    "category": "Kahiko",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/202499593?h=01e4f95d4a",
+    "authors": "",
+    "lyrics": {
+      "Hawaiian": [
+        "Hoʻopuka e ka lā ma ka hikina",
+        "Me ka huakaʻi hele no Kumukahi.",
+        "Haʻa mai nā ʻiwa me Hiʻiaka",
+        "Me Kapo Laka i ka uluwehiwehi.",
+        "Neʻe mai nā ʻiwa ma kuʻu alo",
+        "Me ke alo kapu o ka āiwaiwa.",
+        "Hoʻi no e ke kapu me nā aliʻi",
+        "E ola mākou apau loa.",
+        "Ea la, ea la, ea",
+        "LINEBREAK",
+        "He inoa no Hiʻiaka."
+      ],
+      "English": [
+        "Let the sun rise in the east,",
+        "Forth it goes on its journey to Kumukahi",
+        "The sea bird comes forth with Hiʻiaka,",
+        "Kapo emerges from the deep forest.",
+        "The birds draw close before me,",
+        "Before me the wonderful one.",
+        "Let the kapu go back to the chiefs",
+        "And let us all have life.",
+        "LINEBREAK",
+        "Rise, O sun in the east",
+        "With a procession going to Kumukahi",
+        "LINEBREAK",
+        "Dancing are the beautiful ones with Hiʻiaka",
+        "And Kapo-Laka in the verdant grove",
+        "LINEBREAK",
+        "Moving ahead are the dancers toward me",
+        "And to the sacred presence of the divine",
+        "LINEBREAK",
+        "Let the sacred ways return to the chiefs",
+        "Let us all give everlasting praise",
+        "LINEBREAK",
+        "Tra-la-la-la",
+        "LINEBREAK",
+        "In the name of Hiʻiaka-in-the-bosom-of Pele"
+      ]
+    }
   }
 ]

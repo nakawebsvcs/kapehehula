@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import auana from "../data/auana.json";
+import kahiko from "../data/kahiko.json";
 
 // Protect this page from unauthenticated access
 const isLoggedIn = Astro.cookies.has("firebase-token");
@@ -11,8 +12,11 @@ if (!isLoggedIn) {
 import fallbackImage from "../assets/images/coa1.jpg";
 const heroImage = { src: fallbackImage.src };
 
+// Combine both datasets
+const allVideos = [...auana, ...kahiko];
+
 // Sort videos alphabetically by title
-const hulaVideos = auana.sort((a, b) => a.title.localeCompare(b.title));
+const hulaVideos = allVideos.sort((a, b) => a.title.localeCompare(b.title));
 
 // Group videos by first letter
 const videosByLetter = hulaVideos.reduce((acc, video) => {
