@@ -15,6 +15,80 @@ console.log("🔥 Firebase imports successful");
 console.log("🔥 Auth object:", auth);
 console.log("🔥 DB object:", db);
 
+// Function to get cookie value
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
+  return null;
+}
+
+// Function to check if firebase token cookie exists and is valid
+function hasValidTokenCookie() {
+  const token = getCookie("firebase-token");
+  return !!token;
+}
+
+// Function to update UI based on actual auth state
+function updateAuthUI() {
+  const authLink = document.getElementById("auth-link");
+  if (!authLink) return;
+
+  const hasToken = hasValidTokenCookie();
+  const firebaseUser = auth.currentUser;
+
+  console.log(
+    "🔥 Updating UI - Cookie:",
+    hasToken,
+    "Firebase User:",
+    !!firebaseUser
+  );
+
+  // If no cookie, definitely show login regardless of Firebase user state
+  if (!hasToken) {
+    console.log("🔥 No token cookie, showing login");
+    authLink.textContent = "Member Login";
+    authLink.removeEventListener("click", handleSignOut);
+    authLink.addEventListener("click", handleLoginClick);
+
+    // If Firebase still thinks user is logged in but no cookie, sign them out
+    if (firebaseUser) {
+      console.log(
+        "🔥 Firebase user exists but no cookie, signing out silently"
+      );
+      signOut(auth).catch(console.error);
+    }
+  } else {
+    console.log("🔥 Token cookie exists, showing sign out");
+    authLink.textContent = "Sign Out";
+    authLink.removeEventListener("click", handleLoginClick);
+    authLink.addEventListener("click", handleSignOut);
+  }
+}
+
+// More aggressive checking function
+function aggressiveAuthCheck() {
+  console.log("🔥 Running aggressive auth check");
+
+  const hasToken = hasValidTokenCookie();
+  const firebaseUser = auth.currentUser;
+
+  console.log(
+    "🔥 Aggressive check - Cookie:",
+    hasToken,
+    "Firebase User:",
+    !!firebaseUser
+  );
+
+  // If there's a mismatch, prioritize the cookie state
+  if (!hasToken && firebaseUser) {
+    console.log("🔥 Mismatch detected: No cookie but Firebase user exists");
+    signOut(auth).catch(console.error);
+  }
+
+  updateAuthUI();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("🔥 Login script DOMContentLoaded fired");
 
@@ -62,24 +136,48 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Auth state listener
+  // Very frequent checking - every 30 seconds
+  setInterval(() => {
+    console.log("🔥 Interval auth check");
+    aggressiveAuthCheck();
+  }, 30 * 1000); // 30 seconds
+
+  // Check when page becomes visible
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+      console.log("🔥 Page visible, checking auth");
+      setTimeout(aggressiveAuthCheck, 100);
+    }
+  });
+
+  // Check on any user interaction
+  ["click", "keydown", "mousemove"].forEach((eventType) => {
+    document.addEventListener(
+      eventType,
+      () => {
+        // Throttle to avoid too many checks
+        if (
+          !document.lastAuthCheck ||
+          Date.now() - document.lastAuthCheck > 10000
+        ) {
+          document.lastAuthCheck = Date.now();
+          aggressiveAuthCheck();
+        }
+      },
+      { passive: true }
+    );
+  });
+
+  // Auth state listener - but prioritize cookie state
   onAuthStateChanged(auth, (user) => {
     console.log("🔥 Auth state changed:", user ? "logged in" : "logged out");
 
-    if (authLink) {
-      if (user) {
-        // User is signed in
-        authLink.textContent = "Sign Out";
-        authLink.removeEventListener("click", handleLoginClick);
-        authLink.addEventListener("click", handleSignOut);
-      } else {
-        // User is signed out
-        authLink.textContent = "Member Login";
-        authLink.removeEventListener("click", handleSignOut);
-        authLink.addEventListener("click", handleLoginClick);
-      }
-    }
+    // Always check against cookie state
+    setTimeout(aggressiveAuthCheck, 100);
   });
+
+  // Initial check
+  setTimeout(aggressiveAuthCheck, 500);
 
   // Handle login link click
   function handleLoginClick(e) {
@@ -104,12 +202,18 @@ document.addEventListener("DOMContentLoaded", () => {
       // Clear the cookie
       document.cookie =
         "firebase-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      // Force UI update
+      updateAuthUI();
       // Redirect to home
       window.location.href = "/";
     } catch (error) {
       console.error("🔥 Sign out error:", error);
     }
   }
+
+  // Make functions available to the interval checks
+  window.handleLoginClick = handleLoginClick;
+  window.handleSignOut = handleSignOut;
 
   // Close modal handlers
   if (closeButton) {
@@ -151,10 +255,10 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.textContent = "Signing in...";
         clearError();
 
-         console.log("🔥 Setting auth persistence...");
-         // Set persistence to LOCAL before signing in
-         await setPersistence(auth, browserLocalPersistence);
-         console.log("🔥 Attempting to sign in user:", email);
+        console.log("🔥 Setting auth persistence...");
+        // Set persistence to LOCAL before signing in
+        await setPersistence(auth, browserLocalPersistence);
+        console.log("🔥 Attempting to sign in user:", email);
 
         // Sign in with Firebase Auth
         const userCredential = await signInWithEmailAndPassword(
@@ -171,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const idToken = await user.getIdToken();
         console.log("🔥 ID token received");
 
-        // Store token in cookie for server-side auth checks
+        // Store token in cookie for server-side auth checks with shorter expiry
         console.log("🔥 Setting cookie...");
         document.cookie = `firebase-token=${idToken}; path=/; max-age=3600; secure; samesite=strict`;
         console.log("🔥 Cookie set");
@@ -224,6 +328,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Close modal
         console.log("🔥 Closing modal...");
         closeModal();
+
+        // Update UI immediately
+        updateAuthUI();
 
         // Redirect based on user role
         console.log("🔥 User role:", userRole);

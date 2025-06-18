@@ -11,10 +11,13 @@ console.log("Authentication status:", isLoggedIn);
 
 <script>
   import '../js/login.js';
-
-  // Add Firebase auth state monitoring
   import { onAuthStateChanged } from 'firebase/auth';
-  import { auth } from '../lib/firebase.js'; // Adjust path as needed
+  import { auth } from '../lib/firebase.js';
+  
+  // Function to check if user is logged in via cookie
+  function isUserLoggedIn() {
+    return document.cookie.includes('firebase-token');
+  }
   
   function updateAuthUI(isAuthenticated) {
     const authLink = document.getElementById('auth-link');
@@ -23,19 +26,26 @@ console.log("Authentication status:", isLoggedIn);
       authLink.setAttribute('data-logged-in', isAuthenticated.toString());
     }
     
-    // Show/hide login component if needed
-    const loginComponent = document.querySelector('.login-component'); // Adjust selector
+    const loginComponent = document.querySelector('.login-component');
     if (loginComponent) {
       loginComponent.style.display = isAuthenticated ? 'none' : 'block';
     }
   }
+
+  // Handle Members Area link clicks
+  function handleMembersAreaClick(event) {
+    if (!isUserLoggedIn()) {
+      event.preventDefault();
+      event.stopPropagation();
+      alert('Please log in to access the Members Area');
+      return false;
+    }
+  }
   
-  // Monitor auth state changes in real-time
   onAuthStateChanged(auth, (user) => {
     console.log('Auth state changed:', !!user);
     updateAuthUI(!!user);
     
-    // If user signed out and on protected page, redirect
     if (!user) {
       const protectedPages = ['/members-page', '/hula-library'];
       if (protectedPages.includes(window.location.pathname)) {
@@ -45,13 +55,25 @@ console.log("Authentication status:", isLoggedIn);
     }
   });
   
-  // Also check on page load as fallback
-  document.addEventListener('astro:page-load', () => {
-    // Check current auth state
-    const currentUser = auth.currentUser;
-    updateAuthUI(!!currentUser);
-  });
+  // Setup event listeners
+  function setupMembersAreaHandler() {
+    const membersLinks = [
+      document.querySelector('a[href="/members-page"]'),
+      document.getElementById('members-area-link')
+    ].filter(Boolean);
+    
+    membersLinks.forEach(link => {
+      link.removeEventListener('click', handleMembersAreaClick);
+      link.addEventListener('click', handleMembersAreaClick);
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', setupMembersAreaHandler);
+  document.addEventListener('astro:page-load', setupMembersAreaHandler);
+  setTimeout(setupMembersAreaHandler, 100);
 </script>
+
+
 
 <!-- ============================================ -->
 <!--                  Header Wrapper              -->
@@ -116,6 +138,11 @@ console.log("Authentication status:", isLoggedIn);
                 <li class="cs-li">
                     <a href="#contact" class="cs-li-link">
                         Contact
+                    </a>
+                </li>
+                <li class="cs-li">
+                    <a href="/members-page" class="cs-li-link" id="members-area-link">
+                        Members Area
                     </a>
                 </li>
                 <li class="cs-li cs-social">

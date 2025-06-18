@@ -34,16 +34,17 @@ const optimizedImage = { src: oldHalauPhoto.src };
           <h2>Latest Announcements</h2>
           <!-- This section can be replaced with Decap CMS content -->
           <div class="announcement">
-            <h3>Upcoming Practice Schedule</h3>
-            <p class="date">Posted: June 15, 2023</p>
-            <p>Halau classes are held on Sundays in Kahului. Please arrive 15 minutes early to prepare. Bring your pā'ū and water bottle.</p>
+            <h3>E komo mai! Welcome to the new website!</h3>
+            <p class="date">Posted: June 22, 2023</p>
+            <p>We hope this updated members' area will make it easier for you to find the information you need and enjoy the rich resources of Halau Hula Malani O Kapehe from over its many years! Mahalo for your patience as we continue the process of adding newer content like class videos. 
+              <br><br>Aloha no,<br><br> The web team 🌺</p>
           </div>
           
-          <div class="announcement">
-            <h3>Ho'ike Performance Preparation</h3>
-            <p class="date">Posted: June 10, 2023</p>
-            <p>Our annual Ho'ike is approaching. All haumāna should be practicing their assigned dances daily. Additional weekend rehearsals will be scheduled.</p>
-          </div>
+     <div class="announcement">
+            <h3>Class Dues</h3>
+            <p class="date">Posted: June 21, 2023</p>
+            <p>Quarterly class dues will next be due by July 31. 🌺 </p>
+          </div> 
         </div>
       </div>
     </div>
@@ -77,23 +78,25 @@ const optimizedImage = { src: oldHalauPhoto.src };
           <a href="/hula-library" class="resource-link">Browse Library</a>
         </div>
         
-        <div class="resource-card">
-          <div class="resource-icon">
-            <img src="/assets/images/lehua-removebg-preview.png" alt="Oli" />
-          </div>
-          <h3>Oli</h3>
-          <p>Oli resources to learn and practice</p>
-          <a href="#" class="resource-link">View Oli</a>
-        </div>
+        <div class="resource-card coming-soon">
+    <div class="coming-soon-banner">Coming Soon</div>
+    <div class="resource-icon">
+      <img src="/assets/images/lehua-removebg-preview.png" alt="Oli" />
+    </div>
+    <h3>Oli</h3>
+    <p>Oli resources to learn and practice</p>
+    <a href="#" class="resource-link disabled">View Oli</a>
+  </div>
 
-        <div class="resource-card">
-          <div class="resource-icon">
-            <img src="/assets/images/lehua-removebg-preview.png" alt="Video" />
-          </div>
-          <h3>Practice Videos</h3>
-          <p>Review class videos and practice at home</p>
-          <a href="#" class="resource-link">Watch Videos</a>
-        </div>
+  <div class="resource-card coming-soon">
+    <div class="coming-soon-banner">Coming Soon</div>
+    <div class="resource-icon">
+      <img src="/assets/images/lehua-removebg-preview.png" alt="Video" />
+    </div>
+    <h3>Practice Videos</h3>
+    <p>Review class videos and practice at home</p>
+    <a href="#" class="resource-link disabled">Watch Videos</a>
+  </div>
 
       </div>
     </div>
@@ -338,6 +341,17 @@ const optimizedImage = { src: oldHalauPhoto.src };
       transform: translateY(-5px);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     }
+
+    /* Coming soon styles */
+  &.coming-soon {
+    .resource-icon img {
+      opacity: 0.5;
+    }
+    
+    h3, p {
+      opacity: 0.7;
+    }
+  }
     
     .resource-icon {
       width: 60px;
@@ -379,8 +393,31 @@ const optimizedImage = { src: oldHalauPhoto.src };
       &:hover {
         color: var(--secondary);
       }
+&.disabled {
+      color: #ccc;
+      cursor: not-allowed;
+      pointer-events: none;
     }
   }
+}
+
+/* Coming Soon Banner */
+.coming-soon-banner {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 10px rgba(255, 107, 107, 0.3);
+  z-index: 10;
+}
+  
   
   /* Individual animation delays for cards */
   .resource-card:nth-child(1) {
