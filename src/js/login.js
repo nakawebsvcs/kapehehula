@@ -6,6 +6,8 @@ import {
   onAuthStateChanged,
   signOut,
   sendPasswordResetEmail,
+  setPersistence,
+  browserLocalPersistence,
 } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 
@@ -149,7 +151,10 @@ document.addEventListener("DOMContentLoaded", () => {
         submitButton.textContent = "Signing in...";
         clearError();
 
-        console.log("🔥 Attempting to sign in user:", email);
+         console.log("🔥 Setting auth persistence...");
+         // Set persistence to LOCAL before signing in
+         await setPersistence(auth, browserLocalPersistence);
+         console.log("🔥 Attempting to sign in user:", email);
 
         // Sign in with Firebase Auth
         const userCredential = await signInWithEmailAndPassword(
