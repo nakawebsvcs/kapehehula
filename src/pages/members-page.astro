@@ -2,7 +2,7 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 // Protect this page from unauthenticated access
-const isLoggedIn = Astro.cookies.has("sb-access-token");
+const isLoggedIn = Astro.cookies.has("firebase-token");
 if (!isLoggedIn) {
   return Astro.redirect("/");
 }

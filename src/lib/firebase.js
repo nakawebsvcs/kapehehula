@@ -14,14 +14,9 @@ const firebaseConfig = {
   appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
 };
 
-console.log("🔥 Firebase config:", {
-  apiKey: firebaseConfig.apiKey ? "Set" : "Missing",
-  authDomain: firebaseConfig.authDomain ? "Set" : "Missing",
-  projectId: firebaseConfig.projectId ? "Set" : "Missing",
-  storageBucket: firebaseConfig.storageBucket ? "Set" : "Missing",
-  messagingSenderId: firebaseConfig.messagingSenderId ? "Set" : "Missing",
-  appId: firebaseConfig.appId ? "Set" : "Missing",
-});
+// Temporary debug - remove after fixing
+console.log("Firebase config:", firebaseConfig);
+console.log("API Key:", import.meta.env.PUBLIC_FIREBASE_API_KEY);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
