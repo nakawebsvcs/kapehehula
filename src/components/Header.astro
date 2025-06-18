@@ -9,7 +9,9 @@ const isLoggedIn = Astro.cookies.has("firebase-token");
 console.log("Authentication status:", isLoggedIn);
 ---
 
-<script type="module" src="/src/js/login.js"></script>
+<script>
+  import '../js/login.js';
+</script>
 
 <!-- ============================================ -->
 <!--                  Header Wrapper              -->

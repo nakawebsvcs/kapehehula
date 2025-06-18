@@ -66,7 +66,8 @@ exports.inviteUser = functions.https.onCall(async (request) => {
       });
 
     // Set custom claims for admin users
-    if (request.data.role === "admin") {  // Fixed from request.auth.role to request.data.role
+    if (request.data.role === "admin") {
+      // Fixed from request.auth.role to request.data.role
       await admin.auth().setCustomUserClaims(userRecord.uid, { admin: true });
       console.log(`Set admin claim for user ${userRecord.uid}`);
     }
@@ -212,8 +213,8 @@ exports.deleteUser = functions.https.onCall(async (request) => {
 // Get all users (admin only)
 exports.getUsers = functions.https.onCall(async (request) => {
   console.log("getUsers called");
-  console.log("Context changed to request")
-  console.log("Context auth:", request.auth); // Log the auth object 
+  console.log("Context changed to request");
+  console.log("Context auth:", request.auth); // Log the auth object
 
   // Check if the request is made by an authenticated user
   if (!request.auth) {
