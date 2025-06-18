@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import DuesLightbox from "../components/DuesLightbox.astro";
 
 // Protect this page from unauthenticated access
 const isLoggedIn = Astro.cookies.has("firebase-token");
@@ -64,7 +65,7 @@ const optimizedImage = { src: oldHalauPhoto.src };
           </div>
           <h3>Dues Schedule</h3>
           <p>View current dues schedule and payment info</p>
-          <a href="#" class="resource-link">View Dues</a>
+           <a href="#" class="resource-link" data-lightbox-trigger="dues-lightbox">View Dues</a>
         </div>
         
         <div class="resource-card">
@@ -97,6 +98,65 @@ const optimizedImage = { src: oldHalauPhoto.src };
       </div>
     </div>
   </section>
+ <DuesLightbox />
+
+ <script is:inline>
+  function initializeDuesLightbox() {
+    const trigger = document.querySelector('[data-lightbox-trigger="dues-lightbox"]');
+    const lightbox = document.getElementById('dues-lightbox');
+    const closeBtn = document.querySelector('[data-close-lightbox="dues-lightbox"]');
+    
+    console.log('Trigger:', trigger);
+    console.log('Lightbox:', lightbox);
+    
+    if (!trigger || !lightbox) {
+      console.log('Elements not ready, waiting...');
+      setTimeout(initializeDuesLightbox, 100);
+      return;
+    }
+
+    // Open lightbox
+    trigger.addEventListener('click', (e) => {
+      e.preventDefault();
+      console.log('Opening lightbox');
+      lightbox.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+
+    // Close lightbox
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      });
+    }
+
+    // Close on overlay click
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    // Close on Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && lightbox?.classList.contains('active')) {
+        lightbox.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    console.log('Lightbox ready!');
+  }
+
+  // Start trying to initialize
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeDuesLightbox);
+  } else {
+    initializeDuesLightbox();
+  }
+</script>
 
 
 </BaseLayout>

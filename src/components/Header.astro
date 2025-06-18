@@ -11,6 +11,46 @@ console.log("Authentication status:", isLoggedIn);
 
 <script>
   import '../js/login.js';
+
+  // Add Firebase auth state monitoring
+  import { onAuthStateChanged } from 'firebase/auth';
+  import { auth } from '../lib/firebase.js'; // Adjust path as needed
+  
+  function updateAuthUI(isAuthenticated) {
+    const authLink = document.getElementById('auth-link');
+    if (authLink) {
+      authLink.textContent = isAuthenticated ? 'Sign Out' : 'Member Login';
+      authLink.setAttribute('data-logged-in', isAuthenticated.toString());
+    }
+    
+    // Show/hide login component if needed
+    const loginComponent = document.querySelector('.login-component'); // Adjust selector
+    if (loginComponent) {
+      loginComponent.style.display = isAuthenticated ? 'none' : 'block';
+    }
+  }
+  
+  // Monitor auth state changes in real-time
+  onAuthStateChanged(auth, (user) => {
+    console.log('Auth state changed:', !!user);
+    updateAuthUI(!!user);
+    
+    // If user signed out and on protected page, redirect
+    if (!user) {
+      const protectedPages = ['/members-page', '/hula-library'];
+      if (protectedPages.includes(window.location.pathname)) {
+        console.log('User signed out, redirecting from protected page');
+        window.location.href = '/';
+      }
+    }
+  });
+  
+  // Also check on page load as fallback
+  document.addEventListener('astro:page-load', () => {
+    // Check current auth state
+    const currentUser = auth.currentUser;
+    updateAuthUI(!!currentUser);
+  });
 </script>
 
 <!-- ============================================ -->

@@ -1,0 +1,272 @@
+---
+// No props needed since this is specific to dues
+---
+
+<div id="dues-lightbox" class="lightbox-overlay">
+  <div class="lightbox-container">
+    <div class="lightbox-header">
+      <h2 class="lightbox-title">Dues Schedule</h2>
+      <button class="lightbox-close" data-close-lightbox="dues-lightbox">
+  <span>&times;</span>
+</button>
+    </div>
+    <div class="lightbox-content">
+      <div class="dues-content">
+        <h3>Quarterly Dues Dates</h3>
+        <div class="dues-table">
+          <div class="dues-row dues-header">
+            <div class="dues-cell">Quarter</div>
+            <div class="dues-cell">Dues Due</div>
+          </div>
+          <div class="dues-row">
+            <div class="dues-cell">May - July 2025</div>
+            <div class="dues-cell">April 30</div>
+          </div>
+          <div class="dues-row">
+            <div class="dues-cell">Aug - Oct 2025</div>
+            <div class="dues-cell">July 31</div>
+          </div>
+          <div class="dues-row">
+            <div class="dues-cell">Nov/Dec 2025</div>
+            <div class="dues-cell">Oct 31</div>
+          </div>
+       <!--    <div class="dues-row">
+            <div class="dues-cell">Jan - March 2026</div>
+            <div class="dues-cell">Dec 31</div>
+          </div> -->
+        </div>
+        
+          <h4>Dues Amounts</h4>
+        <ul>
+          <li>Adults . . . . . $115</li>
+          <li>Opio . . . . . $105</li>
+          <li><em>Note: Dues for partial quarters will be prorated</em></li>
+        </ul>
+        
+        <h4>Payment Information</h4>
+        <ul>
+          <li><a href="https://venmo.com/u/Mapuana-Samonte" target="_blank">Venmo: @Mapuana-Samonte</a></li>
+          <li>PayPal: Camille Samonte</li>
+          <li>Check: Make payable to Mapuana Samonte</li>
+          <li>Cash is accepted, please bring to class</li>
+        </ul>
+        
+        <div class="contact-info">
+          <p><strong>Questions about dues?</strong><br>
+          Contact Kaimana at 808-281-4741</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+  }
+  
+  .lightbox-container {
+    background: white;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    
+    .lightbox-overlay.active & {
+      transform: scale(1);
+    }
+  }
+  
+  .lightbox-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #eee;
+    background-color: #f8f9fa;
+    
+    .lightbox-title {
+      margin: 0;
+      font-size: 1.5rem;
+      color: var(--primary);
+      font-family: "Cinzel", "Arial", serif;
+      font-weight: 400;
+    }
+    
+    .lightbox-close {
+      background: none;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #666;
+      padding: 0;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #e9ecef;
+        color: var(--primary);
+      }
+    }
+  }
+  
+  .lightbox-content {
+    padding: 2rem;
+    max-height: calc(90vh - 100px);
+    overflow-y: auto;
+    
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 10px;
+    }
+  }
+  
+  .dues-content {
+    h3, h4 {
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    h4 {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+    }
+
+    ul li a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: 600;
+      border-bottom: 1px solid transparent;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        color: var(--secondary, #8B4513);
+        border-bottom-color: var(--primary);
+        text-decoration: none;
+      }
+  }
+  
+  .dues-table {
+    margin-bottom: 2rem;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .dues-row {
+    display: flex;
+    
+    &.dues-header {
+      background-color: var(--primary);
+      color: white;
+      font-weight: bold;
+    }
+    
+    &:not(.dues-header) {
+      background-color: #f8f9fa;
+      
+      &:nth-child(even) {
+        background-color: #e9ecef;
+      }
+    }
+  }
+  
+  .dues-cell {
+    flex: 1;
+    padding: 1rem;
+    border-right: 1px solid #dee2e6;
+    
+    &:last-child {
+      border-right: none;
+      text-align: right;
+      font-weight: 600;
+    }
+  }
+  
+  .dues-content ul {
+    margin-bottom: 1.5rem;
+    
+    li {
+      margin-bottom: 0.5rem;
+      line-height: 1.5;
+    }
+  }
+  
+  .contact-info {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+    text-align: center;
+    
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .lightbox-overlay {
+      padding: 1rem;
+    }
+    
+    .lightbox-header {
+      padding: 1rem 1.5rem;
+      
+      .lightbox-title {
+        font-size: 1.3rem;
+      }
+    }
+    
+    .lightbox-content {
+      padding: 1.5rem;
+    }
+    
+    .dues-cell {
+      padding: 0.75rem;
+      font-size: 0.9rem;
+    }
+  }
+</style>
