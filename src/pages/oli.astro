@@ -106,7 +106,7 @@ const oliDataJson = JSON.stringify(oliChants).replace(/</g, '\\u003c').replace(/
       <div id="oli-display" class="oli-display">
         <div id="oli-placeholder" class="oli-placeholder">
           <div class="placeholder-icon">🎵</div>
-          <p>Select an oli from the library to view</p>
+          <p>Select an oli from the library to display</p>
         </div>
         
         <div id="oli-content" class="oli-content" style="display: none;">
@@ -114,21 +114,27 @@ const oliDataJson = JSON.stringify(oliChants).replace(/</g, '\\u003c').replace(/
      <!--     <div id="oli-category" class="oli-display-category"></div> -->
           <div id="oli-authors" class="oli-authors" style="display: none;"></div> 
           
-          <!-- Audio player -->
-          <div class="audio-player-section">
-            <div id="audio-tabs" class="audio-tabs" style="display: none;">
-              <!-- Tabs will be dynamically created here -->
-            </div>
-            <div class="audio-player-container">
-              <audio 
-                id="audio-player"
-                controls
-                class="audio-player"
-              >
-                Your browser does not support the audio element.
-              </audio>
-            </div>
-          </div>
+         <!-- Audio player -->
+<div class="audio-player-section">
+  <div id="audio-tabs" class="audio-tabs" style="display: none;">
+    <!-- Tabs will be dynamically created here -->
+  </div>
+  <div class="audio-player-container">
+    <div id="no-audio-banner" class="no-audio-banner" style="display: none;">
+      <div class="no-audio-content">
+        <span class="no-audio-icon">🎵</span>
+        <span class="no-audio-text">No audio available</span>
+      </div>
+    </div>
+    <audio 
+      id="audio-player"
+      controls
+      class="audio-player"
+    >
+      Your browser does not support the audio element.
+    </audio>
+  </div>
+</div>
           
           <div class="oli-details">
             <div id="oli-notes" class="oli-notes" style="display: none;">
@@ -225,13 +231,17 @@ const oliDataJson = JSON.stringify(oliChants).replace(/</g, '\\u003c').replace(/
       oliAuthors.style.display = 'none';
     }
 
-   // Handle audio URLs - check if it's an array or single URL
+  // Handle audio URLs - check if it's an array or single URL
 const audioTabsContainer = document.getElementById('audio-tabs');
+const audioPlayer = document.getElementById('audio-player');
+const noAudioBanner = document.getElementById('no-audio-banner');
 
 if (chant.audioUrls && Array.isArray(chant.audioUrls)) {
   // Multiple audio files - create tabs
   audioTabsContainer.innerHTML = '';
   audioTabsContainer.style.display = 'flex';
+  noAudioBanner.style.display = 'none';
+  audioPlayer.style.display = 'block';
   
   chant.audioUrls.forEach((audioObj, index) => {
     const tab = document.createElement('button');
@@ -251,11 +261,17 @@ if (chant.audioUrls && Array.isArray(chant.audioUrls)) {
   // Set initial audio to first one
   audioPlayer.src = chant.audioUrls[0].url;
   
-} else {
-  // Single audio file - hide tabs and use single URL
+} else if (chant.audioUrl && chant.audioUrl.trim() !== '') {
+  // Single audio file - hide tabs and use single URL (only if audioUrl is not empty)
   audioTabsContainer.style.display = 'none';
-  const audioUrl = chant.audioUrl;
-  audioPlayer.src = audioUrl;
+  noAudioBanner.style.display = 'none';
+  audioPlayer.style.display = 'block';
+  audioPlayer.src = chant.audioUrl;
+} else {
+  // No audio available - show banner and hide player
+  audioTabsContainer.style.display = 'none';
+  audioPlayer.style.display = 'none';
+  noAudioBanner.style.display = 'flex';
 }
 
     // Handle notes
@@ -760,6 +776,49 @@ if (chant.audioUrls && Array.isArray(chant.audioUrls)) {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
   }
+
+  /* No Audio Banner */
+.no-audio-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  
+  .no-audio-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #6c757d;
+    font-size: 1.1rem;
+    font-weight: 500;
+    
+    .no-audio-icon {
+      font-size: 1.5rem;
+      opacity: 0.7;
+    }
+    
+    .no-audio-text {
+      font-family: inherit;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    padding: 1.25rem 1.5rem;
+    
+    .no-audio-content {
+      font-size: 1rem;
+      
+      .no-audio-icon {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
   
   /* Oli Placeholder */
   .oli-placeholder {

@@ -3,7 +3,7 @@
     "id": "aua-ia",
     "title": "Au'a 'Ia",
     "notes": "(translation from Ka 'Aha Hula 'O Hālauaoloa program booklet)",
-    "audioUrl": "https://player.vimeo.com/video/147400131?h=2fefec97ff",
+    "audioUrl": "",
     "authors": "Keaulumoku",
     "lyrics": {
       "Hawaiian": [
@@ -56,7 +56,7 @@
     "id": "e-ala-e",
     "title": "E Ala E",
     "notes": "chanted before sunrise",
-    "audioUrl": "/audio/oli/e-ala-e.mp3",
+    "audioUrl": "/assets/audio/e-ala-e.m4a",
     "authors": "Pualani Kanahele",
     "lyrics": {
       "Hawaiian": [
@@ -76,6 +76,199 @@
         "Climbing to heaven, the highest heaven,",
         "LINEBREAK",
         "In the east, there is the sun, arise!"
+      ]
+    }
+  },
+  {
+    "id": "e-kanehoalani-e",
+    "title": "E Kānehoalani Ē",
+    "notes": "Chanted at sunrise and sunset",
+    "audioUrl": "",
+    "authors": "",
+    "lyrics": {
+      "Hawaiian": [
+        "E Kānehoalani ē",
+        "E Kānehoalani ē",
+        "Aloha kāua",
+        "Kau ka hōkū ho'okahi",
+        "Hele i ke ala loa",
+        "Aloha kama kūkū kapa a ka wahine",
+        "He wahine lohiau",
+        "Nānā i ka makani",
+        "He makani lohiau",
+        "Hā'upu mai o loko ē."
+      ],
+      "English": [
+        "O Kānehoalani",
+        "O Kānehoalani",
+        "Greetings to the two of us",
+        "The one star that is suspended",
+        "And travels the long pathway",
+        "Greetings to the child of the kapa beating woman",
+        "An inactive woman",
+        "observing the wind",
+        "An inert wind smoldering within."
+      ]
+    }
+  },
+  {
+    "id": "na-aumakua",
+    "title": "Nā Aumākua",
+    "notes": "",
+    "audioUrl": "",
+    "authors": "Traditional/Edith Kanaka'ole Foundation",
+    "lyrics": {
+      "Hawaiian": [
+        "Nā 'aumākua mai ka lā hiki a ka lā kau",
+        "Maui ka ho'oku'i a ka hālāwai.",
+        "Nā 'aumākua iā ka hina kua, iā ka hina alo",
+        "Iā ka'a'ākau i ka lani.",
+        "O kīhā i ka lani",
+        "'Owē i ka lani,",
+        "Nunulu i ka lani,",
+        "Kāholo i ka lani.",
+        "Eia ka pulapula a 'oukou 'o Mauna A Wākea."
+      ],
+      "English": [
+        "You ancestral dieties from the rising to the setting sun",
+        "From the zenith to the horizon",
+        "You ancestral dieties who stand at our back and at our front",
+        "You gods who stand at our right hand",
+        "A breathing in the heavens,",
+        "An utterance in the heavens,",
+        "A clear ringing voice in the heavens,",
+        "A voice reverberating in the heavens.",
+        "Here is your descendant Mauna A Wākea"
+      ]
+    }
+  },
+  {
+    "id": "oli-aloha",
+    "title": "Oli Aloha",
+    "notes": "(GREETING CHANT)",
+    "audioUrl": "/assets/audio/oli-aloha.m4a",
+    "authors": "Traditional",
+    "lyrics": {
+      "Hawaiian": [
+        "Onaona i ka hala me ka lehua",
+        "LINEBREAK",
+        "He hale lehua nō ia na ka noe",
+        "LINEBREAK",
+        "O ka'u nō ia e 'ano'i nei",
+        "LINEBREAK",
+        "E li'a nei ho'i o ka hiki mai",
+        "LINEBREAK",
+        "A hiki mai nō 'oe/ 'oukou / mākou",
+        "LINEBREAK",
+        "A hiki pū nō me ke aloha",
+        "LINEBREAK",
+        "Aloha ē...Aloha ē...Aloha ē."
+      ],
+      "English": [
+        "Fragrant with hala and lehua",
+        "LINEBREAK",
+        "A house of lehua for the mist",
+        "LINEBREAK",
+        "It is mine to cherish",
+        "LINEBREAK",
+        "Longing for your arrival",
+        "LINEBREAK",
+        "For when you / you folks / we/ come",
+        "LINEBREAK",
+        "Love comes with you."
+      ]
+    }
+  },
+  {
+    "id": "oli-komo",
+    "title": "Oli Komo",
+    "notes": "(ENTRANCE CHANT) by Kumu Kaui Zuttermiester",
+    "audioUrl": "/assets/audio/Oli-Komo.m4a",
+    "authors": "Kumu Kaui Zuttermiester",
+    "lyrics": {
+      "Hawaiian": [
+        "Liu liu wale i ka uka o ka Holalele",
+        "Mauka makai o ka Papala-e",
+        "E komo, e komo aku ho'i au maloko",
+        "Ina ka pu'u nui o waho nei la e",
+        "He anu e, he anu e, he ko'e ko'e wale no",
+        "aa-ee-ii-oo-uu (quietly to a hush)"
+      ],
+      "English": [
+        "Cold is the uplands of Holalele",
+        "The upper and ocean areas of Papala-e",
+        "Enter, enter I within",
+        "For a desire is building in me",
+        "A cold, a cold chill for the wet and cold",
+        "aa-ee-ii-oo-uu"
+      ]
+    }
+  },
+  {
+    "id": "o-na-oiwi-o-hawaii",
+    "title": "o Nā 'Oiwi o Hawai'i 'o Ka 'Ohana",
+    "notes": "(your 'ohana name)",
+    "audioUrl": "",
+    "authors": "Traditional",
+    "lyrics": {
+      "Hawaiian": [
+        "E mālama 'oukau iā mākou",
+        "E ulu i ka lani",
+        "E ulu i ka honua",
+        "E ulu i ka pae 'āina o Hawai'i",
+        "E hō mai ka 'ike",
+        "E hō mai ka ikaika",
+        "E hō mai ke akamai,",
+        "E hō mai ka maopopo pono,",
+        "E hō mai ka 'ike pāpālua,",
+        "E hō mai ka mana."
+      ],
+      "English": [
+        "Safegaurd us",
+        "May the heavens flourish,",
+        "May the earth flourish",
+        "May the whole archipelago of Hawai'i flourish.",
+        "Grant me knowledge,",
+        "Grant me strength,",
+        "Grant me expertise,",
+        "Grant me true understanding,",
+        "Grant me deep insight,",
+        "Grant me spiritual power."
+      ]
+    }
+  },
+  {
+    "id": "puuhonua-o-kukuipuka",
+    "title": "Pu'uhonua o Kukuipuka",
+    "notes": "A sacred Heiau (Hawaiian Temple) in Kahakuloa, Maui. Rediscovered and restored by ohana & Kahu Lei'ohu Ryder & Akoni Akana. It is a place of prayer, prophecy, spiritual refuge, peace & healing.",
+    "audioUrl": "/assets/audio/puuhonua-o-kukuipuka.m4a",
+    "authors": "Traditional",
+    "lyrics": {
+      "Hawaiian": [
+        "'Eia Pu'uhonua o Kukuipuka",
+        "He wahi Māluhia",
+        "He wahi Aloha",
+        "He wahi Mālamalama",
+        "LINEBREAK",
+        "'Auhea 'oe e Nā Kupuna",
+        "Ke kali nei makou",
+        "Ka Hāwanawana o kou akamai",
+        "Ha'awi mai keia akamai",
+        "LINEBREAK",
+        "Aloha e, Aloha e"
+      ],
+      "English": [
+        "Here is Kukuipuka",
+        "A place of peace",
+        "A place of Love",
+        "A place of Light",
+        "LINEBREAK",
+        "Where are you Kupuna?",
+        "We wait",
+        "for the whisper of your wisdom",
+        "Grant us wisdom",
+        "LINEBREAK",
+        "Aloha e, Aloha e"
       ]
     }
   }
