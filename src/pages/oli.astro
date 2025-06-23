@@ -1,0 +1,916 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import oli from "../data/oli.json";
+
+// Protect this page from unauthenticated access
+const isLoggedIn = Astro.cookies.has("firebase-token");
+if (!isLoggedIn) {
+  return Astro.redirect("/");
+}
+
+import fallbackImage from "../assets/images/coa1.jpg";
+const heroImage = { src: fallbackImage.src };
+
+// Sort oli alphabetically by title
+const oliChants = oli.sort((a, b) => a.title.localeCompare(b.title));
+
+// Group oli by first letter
+const oliByLetter = oliChants.reduce((acc, chant) => {
+  const firstLetter = chant.title.charAt(0).toUpperCase();
+  if (!acc[firstLetter]) {
+    acc[firstLetter] = [];
+  }
+  acc[firstLetter].push(chant);
+  return acc;
+}, {});
+
+const letters = Object.keys(oliByLetter).sort();
+
+// Safely serialize the data for JavaScript
+const oliDataJson = JSON.stringify(oliChants).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+---
+
+<BaseLayout
+  title="Oli Library | Hālau Hula Malani O Kapehe"
+  description="Browse our collection of oli (chants) with audio, lyrics, and translations for haumāna of Hālau Hula Malani O Kapehe."
+  preloadedImage={heroImage}
+>
+    <!-- Hero Section -->
+  <section id="library-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="cinzel">Oli Library</h1>
+      <div class="divider"></div>
+      <p class="hero-description">
+        Access our collection of oli (chants) with audio, lyrics, and translations for practice and study.
+      </p>
+    </div>
+  </section>
+
+  <section id="library-content">
+    <div class="cs-container">
+      <!-- Top Section: Oli Index -->
+      <div class="library-index">
+        <!-- Search -->
+        <div class="search-container">
+          <input 
+            type="text" 
+            id="oli-search" 
+            placeholder="Search by title..." 
+            class="search-input"
+          />
+        </div>
+
+        <!-- Filter Buttons 
+        <div class="filter-container">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="Traditional">Traditional</button>
+          <button class="filter-btn" data-filter="Modern">Modern</button>
+        </div> -->
+
+        <!-- Alphabet Index -->
+        <div class="alphabet-index">
+          {letters.map(letter => (
+            <button class="letter-link" data-letter={letter}>{letter}</button>
+          ))}
+        </div>
+
+        <!-- Oli List - Grid Layout -->
+        <div class="oli-grid">
+          {letters.map(letter => (
+            <div id={`letter-${letter}`} class="letter-section" data-letter={letter}>
+              <button class="letter-heading" data-letter={letter}>
+                <span class="letter-text">{letter}</span>
+                <span class="collapse-icon">▼</span>
+              </button>
+              <div class="oli-list collapsed">
+                {oliByLetter[letter].map(chant => (
+                  <div 
+                    class="oli-item" 
+                    data-category-disabled={chant.category} 
+                    data-oli-id={chant.id}
+                    data-title={chant.title.toLowerCase()}
+                  >
+                    <h3 class="oli-title">{chant.title}</h3>
+                    <span class="oli-category">{chant.category}</span>
+                    {chant.description && <p class="oli-description">{chant.description}</p>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Bottom Section: Oli Display -->
+      <div id="oli-display" class="oli-display">
+        <div id="oli-placeholder" class="oli-placeholder">
+          <div class="placeholder-icon">🎵</div>
+          <p>Select an oli from the library to view</p>
+        </div>
+        
+        <div id="oli-content" class="oli-content" style="display: none;">
+          <h2 id="oli-title" class="oli-display-title"></h2>
+     <!--     <div id="oli-category" class="oli-display-category"></div> -->
+          <div id="oli-authors" class="oli-authors" style="display: none;"></div> 
+          
+          <!-- Audio player -->
+          <div class="audio-player-section">
+            <div id="audio-tabs" class="audio-tabs" style="display: none;">
+              <!-- Tabs will be dynamically created here -->
+            </div>
+            <div class="audio-player-container">
+              <audio 
+                id="audio-player"
+                controls
+                class="audio-player"
+              >
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+          
+          <div class="oli-details">
+            <div id="oli-notes" class="oli-notes" style="display: none;">
+              <h3>Notes</h3>
+              <p id="notes-content"></p>
+            </div>
+            
+            <div id="oli-lyrics" class="oli-lyrics" style="display: none;">
+              <h3>Lyrics</h3>
+              <div id="lyrics-content" class="lyrics-content"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ oliDataJson }}>
+  // Parse the oli data safely
+  const oliData = JSON.parse(oliDataJson);
+  
+  // DEBUG: Log the oli data to see if it's loading correctly
+  console.log('Oli data loaded:', oliData);
+  
+  // DOM elements
+  const oliItems = document.querySelectorAll('.oli-item');
+  const oliPlaceholder = document.getElementById('oli-placeholder');
+  const oliContent = document.getElementById('oli-content');
+  const searchInput = document.getElementById('oli-search');
+ // const filterButtons = document.querySelectorAll('.filter-btn');
+  
+  // DEBUG: Log DOM elements to see if they're found
+  console.log('Oli items found:', oliItems.length);
+  console.log('Oli placeholder:', oliPlaceholder);
+  console.log('Oli content:', oliContent);
+  
+  // Oli display elements
+  const oliTitle = document.getElementById('oli-title');
+ // const oliCategory = document.getElementById('oli-category');
+  const oliAuthors = document.getElementById('oli-authors');
+  const audioPlayer = document.getElementById('audio-player');
+  const oliNotes = document.getElementById('oli-notes');
+  const notesContent = document.getElementById('notes-content');
+  const oliLyrics = document.getElementById('oli-lyrics');
+  const lyricsContent = document.getElementById('lyrics-content');
+
+  // Helper function to render lyrics
+  function renderLyrics(lyrics) {
+    if (!lyrics || typeof lyrics !== 'object') {
+      return '';
+    }
+    
+    let html = '';
+    Object.entries(lyrics).forEach(([section, lines]) => {
+      html += `<div class="lyrics-section">`;
+      html += `<h4>${section}</h4>`;
+      if (Array.isArray(lines)) {
+        lines.forEach(line => {
+          if (line === 'LINEBREAK') {
+            html += `<br><br>`;
+          } else if (line !== '') {
+            html += `<p>${line}</p>`;
+          }
+        });
+      } else {
+        html += `<p>${lines}</p>`;
+      }
+      html += `</div>`;
+    });
+    
+    return html;
+  }
+
+  // Display oli function
+  function displayOli(oliId) {
+    console.log('displayOli called with ID:', oliId);
+    const chant = oliData.find(o => o.id === oliId);
+    console.log('Found oli:', chant);
+    
+    if (!chant) {
+      console.error('Oli not found for ID:', oliId);
+      return;
+    }
+
+    // Update oli info
+    oliTitle.textContent = chant.title;
+  //  oliCategory.textContent = chant.category;
+
+    // Handle authors/credits
+    if (chant.authors) {
+      oliAuthors.textContent = chant.authors;
+      oliAuthors.style.display = 'block';
+    } else {
+      oliAuthors.style.display = 'none';
+    }
+
+   // Handle audio URLs - check if it's an array or single URL
+const audioTabsContainer = document.getElementById('audio-tabs');
+
+if (chant.audioUrls && Array.isArray(chant.audioUrls)) {
+  // Multiple audio files - create tabs
+  audioTabsContainer.innerHTML = '';
+  audioTabsContainer.style.display = 'flex';
+  
+  chant.audioUrls.forEach((audioObj, index) => {
+    const tab = document.createElement('button');
+    tab.className = `audio-tab ${index === 0 ? 'active' : ''}`;
+    tab.textContent = audioObj.label;
+    tab.addEventListener('click', () => {
+      // Remove active class from all tabs
+      document.querySelectorAll('.audio-tab').forEach(t => t.classList.remove('active'));
+      // Add active class to clicked tab
+      tab.classList.add('active');
+      // Update audio src
+      audioPlayer.src = audioObj.url;
+    });
+    audioTabsContainer.appendChild(tab);
+  });
+  
+  // Set initial audio to first one
+  audioPlayer.src = chant.audioUrls[0].url;
+  
+} else {
+  // Single audio file - hide tabs and use single URL
+  audioTabsContainer.style.display = 'none';
+  const audioUrl = chant.audioUrl;
+  audioPlayer.src = audioUrl;
+}
+
+    // Handle notes
+    if (chant.notes) {
+      notesContent.textContent = chant.notes;
+      oliNotes.style.display = 'block';
+    } else {
+      oliNotes.style.display = 'none';
+    }
+
+    // Handle lyrics
+    if (chant.lyrics && Object.keys(chant.lyrics).length > 0) {
+      lyricsContent.innerHTML = renderLyrics(chant.lyrics);
+      oliLyrics.style.display = 'block';
+    } else {
+      oliLyrics.style.display = 'none';
+    }
+
+    // Show oli content, hide placeholder
+    oliPlaceholder.style.display = 'none';
+    oliContent.style.display = 'block';
+
+    // Scroll to oli display
+    document.getElementById('oli-display').scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
+
+  // Collapse/Expand functionality
+  function toggleLetterSection(letter) {
+    const section = document.querySelector(`[data-letter="${letter}"] .oli-list`);
+    const icon = document.querySelector(`[data-letter="${letter}"] .collapse-icon`);
+    
+    if (section && icon) {
+      section.classList.toggle('collapsed');
+      icon.textContent = section.classList.contains('collapsed') ? '▼' : '▲';
+    }
+  }
+
+  // Letter heading click handlers (for collapse/expand)
+  document.querySelectorAll('.letter-heading').forEach(heading => {
+    heading.addEventListener('click', function() {
+      const letter = this.getAttribute('data-letter');
+      toggleLetterSection(letter);
+    });
+  });
+
+  // Alphabet index click handlers (for expand and scroll)
+  document.querySelectorAll('.letter-link').forEach(link => {
+    link.addEventListener('click', function() {
+      const letter = this.getAttribute('data-letter');
+      const section = document.querySelector(`#letter-${letter}`);
+      const oliList = section.querySelector('.oli-list');
+      
+      // Expand the section if it's collapsed
+      if (oliList.classList.contains('collapsed')) {
+        toggleLetterSection(letter);
+      }
+      
+      // Scroll to the section with offset for grid layout
+      const yOffset = -20; // Adjust this value as needed
+      const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    });
+  });
+
+  // Oli item click handlers
+  oliItems.forEach((item, index) => {
+    console.log(`Setting up click handler for item ${index}:`, item);
+    
+    item.addEventListener('click', function() {
+      console.log('Oli item clicked!', this);
+      
+      // Remove active class from all items
+      oliItems.forEach(i => i.classList.remove('active'));
+      
+      // Add active class to clicked item
+      this.classList.add('active');
+      
+      // Display the oli
+      const oliId = this.getAttribute('data-oli-id');
+      console.log('Oli ID from clicked item:', oliId);
+      displayOli(oliId);
+    });
+  });
+
+  // Search functionality
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      const searchTerm = this.value.toLowerCase();
+      
+      oliItems.forEach(item => {
+        const title = item.getAttribute('data-title');
+        const description = item.querySelector('.oli-description')?.textContent.toLowerCase() || '';
+        
+        if (title.includes(searchTerm) || description.includes(searchTerm)) {
+          item.style.display = '';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+      
+      // Show/hide letter sections and expand sections with matches
+      document.querySelectorAll('.letter-section').forEach(section => {
+        const visibleItems = section.querySelectorAll('.oli-item:not([style*="display: none"])').length;
+        const oliList = section.querySelector('.oli-list');
+        
+        if (visibleItems > 0) {
+          section.style.display = '';
+          // Auto-expand sections with search results
+          if (searchTerm && oliList.classList.contains('collapsed')) {
+            const letter = section.getAttribute('data-letter');
+            toggleLetterSection(letter);
+          }
+        } else {
+          section.style.display = 'none';
+        }
+      });
+    });
+  }
+
+  // Filter functionality
+//   filterButtons.forEach(button => {
+//     button.addEventListener('click', function() {
+      // Update active button
+    //   filterButtons.forEach(btn => btn.classList.remove('active'));
+    //   this.classList.add('active');
+      
+    //   const filter = this.getAttribute('data-filter');
+      
+      // Filter oli
+    //   oliItems.forEach(item => {
+    //     const category = item.getAttribute('data-category');
+    //     if (filter === 'all' || category === filter) {
+    //       item.style.display = '';
+    //     } else {
+    //       item.style.display = 'none';
+    //     }
+    //   });
+      
+            // Show/hide letter sections
+//       document.querySelectorAll('.letter-section').forEach(section => {
+//         const visibleItems = section.querySelectorAll('.oli-item:not([style*="display: none"])').length;
+//         section.style.display = visibleItems > 0 ? '' : 'none';
+//       });
+//     });
+//   });
+</script>
+
+</BaseLayout>
+
+<style lang="less">
+  /* Typography */
+  .cinzel {
+    font-family: "Cinzel", "Arial", serif;
+    font-weight: 400;
+  }
+  
+  .divider {
+    width: 100px;
+    max-width: 90%;
+    height: 2px;
+    background-color: #fff;
+    margin: 2rem auto;
+    border-radius: 1.5px;
+  }
+
+  /* Hero Section */
+  #library-hero {
+    position: relative;
+    height: 75vh;
+    min-height: 300px;
+    width: 100%;
+    background-image: url('/assets/images/coa1.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    
+    @media (max-width: 768px) {
+      height: auto;
+      min-height: 250px;
+      padding: 3rem 1rem;
+    }
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(199, 199, 199, 0.6);
+    z-index: 1;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 1rem;
+    
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin: 0;
+    }
+    
+    .hero-description {
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  /* Library Content Section */
+  #library-content {
+    padding: var(--sectionPadding);
+    
+    .cs-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+  }
+  
+  /* Library Index (Top Section) */
+  .library-index {
+    width: 100%;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Search */
+  .search-container {
+    margin-bottom: 2rem;
+    
+    .search-input {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      
+      &:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+      }
+    }
+  }
+  
+  /* Filters */
+  .filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    
+    .filter-btn {
+      padding: 0.75rem 1.5rem;
+      background-color: #f0f0f0;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #e0e0e0;
+      }
+      
+      &.active {
+        background-color: var(--primary);
+        color: white;
+      }
+    }
+  }
+  
+  /* Alphabet Index */
+  .alphabet-index {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--primary);
+    border-radius: 8px;
+    
+    .letter-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+      background: none;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+    }
+  }
+  
+  /* Oli Grid - Grid Layout */
+  .oli-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    
+    /* Tablet: 2 columns */
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    
+    /* Desktop: 3 columns */
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    
+    /* Large Desktop: 4 columns */
+    @media (min-width: 1400px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  
+  /* Letter Sections - Updated for Grid */
+  .letter-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    height: fit-content; /* Important for grid layout */
+    
+    .letter-heading {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      font-size: 1.4rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: color-mix(in srgb, var(--primary) 90%, black);
+      }
+      
+      .letter-text {
+        font-size: 1.4rem;
+      }
+      
+      .collapse-icon {
+        font-size: 1rem;
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+  
+  /* Oli List - Updated for Grid */
+  .oli-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    
+    &:not(.collapsed) {
+      max-height: 1000px; /* Adjusted for grid layout */
+      padding: 1rem;
+    }
+    
+    &.collapsed {
+      max-height: 0;
+      padding: 0 1rem;
+    }
+  }
+  
+  /* Oli Items - Optimized for Grid */
+  .oli-item {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      background-color: #e9ecef;
+    }
+    
+    &.active {
+      border-left: 4px solid var(--primary);
+      background-color: rgba(var(--primary-rgb), 0.1);
+    }
+    
+    .oli-title {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    
+    .oli-category {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      background-color: #dee2e6;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .oli-description {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.4;
+    }
+  }
+  
+  /* Oli Display (Bottom Section) */
+  .oli-display {
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    min-height: 400px;
+  }
+
+  /* Audio tab styles */
+  :global(.audio-tabs) {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+    
+    @media (max-width: 768px) {
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+  }
+
+  :global(.audio-tab) {
+    padding: 1rem 2rem;
+    background-color: white;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    
+    @media (max-width: 768px) {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      min-width: 100px;
+    }
+    
+    &:hover {
+      background-color: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    &.active {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  /* Oli Placeholder */
+  .oli-placeholder {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    text-align: center;
+    
+    .placeholder-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+    
+    p {
+      font-size: 1.2rem;
+    }
+  }
+  
+  /* Oli Content */
+  .oli-content {
+    .oli-display-title {
+      font-size: 2rem;
+      margin: 0 0 0.5rem;
+      color: var(--primary);
+    }
+    
+    .oli-display-category {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .oli-authors {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+    }
+  }
+  
+  /* Audio Player */
+  .audio-player-container {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    
+    .audio-player {
+      width: 100%;
+      max-width: 600px;
+      height: 60px;
+      border-radius: 8px;
+      
+      &::-webkit-media-controls-panel {
+        background-color: #f8f9fa;
+      }
+    }
+  }
+  
+  /* Oli Details */
+  .oli-details {
+    .oli-notes {
+      margin-bottom: 2rem;
+      
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+      
+      p {
+        line-height: 1.6;
+      }
+    }
+    
+    .oli-lyrics {
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+    }
+  }
+  
+  /* Lyrics Structure */
+  .lyrics-content {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+    
+  .lyrics-section {
+    flex: 1;
+    min-width: 10rem;
+    max-width: none;
+    
+    @media (min-width: 1200px) {
+      min-width: 10rem;
+    }
+    
+    h4 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+      color: var(--primary);
+    }
+    
+    p {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+      font-size: 1rem;
+      
+      &.after-break {
+        margin-top: 1.5rem;
+      }
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .alphabet-index .letter-link {
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+    }
+    
+    .oli-display {
+      padding: 1.5rem;
+    }
+    
+    .library-index {
+      padding: 1.5rem;
+    }
+    
+    /* Ensure mobile stays single column */
+    .oli-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>

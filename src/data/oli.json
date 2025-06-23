@@ -1,0 +1,82 @@
+[
+  {
+    "id": "aua-ia",
+    "title": "Au'a 'Ia",
+    "notes": "(translation from Ka 'Aha Hula 'O Hālauaoloa program booklet)",
+    "audioUrl": "https://player.vimeo.com/video/147400131?h=2fefec97ff",
+    "authors": "Keaulumoku",
+    "lyrics": {
+      "Hawaiian": [
+        "'Au'a 'ia e Kama e kona moku",
+        "'O kona moku e Kama e 'au'a 'ia",
+        "'O ke kama, kama, kama, kama i ka hulinu'u",
+        "'O ke kama, kama, kama, kama i ka huliau",
+        "LINEBREAK",
+        "Hulihia pāpio a i lalo i ke ola",
+        "Hulihia i ka imu",
+        "O kū ka Maki'ilohelohe",
+        "'O ka hana 'ana i hiki o Hulahula",
+        "LINEBREAK",
+        "Ka'a 'ia ka 'alihi a'o pōhaku, kū",
+        "Ma ke 'upena aku a'o ihuaniani",
+        "'O ka unu o Niuolaniola'a",
+        "'O Keawe 'ai kū, 'ai a la'ahia",
+        "LINEBREAK",
+        "Nāna i hala pepe ka honua o ka moku",
+        "I hā'ale 'ia i ke Kiuwelo i ka pu'u",
+        "Kōwelo lohe a Kanaloa",
+        "LINEBREAK",
+        "He inoa no Kama"
+      ],
+      "English": [
+        "Kama refused to part with his island",
+        "This is the land held back by Kama",
+        "The son Kama, the highest born",
+        "The son Kama, who is the turning point of the changing times",
+        "LINEBREAK",
+        "He turns his foes face down",
+        "He turns them to the imu",
+        "and the Maki'ilohelohe ceremony is complete",
+        "He does this until the Hulahula ceremony is complete",
+        "LINEBREAK",
+        "The edge of the upright stone is rolled into place",
+        "With his nets known as Ihuaniani",
+        "To his temple Niuolaniola'a",
+        "Of Keawe who broke the kapu and ruled in sanctity",
+        "LINEBREAK",
+        "He who ruled and made the island subject to him",
+        "Stirred by the Kiuwelo wind in the summit",
+        "A rustling heard by Kanaloa",
+        "LINEBREAK",
+        "A name chant for Kama"
+      ]
+    }
+  },
+  {
+    "id": "e-ala-e",
+    "title": "E Ala E",
+    "notes": "chanted before sunrise",
+    "audioUrl": "/audio/oli/e-ala-e.mp3",
+    "authors": "Pualani Kanahele",
+    "lyrics": {
+      "Hawaiian": [
+        "E ala e, ka lā i ka hikina,",
+        "LINEBREAK",
+        "I ka moana, ka moana hohonu,",
+        "LINEBREAK",
+        "Pi'i ka lewa, ka lewa nu'u,",
+        "LINEBREAK",
+        "I ka hikina, aia ka lā, e ala e!"
+      ],
+      "English": [
+        "Awaken/Arise, the sun in the east",
+        "LINEBREAK",
+        "From the ocean, the deep ocean,",
+        "LINEBREAK",
+        "Climbing to heaven, the highest heaven,",
+        "LINEBREAK",
+        "In the east, there is the sun, arise!"
+      ]
+    }
+  }
+]
