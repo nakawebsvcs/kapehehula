@@ -918,50 +918,58 @@ if (video.vimeoEmbedUrls && Array.isArray(video.vimeoEmbedUrls)) {
   }
   
   /* Video Player - Updated for better mobile and vertical video support */
-  .video-player-container {
-    position: relative;
-    width: 100%;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio for desktop */
+.video-player-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio for desktop */
+  margin-bottom: 2rem;
+  
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    /* Remove the negative margins that were causing left-alignment */
     margin-bottom: 2rem;
+    padding-bottom: 75%; /* Taller aspect ratio for mobile */
     
-    /* Mobile optimizations */
-    @media (max-width: 768px) {
-      /* Increase size on mobile - use more screen real estate */
-      padding-bottom: 75%; /* Taller aspect ratio for mobile */
-      margin: 0 -1rem 2rem -1rem; /* Extend to edges of container */
-      
-      /* For very small screens, make it even larger */
-      @media (max-width: 480px) {
-        padding-bottom: 85%; /* Even taller for small screens */
-      }
-    }
+    /* Add some padding to center the content better */
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     
-    /* Portrait orientation - optimize for vertical videos */
-    @media (max-width: 768px) and (orientation: portrait) {
-      padding-bottom: 90%; /* Much taller for portrait mode */
-      max-height: 70vh; /* Don't exceed 70% of viewport height */
-      
-      /* Ensure minimum height for controls accessibility */
-      min-height: 300px;
-    }
-    
-    .video-iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 8px;
-      
-      /* Mobile specific iframe optimizations */
-      @media (max-width: 768px) {
-        border-radius: 4px; /* Smaller radius on mobile */
-        
-        /* Ensure touch targets are accessible */
-        min-height: 300px;
-      }
+    /* For very small screens, make it even larger */
+    @media (max-width: 480px) {
+      padding-bottom: 85%; /* Even taller for small screens */
     }
   }
+  
+  /* Portrait orientation - optimize for vertical videos */
+  @media (max-width: 768px) and (orientation: portrait) {
+    padding-bottom: 90%; /* Much taller for portrait mode */
+    max-height: 70vh; /* Don't exceed 70% of viewport height */
+    
+    /* Ensure minimum height for controls accessibility */
+    min-height: 300px;
+  }
+  
+  .video-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    
+    /* Mobile specific iframe optimizations */
+    @media (max-width: 768px) {
+      border-radius: 4px; /* Smaller radius on mobile */
+      
+      /* Center the iframe content */
+      left: 50%;
+      transform: translateX(-50%);
+      
+      /* Ensure touch targets are accessible */
+      min-height: 300px;
+    }
+  }
+}
   
     /* Video Details */
   .video-details {
