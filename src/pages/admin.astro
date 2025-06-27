@@ -26,9 +26,6 @@ const optimizedImage = { src: defaultImage.src };
           <div class="col">
             <div class="d-flex justify-content-between align-items-center">
               <h2 class="mt-2">User Management</h2>
-              <button id="logout-btn" class="btn btn-outline-secondary logout-btn">
-                <i class="bi bi-box-arrow-right me-1"></i> Logout
-              </button>
             </div>
           </div>
         </div>
@@ -430,7 +427,6 @@ const optimizedImage = { src: defaultImage.src };
         adminPanel: document.getElementById('admin-panel'),
         errorAlert: document.getElementById('error-alert'),
         successAlert: document.getElementById('success-alert'),
-        logoutBtn: document.getElementById('logout-btn'),
         inviteForm: document.getElementById('invite-user-form'),
         newUserEmail: document.getElementById('new-user-email'),
         newUserRole: document.getElementById('new-user-role'),
@@ -445,7 +441,6 @@ const optimizedImage = { src: defaultImage.src };
     }
 
     setupEventListeners() {
-      this.elements.logoutBtn.addEventListener('click', () => this.handleLogout());
       this.elements.inviteForm.addEventListener('submit', (e) => this.inviteUser(e));
       this.elements.searchInput.addEventListener('input', (e) => this.handleSearch(e.target.value));
       this.elements.clearSearchBtn.addEventListener('click', () => this.clearSearch());
@@ -689,19 +684,6 @@ const optimizedImage = { src: defaultImage.src };
             this.handleDeleteUser(userId);
           });
         });
-      }
-    }
-
-    async handleLogout() {
-      try {
-        console.log('Signing out...');
-        await signOut(auth);
-        console.log('Sign out successful.');
-        // Redirect to login page or home page
-        window.location.href = '/';
-      } catch (error) {
-        console.error('Error signing out:', error);
-        this.showError('Error signing out: ' + error.message);
       }
     }
   }
