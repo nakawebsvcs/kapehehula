@@ -698,7 +698,7 @@ const optimizedImage = { src: defaultImage.src };
         await signOut(auth);
         console.log('Sign out successful.');
         // Redirect to login page or home page
-        window.location.href = '/login'; // Adjust this path as needed
+        window.location.href = '/';
       } catch (error) {
         console.error('Error signing out:', error);
         this.showError('Error signing out: ' + error.message);
