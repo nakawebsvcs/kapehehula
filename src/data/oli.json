@@ -1,5 +1,47 @@
 [
   {
+    "id": "aloha-kahoolawe",
+    "title": "Aloha Kaho'olawe",
+    "notes": "",
+    "audioUrl": "",
+    "authors": "",
+    "lyrics": {
+      "Hawaiian": [
+        "Aloha Kaho'olawe",
+        "Pua O Hawai'i",
+        "Ha'alela i ke kai",
+        "A lela keiki",
+        "Eā 'eā, eā 'eā",
+        "LINEBREAK",
+        "He keiki hiwahiwa",
+        "A pāpā e",
+        "Ka piko mālamalama",
+        "O ka pai 'āina e",
+        "Eā 'eā, eā 'eā",
+        "LINEBREAK",
+        "He 'ai luna",
+        "Ia no na kupa e",
+        "Kūpa'a mahope",
+        "O ka 'aina e",
+        "Eā 'eā, eā 'eā",
+        "LINEBREAK",
+        "Ua 'eha ka'ili",
+        "O Ka moku e",
+        "Ho'i ia Hawai'i",
+        "Maluhia e",
+        "Eā 'eā, eā 'eā",
+        "LINEBREAK",
+        "Puana kealoha",
+        "No ka 'āina e",
+        "E O Kaho'olawe",
+        "E ola mau e",
+        "Eā 'eā, eā 'eā",
+        "LINEBREAK",
+        "He inoa no Kaho'olawe"
+      ]
+    }
+  },
+  {
     "id": "aua-ia",
     "title": "Au'a 'Ia",
     "notes": "(translation from Ka 'Aha Hula 'O Hālauaoloa program booklet)",
