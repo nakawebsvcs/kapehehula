@@ -208,12 +208,11 @@ const videosByYearAndMonthJson = JSON.stringify(videosByYearAndMonth).replace(/<
       videoPlaceholder.style.display = "none";
       videoContent.style.display = "block";
 
-      // Scroll to video display on mobile
-      if (window.innerWidth < 1024) {
-        const videoDisplay = document.getElementById("video-display");
-        videoDisplay.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+     // Scroll to video display
+    document.getElementById('video-display').scrollIntoView({
+      behavior: 'smooth'
+    });
+  }
 
     // Load videos for a specific month
     function loadVideosForMonth(monthYear, letterHeading) {
