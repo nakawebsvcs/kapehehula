@@ -1,0 +1,943 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import classVideos from "../data/classLinks.json";
+
+// Protect this page from unauthenticated access
+const isLoggedIn = Astro.cookies.has("firebase-token");
+if (!isLoggedIn) {
+  return Astro.redirect("/");
+}
+
+import fallbackImage from "../assets/images/coa1.jpg";
+const heroImage = { src: fallbackImage.src };
+
+// Sort videos by date, newest first
+const sortedVideos = classVideos.sort((a, b) => {
+  const dateA = new Date(a.title);
+  const dateB = new Date(b.title);
+  return dateB.getTime() - dateA.getTime();
+});
+
+// Group videos by year, then by month
+const videosByYearAndMonth = sortedVideos.reduce((acc, video) => {
+  const date = new Date(video.title);
+  const year = date.getFullYear();
+  const monthName = date.toLocaleString('en-US', { month: 'long' });
+
+  if (!acc[year]) {
+    acc[year] = {};
+  }
+  if (!acc[year][monthName]) {
+    acc[year][monthName] = [];
+  }
+  acc[year][monthName].push(video);
+  return acc;
+}, {});
+
+// Get sorted list of years (newest first)
+const years = Object.keys(videosByYearAndMonth).sort((a, b) => b - a);
+
+// Get all unique month-year combinations for the grid
+const allMonthYears = [];
+years.forEach(year => {
+  const months = Object.keys(videosByYearAndMonth[year]).sort((a, b) => {
+    const monthNames = ["January", "February", "March", "April", "May", "June", 
+                       "July", "August", "September", "October", "November", "December"];
+    return monthNames.indexOf(b) - monthNames.indexOf(a); // Newest first
+  });
+  
+  months.forEach(month => {
+    allMonthYears.push({
+      displayName: `${month} ${year}`,
+      year: year,
+      month: month
+    });
+  });
+});
+
+// Safely serialize the data for JavaScript
+const videoDataJson = JSON.stringify(sortedVideos).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+const videosByYearAndMonthJson = JSON.stringify(videosByYearAndMonth).replace(/</g, '\\u003c').replace(/>/g, '\\u003e');
+---
+
+<BaseLayout
+  title="Class Recordings | Hālau Hula Malani O Kapehe"
+  description="Browse our collection of class recordings for haumāna of Hālau Hula Malani O Kapehe."
+  preloadedImage={heroImage}
+>
+    <!-- Hero Section -->
+  <section id="library-hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="cinzel">Class Recordings</h1>
+      <div class="divider"></div>
+      <p class="hero-description">
+        Access our collection of class recordings for practice and study.
+      </p>
+    </div>
+  </section>
+
+  <section id="library-content">
+    <div class="cs-container">
+      <!-- Top Section: Video Index -->
+      <div class="library-index">
+        <!-- Search -->
+        <!-- <div class="search-container">
+          <input 
+            type="text" 
+            id="video-search" 
+            placeholder="Search by date (e.g., 08-10-25)..." 
+            class="search-input"
+          />
+        </div> -->
+
+        <!-- Year Index (using same alphabet-index class) -->
+        <div class="alphabet-index">
+          {years.map(year => (
+            <button class="letter-link" data-letter={year}>{year}</button>
+          ))}
+        </div>
+
+        <!-- Videos List - Now in Grid Layout with Months -->
+        <div class="videos-grid">
+          {allMonthYears.map(monthYear => (
+            <div id={`letter-${monthYear.displayName.replace(' ', '-')}`} class="letter-section" data-letter={monthYear.displayName}>
+              <button class="letter-heading" data-letter={monthYear.displayName}>
+                <span class="letter-text">{monthYear.displayName}</span>
+                <span class="collapse-icon">▼</span>
+              </button>
+              <div class="video-list collapsed">
+                <!-- Videos will be populated dynamically when month is clicked -->
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Bottom Section: Video Display -->
+      <div id="video-display" class="video-display">
+        <div id="video-placeholder" class="video-placeholder">
+          <div class="placeholder-icon">▶</div>
+          <p>Select a video from the library to view</p>
+        </div>
+        
+        <div id="video-content" class="video-content" style="display: none;">
+          <h2 id="video-title" class="video-display-title"></h2>
+          
+         <!-- Video player -->
+        <div class="video-player-section">
+          <div id="no-video-banner" class="no-video-banner" style="display: none;">
+            <div class="no-video-content">
+              <span class="no-video-icon">▶</span>
+              <span class="no-video-text">No video available</span>
+            </div>
+          </div>
+          
+          <div class="video-player-container">
+            <iframe 
+              id="video-iframe"
+              width="640"
+              height="360"
+              frameborder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowfullscreen
+              class="video-iframe"
+              referrerpolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ videoDataJson, videosByYearAndMonthJson }}>
+    // Parse the video data safely
+    const videoData = JSON.parse(videoDataJson);
+    const videosByYearAndMonth = JSON.parse(videosByYearAndMonthJson);
+
+    // DEBUG: Log the video data to see if it's loading correctly
+    console.log("Video data loaded:", videoData);
+    console.log("Videos by year and month:", videosByYearAndMonth);
+
+    // DOM elements
+    const videoPlaceholder = document.getElementById("video-placeholder");
+    const videoContent = document.getElementById("video-content");
+    const searchInput = document.getElementById("video-search");
+    const letterLinks = document.querySelectorAll(".letter-link");
+    const letterSections = document.querySelectorAll(".letter-section");
+    const letterHeadings = document.querySelectorAll(".letter-heading");
+
+    // Video display elements
+    const videoDisplayTitle = document.getElementById("video-title");
+    const videoIframe = document.getElementById("video-iframe");
+    const noVideoBanner = document.getElementById("no-video-banner");
+    const videoPlayerContainer = document.querySelector(".video-player-container");
+
+    // Display video function
+    function displayVideo(videoId) {
+      console.log("displayVideo called with ID:", videoId);
+      const video = videoData.find((v) => v.id === videoId);
+      console.log("Found video:", video);
+
+      if (!video) {
+        console.error("Video not found for ID:", videoId);
+        return;
+      }
+
+      // Update video info
+      videoDisplayTitle.textContent = video.title;
+
+      // Handle video URL
+      if (video.vimeoEmbedUrl && video.vimeoEmbedUrl.trim() !== "") {
+        // Single video - hide tabs and use single URL
+        noVideoBanner.style.display = "none";
+        videoPlayerContainer.style.display = "block";
+        videoIframe.style.display = "block";
+        videoIframe.src = video.vimeoEmbedUrl;
+      } else {
+        // No video available - show banner and hide entire video player container
+        videoPlayerContainer.style.display = "none";
+        noVideoBanner.style.display = "flex";
+        videoIframe.src = ""; // Clear src
+      }
+
+      videoIframe.title = video.title;
+
+      // Show video content, hide placeholder
+      videoPlaceholder.style.display = "none";
+      videoContent.style.display = "block";
+
+      // Scroll to video display on mobile
+      if (window.innerWidth < 1024) {
+        const videoDisplay = document.getElementById("video-display");
+        videoDisplay.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    // Load videos for a specific month
+    function loadVideosForMonth(monthYear, letterHeading) {
+      const letterSection = letterHeading.closest('.letter-section');
+      const videoList = letterSection.querySelector('.video-list');
+      const icon = letterHeading.querySelector('.collapse-icon');
+
+      if (videoList.classList.contains("collapsed")) {
+        // Parse month and year from display name (e.g., "January 2024")
+        const [month, year] = monthYear.split(' ');
+        
+        // Load and show videos
+        videoList.innerHTML = '';
+        
+        const videos = videosByYearAndMonth[year]?.[month];
+        
+        if (videos && videos.length > 0) {
+          videos.forEach(video => {
+            const videoItem = document.createElement('div');
+            videoItem.className = 'video-item';
+            videoItem.setAttribute('data-video-id', video.id);
+            videoItem.setAttribute('data-title', video.title.toLowerCase());
+            videoItem.innerHTML = `
+              <h3 class="video-title">${video.title}</h3>
+            `;
+
+            // Add inline styles for spacing and cursor
+            videoItem.style.padding = '1rem';
+            videoItem.style.marginBottom = '0.75rem';
+            videoItem.style.cursor = 'pointer';
+            videoItem.style.transition = 'all 0.3s ease';
+            videoItem.style.backgroundColor = '#f8f9fa';
+            videoItem.style.borderRadius = '6px';
+            
+            // Add hover effects using mouse events
+            videoItem.addEventListener('mouseenter', () => {
+              videoItem.style.transform = 'translateY(-2px)';
+              videoItem.style.boxShadow = '0 3px 12px rgba(0, 0, 0, 0.1)';
+              videoItem.style.backgroundColor = '#e9ecef';
+            });
+            
+            videoItem.addEventListener('mouseleave', () => {
+              videoItem.style.transform = 'translateY(0)';
+              videoItem.style.boxShadow = 'none';
+              videoItem.style.backgroundColor = '#f8f9fa';
+            });
+            
+            videoItem.addEventListener('click', () => {
+              displayVideo(video.id);
+              document.querySelectorAll('.video-item').forEach(item => {
+                item.classList.remove('active');
+              });
+              videoItem.classList.add('active');
+            });
+            
+            videoList.appendChild(videoItem);
+          });
+        }
+        
+        videoList.classList.remove("collapsed");
+        icon.style.transform = "rotate(180deg)";
+      } else {
+        // Collapse videos
+        videoList.classList.add("collapsed");
+        icon.style.transform = "rotate(0deg)";
+      }
+    }
+
+    // Search functionality
+    // searchInput.addEventListener("input", (e) => {
+    //   const searchTerm = e.target.value.toLowerCase();
+    //   letterSections.forEach((section) => {
+    //     let hasVisibleVideos = false;
+    //     const videos = section.querySelectorAll(".video-item");
+
+    //     videos.forEach((video) => {
+    //       const title = video.getAttribute("data-title");
+    //       const matches = title.includes(searchTerm);
+    //       video.style.display = matches ? "block" : "none";
+    //       if (matches) {
+    //         hasVisibleVideos = true;
+    //       }
+    //     });
+
+    //     section.style.display = hasVisibleVideos ? "block" : "none";
+    //   });
+    // });
+
+    // Year index link functionality - scroll to first month of that year
+    letterLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        const year = link.getAttribute("data-letter");
+        // Find first month section for this year
+        const targetSection = document.querySelector(`[data-letter*="${year}"]`);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: "smooth" });
+        }
+      });
+    });
+
+    // Accordion functionality for month sections
+    letterHeadings.forEach((heading) => {
+      heading.addEventListener("click", () => {
+        const monthYear = heading.getAttribute('data-letter');
+        loadVideosForMonth(monthYear, heading);
+      });
+    });
+  </script>
+
+
+</BaseLayout>
+
+<style lang="less">
+  /* Typography */
+  .cinzel {
+    font-family: "Cinzel", "Arial", serif;
+    font-weight: 400;
+  }
+  
+  .divider {
+    width: 100px;
+    max-width: 90%;
+    height: 2px;
+    background-color: #fff;
+    margin: 2rem auto;
+    border-radius: 1.5px;
+  }
+
+  /* Hero Section */
+  #library-hero {
+    position: relative;
+    height: 75vh;
+    min-height: 300px;
+    width: 100%;
+    background-image: url('/assets/images/coa1.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    
+    @media (max-width: 768px) {
+      height: auto;
+      min-height: 250px;
+      padding: 3rem 1rem;
+    }
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(199, 199, 199, 0.6);
+    z-index: 1;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    padding: 0 1rem;
+    
+    h1 {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      margin: 0;
+    }
+    
+    .hero-description {
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+  }
+
+  /* Library Content Section */
+  #library-content {
+    padding: var(--sectionPadding);
+    
+    .cs-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem;
+    }
+  }
+  
+  /* Library Index (Top Section) */
+  .library-index {
+    width: 100%;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Search */
+  .search-container {
+    margin-bottom: 2rem;
+    
+    .search-input {
+      width: 100%;
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      
+      &:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(var(--primary-rgb), 0.2);
+      }
+    }
+  }
+  
+  /* Filters */
+  .filter-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    
+    .filter-btn {
+      padding: 0.75rem 1.5rem;
+      background-color: #f0f0f0;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: #e0e0e0;
+      }
+      
+      &.active {
+        background-color: var(--primary);
+        color: white;
+      }
+    }
+  }
+  
+  /* Year Index */
+  .alphabet-index {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--primary);
+    border-radius: 8px;
+    
+    .letter-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: white;
+      background: none;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: scale(1.1);
+      }
+    }
+  }
+  
+  /* Videos Grid - NEW GRID LAYOUT */
+  .videos-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    
+    /* Tablet: 2 columns */
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    
+    /* Desktop: 3 columns */
+    @media (min-width: 1024px) {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    
+    /* Large Desktop: 4 columns */
+    @media (min-width: 1400px) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  
+  /* Letter Sections - Updated for Grid */
+  .letter-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    height: fit-content; /* Important for grid layout */
+    
+    .letter-heading {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      font-size: 1.4rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background-color: color-mix(in srgb, var(--primary) 90%, black);
+      }
+      
+      .letter-text {
+        font-size: 1.4rem;
+      }
+      
+      .collapse-icon {
+        font-size: 1rem;
+        transition: transform 0.3s ease;
+      }
+    }
+  }
+  
+  /* Video List - Updated for Grid */
+  .video-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    
+    &:not(.collapsed) {
+      max-height: 1000px; /* Adjusted for grid layout */
+      padding: 1rem;
+    }
+    
+    &.collapsed {
+      max-height: 0;
+      padding: 0 1rem;
+    }
+  }
+  
+  /* Video Items - Optimized for Grid */
+  .video-item {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      background-color: #e9ecef;
+    }
+    
+    &.active {
+      border-left: 4px solid var(--primary);
+      background-color: rgba(var(--primary-rgb), 0.1);
+    }
+    
+    .video-title {
+      font-size: 1rem;
+      margin: 0 0 0.5rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+    
+    .video-category {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      background-color: #dee2e6;
+      border-radius: 15px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .video-description {
+      margin: 0;
+      font-size: 0.85rem;
+      color: #666;
+      line-height: 1.4;
+    }
+  }
+  
+  /* Video Display (Bottom Section) - Updated for mobile */
+  .video-display {
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    min-height: 400px;
+    
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      padding: 1rem; /* Reduce padding to give more space to video */
+      border-radius: 8px;
+      margin: 0 -0.5rem; /* Slight negative margin for more width */
+      
+      /* Increase minimum height on mobile */
+      min-height: 500px;
+    }
+  }
+
+  /* Video tabs - Updated for mobile */
+  :global(.video-tabs) {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    justify-content: center;
+    
+    @media (max-width: 768px) {
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem; /* Reduce margin to save space */
+    }
+  }
+
+  :global(.video-tab) {
+    padding: 1rem 2rem;
+    background-color: white;
+    border: 2px solid var(--primary);
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    
+    @media (max-width: 768px) {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      min-width: 100px;
+      
+      /* Ensure tabs are easily tappable */
+      min-height: 44px; /* iOS recommended touch target size */
+    }
+    
+    &:hover {
+      background-color: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    &.active {
+      background-color: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+/* No Video Banner */
+.no-video-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px solid #dee2e6;
+  border-radius: 12px;
+  margin-bottom: 1rem; /* Minimal margin */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  
+  .no-video-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    color: #6c757d;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-align: center;
+    width: 100%;
+    
+    .no-video-icon {
+      font-size: 1.5rem;
+      opacity: 0.7;
+    }
+    
+    .no-video-text {
+      font-family: inherit;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem; /* Even smaller margin on mobile */
+    
+    .no-video-content {
+      font-size: 1rem;
+      
+      .no-video-icon {
+        font-size: 1.25rem;
+      }
+    }
+  }
+}
+  
+  /* Video Placeholder */
+  .video-placeholder {
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #999;
+    text-align: center;
+    
+    .placeholder-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: #ddd;
+    }
+    
+    p {
+      font-size: 1.2rem;
+    }
+  }
+  
+  /* Video Content - Updated for mobile */
+  .video-content {
+    .video-display-title {
+      font-size: 2rem;
+      margin: 0 0 0.5rem;
+      color: var(--primary);
+      
+      @media (max-width: 768px) {
+        font-size: 1.5rem; /* Smaller title to save space */
+        margin-bottom: 0.75rem;
+      }
+    }
+    
+    .video-display-category {
+      display: inline-block;
+      padding: 0.3rem 0.8rem;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+      
+      @media (max-width: 768px) {
+        margin-bottom: 1rem; /* Reduce margin to save space */
+        font-size: 0.8rem;
+      }
+    }
+
+    .video-authors {
+      font-style: italic;
+      color: #666;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+      
+      @media (max-width: 768px) {
+        margin-bottom: 1.5rem; /* Reduce margin */
+        font-size: 0.9rem;
+      }
+    }
+  }
+  
+  /* Video Player - Updated for better mobile and vertical video support */
+.video-player-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio for desktop */
+  margin-bottom: 2rem;
+  
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    /* Remove the negative margins that were causing left-alignment */
+    margin-bottom: 2rem;
+    padding-bottom: 75%; /* Taller aspect ratio for mobile */
+    
+    /* Add some padding to center the content better */
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    
+    /* For very small screens, make it even larger */
+    @media (max-width: 480px) {
+      padding-bottom: 85%; /* Even taller for small screens */
+    }
+  }
+  
+  /* Portrait orientation - optimize for vertical videos */
+  @media (max-width: 768px) and (orientation: portrait) {
+    padding-bottom: 90%; /* Much taller for portrait mode */
+    max-height: 70vh; /* Don't exceed 70% of viewport height */
+    
+    /* Ensure minimum height for controls accessibility */
+    min-height: 300px;
+  }
+  
+  .video-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    
+    /* Mobile specific iframe optimizations */
+    @media (max-width: 768px) {
+      border-radius: 4px; /* Smaller radius on mobile */
+      
+      /* Center the iframe content */
+      left: 50%;
+      transform: translateX(-50%);
+      
+      /* Ensure touch targets are accessible */
+      min-height: 300px;
+    }
+  }
+}
+  
+    /* Video Details */
+  .video-details {
+    .video-notes {
+      margin-bottom: 2rem;
+      
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+      
+      p {
+        line-height: 1.6;
+      }
+    }
+    
+    .video-lyrics {
+      h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--primary);
+      }
+    }
+  }
+  
+  /* New Lyrics Structure */
+  .lyrics-content {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 2rem;
+    }
+  }
+    
+  .lyrics-section {
+    flex: 1;
+    min-width: 10rem;
+    max-width: none;
+    
+    @media (min-width: 1200px) {
+      min-width: 10rem;
+    }
+    
+    h4 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+      color: var(--primary);
+    }
+    
+    p {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+      font-size: 1rem;
+      
+      &.after-break {
+        margin-top: 1.5rem;
+      }
+    }
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .alphabet-index .letter-link {
+      width: 2rem;
+      height: 2rem;
+      font-size: 1rem;
+    }
+    
+    .library-index {
+      padding: 1.5rem;
+    }
+    
+    /* Ensure mobile stays single column */
+    .videos-grid {
+      grid-template-columns: 1fr !important;
+    }
+  }
+</style>
