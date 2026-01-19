@@ -1,5 +1,15 @@
 [
   {
+    "id": "class-01-11-26",
+    "title": "January 11, 2026",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156251045?h=7c45dc10c2"
+  },
+  {
+    "id": "class-11-09-25",
+    "title": "November 9, 2025",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156251170?h=b792b7e361"
+  },
+  {
     "id": "class-10-19-25",
     "title": "October 19, 2025",
     "vimeoEmbedUrl": "https://player.vimeo.com/video/1132658442?h=eff3f5e739"
@@ -9,7 +19,27 @@
     "title": "October 12, 2025",
     "vimeoEmbedUrl": "https://player.vimeo.com/video/1132658592?h=76e7047b55"
   },
-   {
+  {
+    "id": "class-07-27-2025",
+    "title": "July 27, 2025",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156251890?h=1812a1c903"
+  },
+  {
+    "id": "class-07-20-2025",
+    "title": "July 20, 2025",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156251928?h=5f45b79ef5"
+  },
+  {
+    "id": "class-06-29-2025",
+    "title": "June 29, 2025",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156251953?h=33dc928eac"
+  },
+  {
+    "id": "class-06-22-2025",
+    "title": "June 22, 2025",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156251995?h=f77787acd0"
+  },
+  {
     "id": "class-04-27-25",
     "title": "April 27, 2025",
     "vimeoEmbedUrl": "https://player.vimeo.com/video/1132658624?h=9076c39bbf"
@@ -58,5 +88,130 @@
     "id": "class-01-26-25",
     "title": "January 26, 2025",
     "vimeoEmbedUrl": "https://player.vimeo.com/video/1132659018?h=3b0f175879"
+  },
+  {
+  "id": "class-11-10-24",
+  "title": "November 10, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156271924?h=c569d2fa37"
+},
+{
+  "id": "class-11-03-24",
+  "title": "November 3, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156271611?h=500fe86ebf"
+},
+{
+  "id": "class-10-27-24",
+  "title": "October 27, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156271320?h=3b6585afcb"
+},
+  {
+  "id": "class-10-06-24",
+  "title": "October 6, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156271118?h=fe8259350d"
+},
+{
+  "id": "class-09-22-24",
+  "title": "September 22, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156270945?h=e8c402323b"
+},
+{
+  "id": "class-09-15-24",
+  "title": "September 15, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156270514?h=3a53fab132"
+},
+{
+  "id": "class-09-08-24",
+  "title": "September 8, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156270194?h=28a19d75e0"
+},
+{
+  "id": "class-09-01-24",
+  "title": "September 1, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156269726?h=544f85369e"
+},
+{
+  "id": "class-08-25-24",
+  "title": "August 25, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156269329?h=8d6b4ed96e"
+},
+{
+  "id": "class-08-18-24",
+  "title": "August 18, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156268993?h=3f30d2a693"
+},
+{
+  "id": "class-08-11-24",
+  "title": "August 11, 2024",
+  "vimeoEmbedUrl": "https://player.vimeo.com/video/1156268537?h=29c14a268b"
+},
+  {
+    "id": "class-08-04-24",
+    "title": "August 4, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156268046?h=1fe43fd911"
+  },
+  {
+    "id": "class-07-28-24",
+    "title": "July 28, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156267608?h=9687c34a7a"
+  },
+  {
+    "id": "class-07-14-24",
+    "title": "July 14, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156267210?h=09568d0e78"
+  },
+  {
+    "id": "class-07-07-24",
+    "title": "July 7, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156266784?h=29388f92df"
+  },
+  {
+    "id": "class-05-05-24",
+    "title": "May 5, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156266365?h=63b53203b2"
+  },
+  {
+    "id": "class-04-28-24",
+    "title": "April 28, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156266029?h=0d0123801c"
+  },
+  {
+    "id": "class-04-21-24",
+    "title": "April 21, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156265712?h=b9a990fc72"
+  },
+  {
+    "id": "class-04-14-24",
+    "title": "April 14, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156265299?h=6f50dd4fc9"
+  },
+  {
+    "id": "class-03-24-24",
+    "title": "March 24, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156264859?h=68d59f626c"
+  },
+  {
+    "id": "class-03-10-24",
+    "title": "March 10, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156264476?h=36ee0ed472"
+  },
+  {
+    "id": "class-03-03-24",
+    "title": "March 3, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156264103?h=2c57a1156b"
+  },
+  {
+    "id": "class-02-25-24",
+    "title": "February 25, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156263626?h=5214b30912"
+  },
+  {
+    "id": "class-02-04-24",
+    "title": "February 4, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156262960?h=d3401c0876"
+  },
+  {
+    "id": "class-01-28-24",
+    "title": "January 28, 2024",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1156261976?h=aa98ba9037"
   }
 ]

@@ -41,10 +41,10 @@ const years = Object.keys(videosByYearAndMonth).sort((a, b) => b - a);
 const allMonthYears = [];
 years.forEach(year => {
   const months = Object.keys(videosByYearAndMonth[year]).sort((a, b) => {
-    const monthNames = ["January", "February", "March", "April", "May", "June", 
-                       "July", "August", "September", "October", "November", "December"];
-    return monthNames.indexOf(b) - monthNames.indexOf(a); // Newest first
-  });
+  const monthNames = ["January", "February", "March", "April", "May", "June", 
+                     "July", "August", "September", "October", "November", "December"];
+  return monthNames.indexOf(a) - monthNames.indexOf(b); // Oldest first (January first)
+});
   
   months.forEach(month => {
     allMonthYears.push({
@@ -99,9 +99,15 @@ const videosByYearAndMonthJson = JSON.stringify(videosByYearAndMonth).replace(/<
         </div>
 
         <!-- Videos List - Now in Grid Layout with Months -->
-        <div class="videos-grid">
-          {allMonthYears.map(monthYear => (
-            <div id={`letter-${monthYear.displayName.replace(' ', '-')}`} class="letter-section" data-letter={monthYear.displayName}>
+       <div class="videos-grid">
+        {allMonthYears.map(monthYear => (
+          <div 
+            id={`letter-${monthYear.displayName.replace(' ', '-')}`} 
+            class="letter-section" 
+            data-letter={monthYear.displayName}
+            data-year={monthYear.year}
+            data-month={monthYear.month}
+          >
               <button class="letter-heading" data-letter={monthYear.displayName}>
                 <span class="letter-text">{monthYear.displayName}</span>
                 <span class="collapse-icon">▼</span>
@@ -151,7 +157,7 @@ const videosByYearAndMonthJson = JSON.stringify(videosByYearAndMonth).replace(/<
     </div>
   </section>
 
-  <script define:vars={{ videoDataJson, videosByYearAndMonthJson }}>
+<script define:vars={{ videoDataJson, videosByYearAndMonthJson }}>
     // Parse the video data safely
     const videoData = JSON.parse(videoDataJson);
     const videosByYearAndMonth = JSON.parse(videosByYearAndMonthJson);
@@ -160,19 +166,26 @@ const videosByYearAndMonthJson = JSON.stringify(videosByYearAndMonth).replace(/<
     console.log("Video data loaded:", videoData);
     console.log("Videos by year and month:", videosByYearAndMonth);
 
-    // DOM elements
-    const videoPlaceholder = document.getElementById("video-placeholder");
-    const videoContent = document.getElementById("video-content");
-    const searchInput = document.getElementById("video-search");
-    const letterLinks = document.querySelectorAll(".letter-link");
-    const letterSections = document.querySelectorAll(".letter-section");
-    const letterHeadings = document.querySelectorAll(".letter-heading");
+    // DOM elements - will be initialized after DOM is ready
+    let videoPlaceholder, videoContent, letterLinks, letterSections, letterHeadings;
+    let videoDisplayTitle, videoIframe, noVideoBanner, videoPlayerContainer;
 
-    // Video display elements
-    const videoDisplayTitle = document.getElementById("video-title");
-    const videoIframe = document.getElementById("video-iframe");
-    const noVideoBanner = document.getElementById("no-video-banner");
-    const videoPlayerContainer = document.querySelector(".video-player-container");
+    // Track selected year
+    let selectedYear = null;
+
+    // Function to initialize DOM elements
+    function initDOMElements() {
+      videoPlaceholder = document.getElementById("video-placeholder");
+      videoContent = document.getElementById("video-content");
+      letterLinks = document.querySelectorAll(".letter-link");
+      letterSections = document.querySelectorAll(".letter-section");
+      letterHeadings = document.querySelectorAll(".letter-heading");
+      
+      videoDisplayTitle = document.getElementById("video-title");
+      videoIframe = document.getElementById("video-iframe");
+      noVideoBanner = document.getElementById("no-video-banner");
+      videoPlayerContainer = document.querySelector(".video-player-container");
+    }
 
     // Display video function
     function displayVideo(videoId) {
@@ -214,112 +227,195 @@ const videosByYearAndMonthJson = JSON.stringify(videosByYearAndMonth).replace(/<
     });
   }
 
-    // Load videos for a specific month
-    function loadVideosForMonth(monthYear, letterHeading) {
-      const letterSection = letterHeading.closest('.letter-section');
-      const videoList = letterSection.querySelector('.video-list');
-      const icon = letterHeading.querySelector('.collapse-icon');
+   // Load videos for a specific month
+function loadVideosForMonth(monthYear, letterHeading) {
+  const letterSection = letterHeading.closest('.letter-section');
+  const videoList = letterSection.querySelector('.video-list');
+  const icon = letterHeading.querySelector('.collapse-icon');
 
-      if (videoList.classList.contains("collapsed")) {
-        // Parse month and year from display name (e.g., "January 2024")
-        const [month, year] = monthYear.split(' ');
-        
-        // Load and show videos
-        videoList.innerHTML = '';
-        
-        const videos = videosByYearAndMonth[year]?.[month];
-        
-        if (videos && videos.length > 0) {
-          videos.forEach(video => {
-            const videoItem = document.createElement('div');
-            videoItem.className = 'video-item';
-            videoItem.setAttribute('data-video-id', video.id);
-            videoItem.setAttribute('data-title', video.title.toLowerCase());
-            videoItem.innerHTML = `
-              <h3 class="video-title">${video.title}</h3>
-            `;
+  if (videoList.classList.contains("collapsed")) {
+    // Parse month and year from display name (e.g., "January 2024")
+    const [month, year] = monthYear.split(' ');
+    
+    // Load and show videos
+    videoList.innerHTML = '';
+    
+    let videos = videosByYearAndMonth[year]?.[month] || [];
+    
+    // Sort videos within the month by date (oldest first)
+    videos = videos.sort((a, b) => {
+  const dateA = new Date(a.title);
+  const dateB = new Date(b.title);
+  return dateA.getTime() - dateB.getTime(); // Oldest first
+    });
+    
+    if (videos.length > 0) {
+      videos.forEach(video => {
+        const videoItem = document.createElement('div');
+        videoItem.className = 'video-item';
+        videoItem.setAttribute('data-video-id', video.id);
+        videoItem.setAttribute('data-title', video.title.toLowerCase());
+        videoItem.innerHTML = `
+          <h3 class="video-title">${video.title}</h3>
+        `;
 
-            // Add inline styles for spacing and cursor
-            videoItem.style.padding = '1rem';
-            videoItem.style.marginBottom = '0.75rem';
-            videoItem.style.cursor = 'pointer';
-            videoItem.style.transition = 'all 0.3s ease';
-            videoItem.style.backgroundColor = '#f8f9fa';
-            videoItem.style.borderRadius = '6px';
-            
-            // Add hover effects using mouse events
-            videoItem.addEventListener('mouseenter', () => {
-              videoItem.style.transform = 'translateY(-2px)';
-              videoItem.style.boxShadow = '0 3px 12px rgba(0, 0, 0, 0.1)';
-              videoItem.style.backgroundColor = '#e9ecef';
-            });
-            
-            videoItem.addEventListener('mouseleave', () => {
-              videoItem.style.transform = 'translateY(0)';
-              videoItem.style.boxShadow = 'none';
-              videoItem.style.backgroundColor = '#f8f9fa';
-            });
-            
-            videoItem.addEventListener('click', () => {
-              displayVideo(video.id);
-              document.querySelectorAll('.video-item').forEach(item => {
-                item.classList.remove('active');
-              });
-              videoItem.classList.add('active');
-            });
-            
-            videoList.appendChild(videoItem);
+        // Add inline styles for spacing and cursor
+        videoItem.style.padding = '1rem';
+        videoItem.style.marginBottom = '0.75rem';
+        videoItem.style.cursor = 'pointer';
+        videoItem.style.transition = 'all 0.3s ease';
+        videoItem.style.backgroundColor = '#f8f9fa';
+        videoItem.style.borderRadius = '6px';
+        
+        // Add hover effects using mouse events
+        videoItem.addEventListener('mouseenter', () => {
+          videoItem.style.transform = 'translateY(-2px)';
+          videoItem.style.boxShadow = '0 3px 12px rgba(0, 0, 0, 0.1)';
+          videoItem.style.backgroundColor = '#e9ecef';
+        });
+        
+        videoItem.addEventListener('mouseleave', () => {
+          videoItem.style.transform = 'translateY(0)';
+          videoItem.style.boxShadow = 'none';
+          videoItem.style.backgroundColor = '#f8f9fa';
+        });
+        
+        videoItem.addEventListener('click', () => {
+          displayVideo(video.id);
+          document.querySelectorAll('.video-item').forEach(item => {
+            item.classList.remove('active');
           });
-        }
+          videoItem.classList.add('active');
+        });
         
-        videoList.classList.remove("collapsed");
-        icon.style.transform = "rotate(180deg)";
-      } else {
-        // Collapse videos
-        videoList.classList.add("collapsed");
-        icon.style.transform = "rotate(0deg)";
+        videoList.appendChild(videoItem);
+      });
+    }
+    
+    videoList.classList.remove("collapsed");
+    icon.style.transform = "rotate(180deg)";
+  } else {
+    // Collapse videos
+    videoList.classList.add("collapsed");
+    icon.style.transform = "rotate(0deg)";
+  }
+}
+
+    // Year filtering functionality
+    function setupYearFiltering() {
+      letterLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          const year = link.getAttribute("data-letter");
+          
+          // Toggle selection - clicking same year does nothing (stays selected)
+          if (selectedYear === year) {
+            return; // Year already selected, do nothing
+          }
+          
+          // Filter to selected year
+          selectedYear = year;
+          
+          // Update active state
+          document.querySelectorAll('.letter-link').forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+          
+          // Show/hide month sections based on selected year
+          letterSections.forEach((section) => {
+            const sectionYear = section.getAttribute('data-year');
+            
+            if (sectionYear === selectedYear) {
+              // Show months from selected year
+              section.style.display = 'block';
+              // Ensure video lists are collapsed when switching years
+              const videoList = section.querySelector('.video-list');
+              const icon = section.querySelector('.collapse-icon');
+              if (videoList) {
+                videoList.classList.add('collapsed');
+                videoList.innerHTML = ''; // Clear any previously loaded videos
+              }
+              if (icon) icon.style.transform = "rotate(0deg)";
+            } else {
+              // Hide months from other years
+              section.style.display = 'none';
+              // Clear any loaded videos in hidden sections
+              const videoList = section.querySelector('.video-list');
+              if (videoList) {
+                videoList.innerHTML = '';
+                videoList.classList.add('collapsed');
+              }
+            }
+          });
+          
+          // Scroll to first visible month
+          const firstVisibleSection = document.querySelector(`.letter-section[data-year="${selectedYear}"]`);
+          if (firstVisibleSection) {
+            firstVisibleSection.scrollIntoView({ 
+              behavior: "smooth", 
+              block: "start" 
+            });
+          }
+        });
+      });
+    }
+
+    // Accordion functionality for month sections
+    function setupMonthAccordions() {
+      letterHeadings.forEach((heading) => {
+        heading.addEventListener("click", () => {
+          const monthYear = heading.getAttribute('data-letter');
+          loadVideosForMonth(monthYear, heading);
+        });
+      });
+    }
+
+    // Initialize page state
+    function initializePageState() {
+      // Hide ALL month sections by default
+      letterSections.forEach((section) => {
+        section.style.display = 'none';
+        const videoList = section.querySelector('.video-list');
+        if (videoList) {
+          videoList.classList.add('collapsed');
+          videoList.innerHTML = '';
+        }
+      });
+      
+      // Get the newest year (first year button)
+      if (letterLinks.length > 0) {
+        selectedYear = letterLinks[0].getAttribute('data-letter');
+        
+        // Activate the newest year button
+        letterLinks[0].classList.add('active');
+        
+        // Show only months for the newest year
+        letterSections.forEach((section) => {
+          const sectionYear = section.getAttribute('data-year');
+          if (sectionYear === selectedYear) {
+            section.style.display = 'block';
+          }
+        });
+        
+        console.log("Auto-selected year:", selectedYear);
       }
     }
 
-    // Search functionality
-    // searchInput.addEventListener("input", (e) => {
-    //   const searchTerm = e.target.value.toLowerCase();
-    //   letterSections.forEach((section) => {
-    //     let hasVisibleVideos = false;
-    //     const videos = section.querySelectorAll(".video-item");
+    // Main initialization function
+    function init() {
+      initDOMElements();
+      setupYearFiltering();
+      setupMonthAccordions();
+      initializePageState();
+      
+      console.log("Page initialized with auto-selected year:", selectedYear);
+    }
 
-    //     videos.forEach((video) => {
-    //       const title = video.getAttribute("data-title");
-    //       const matches = title.includes(searchTerm);
-    //       video.style.display = matches ? "block" : "none";
-    //       if (matches) {
-    //         hasVisibleVideos = true;
-    //       }
-    //     });
-
-    //     section.style.display = hasVisibleVideos ? "block" : "none";
-    //   });
-    // });
-
-    // Year index link functionality - scroll to first month of that year
-    letterLinks.forEach((link) => {
-      link.addEventListener("click", () => {
-        const year = link.getAttribute("data-letter");
-        // Find first month section for this year
-        const targetSection = document.querySelector(`[data-letter*="${year}"]`);
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: "smooth" });
-        }
-      });
-    });
-
-    // Accordion functionality for month sections
-    letterHeadings.forEach((heading) => {
-      heading.addEventListener("click", () => {
-        const monthYear = heading.getAttribute('data-letter');
-        loadVideosForMonth(monthYear, heading);
-      });
-    });
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      // DOM already loaded
+      init();
+    }
   </script>
 
 
