@@ -4,7 +4,16 @@
     "title": "Aloha Kaho'olawe",
     "description": "",
     "category": "Auana",
-    "vimeoEmbedUrl": "https://player.vimeo.com/video/1135189013?h=53fae89dda",
+    "vimeoEmbedUrls": [
+      {
+        "label": "Video 1",
+        "url": "https://player.vimeo.com/video/1135189013?h=53fae89dda"
+      },
+      {
+        "label": "Video 2",
+        "url": "https://player.vimeo.com/video/1161574488?h=44460e47a7"
+      }
+    ],
     "lyrics": {
       "Hawaiian": [
         "Aloha Kaho'olawe",
@@ -266,7 +275,7 @@
     "title": "Hölei",
     "description": "",
     "category": "Auana",
-    "vimeoEmbedUrl": "https://player.vimeo.com/video/103211934?h=5ac124deab",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1161574465?h=224e756b5c",
     "authors": "Traditional",
     "lyrics": {
       "Hawaiian": [
@@ -669,7 +678,7 @@
     "title": "Kukuipuka",
     "description": "",
     "category": "Auana",
-    "vimeoEmbedUrl": "",
+    "vimeoEmbedUrl": "https://player.vimeo.com/video/1161574442?h=784b9a6079",
     "authors": "Na Akoni Akana a me Lei’ohu Ryder (1995)",
     "lyrics": {
       "Hawaiian": [
